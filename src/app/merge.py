@@ -4,6 +4,8 @@ import numpy as np
 # Header
 # Add Arrow
 # Add BIG isle number
+rightArrow = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/arrows/right-arrow.PNG")
+leftArrow = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/arrows/left-arrow.PNG")
 
 # Barcodes
 barcode1 = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/barcode-library/1.01.02.001.01.01.png")
@@ -24,7 +26,7 @@ label6 = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/number-labels
 label7 = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/number-labels/label-7.PNG")
 
 #Combine images
-fullImg = cv2.vconcat([label1, barcode1, label2, barcode2, label3, barcode3, label4, barcode4, label5, barcode5, label6, barcode6, label7, barcode7])
+fullImg = cv2.vconcat([rightArrow, label1, barcode1, label2, barcode2, label3, barcode3, label4, barcode4, label5, barcode5, label6, barcode6, label7, barcode7])
 
 #Save file
 cv2.imwrite("C:/personal-git/aresta-barcode/src/app/images/print-folder/conbined.jpeg", fullImg)
