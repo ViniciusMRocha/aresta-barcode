@@ -1,10 +1,11 @@
-import cv2
-import numpy as np
+def getArrow(isle):
+    total = isle/4
+    totalNoRemainder = isle//4
+    check = total-totalNoRemainder
+    # print (check)
+    if check == 0.25 or check == 0.5:
+        print(">> ",isle,check)
+    elif check == 0.75 or check == 0.0:
+        print("<< ",isle,check)
 
-
-def getDigit(digit):
-    path ="C:/personal-git/aresta-barcode/src/app/images/single-digits/digit{}.PNG".format(digit)
-    digitImg = cv2.imread(path)
-    print (path)
-    return digitImg
-getDigit(1)
+getArrow(16)

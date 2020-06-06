@@ -15,3 +15,5 @@ generate barcodes
 # 6.7cm x 40cm
 
 https://dummyimage.com/
+
+# 70 files combines
