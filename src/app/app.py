@@ -129,9 +129,12 @@ def createFullImage(isle, shelf, allBarcodesPath):
 state = 1
 city = 1
 region = 2
-isle = 11  # Enter one more then needed
-shelf = 8  # Enter one more then needed
+isle = 10
+shelf = 7
 product = 1
+
+isle = isle + 1
+shelf = shelf + 1
 
 generateAllImages(state, city, region, isle, shelf, product)
 
