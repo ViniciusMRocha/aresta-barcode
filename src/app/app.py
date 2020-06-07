@@ -29,9 +29,8 @@ def getBarcode(barcodeNumber):
     bcEcnoding = barcode.get_barcode_class('code128')
     barcodeImg = bcEcnoding(barcodeNumber, writer=ImageWriter())
     savePath = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/"+str(barcodeNumber)
-    barcodeFile = barcodeImg.save(savePath)
+    barcodeFile = barcodeImg.save(savePath,options={"font_size": 24, "text_distance": 1.2,})
     return barcodeFile
-
 
 def getArrow(isle):
     isle = int(isle)
@@ -68,15 +67,14 @@ def createIsleLable(isle):
 
 
 # Generate Barcode Number
-def generateAllImages(state, city, region, isleMax, shelfMax, product):
+def generateAllImages(state, city, region, isle, shelfMax, product):
     state = state
     city = addZero_twoDigits(city)
     region = addZero_twoDigits(region)
     product = addZero_twoDigits(product)
     allBarcodesPath = []
 
-    for isle in range(1, isleMax):
-        # createIsleLable(isle)
+    for isle in range(1, isle):
         isleThreeDigits = addZero_threeDigits(isle)
         for shelf in range(1, shelfMax):
             shelf = addZero_twoDigits(shelf) 
@@ -91,6 +89,7 @@ def generateAllImages(state, city, region, isleMax, shelfMax, product):
         allBarcodesPath.clear()
 
 def createFullImage(isle, shelf, allBarcodesPath):
+    # 1,01,7
 
     # Labels
     label1 = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/number-labels/label-1.PNG")
@@ -101,7 +100,15 @@ def createFullImage(isle, shelf, allBarcodesPath):
     label6 = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/number-labels/label-6.PNG")
     label7 = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/number-labels/label-7.PNG")
 
-    # TODO: Make this a loop 
+    # allBarcodeImg = []
+
+    # for i in range(len(allBarcodesPath)):
+    #     barcodeImg = cv2.imread(allBarcodesPath[i])
+    #     allBarcodeImg.append(barcodeImg)
+
+    # allBarcodeImg_array = np.array(allBarcodeImg)
+    # fullImg = cv2.vconcat(createIsleLable(isle),allBarcodeImg_array)
+
     i=0
     barcodeImg1 = cv2.imread(allBarcodesPath[i])
     barcodeImg2 = cv2.imread(allBarcodesPath[i+1])
