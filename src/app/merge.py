@@ -3,24 +3,42 @@ from pathlib import Path
 from PIL import Image
 import barcode
 from barcode.writer import ImageWriter
-
 import numpy as np
 from os import listdir
 from os.path import isfile, join
 
+# Path to where all the individual images are
 path = 'C:/personal-git/aresta-barcode/src/app/images/print-folder/'
-fileName = "mergeAll"
-onlyfiles = [f for f in listdir(path) if isfile(join(path, f))]
-allImg = []
+
+# New file name
+newFileName = "isle-1-10"
+
+# Save new file to the path below 
+saveToPath = "C:/personal-git/aresta-barcode/src/app/images/mergeAll"
+
+# Search for all the files in directory
+# FIXME: join is not working 
+isleImg = [f for f in listdir(path) if isfile(join(path, f))]
+
+# list for all the images full path
+allImgFullPath = []
 
 print("Merging the following files: ")
-for i in range(len(onlyfiles)):
-    fullPath = join(path,onlyfiles[i])
-    onlyfiles[i] = fullPath
-    print(onlyfiles[i])
-    toImg = cv2.imread(onlyfiles[i])
-    allImg.append(toImg)
+for i in range(len(isleImg)):
+    # Merge the file name to the rest of the path
+    fullPath = join(path,isleImg[i])
+    isleImg[i] = fullPath
+    print(isleImg[i])
+    #Creates image object
+    toImg = cv2.imread(isleImg[i])
+    # Saves image object to list
+    allImgFullPath.append(toImg)
 
-allImg_array = np.array(allImg)
-fullImg = cv2.hconcat(allImg_array)
-cv2.imwrite("C:/personal-git/aresta-barcode/src/app/images/mergeAll/{}.jpeg".format(fileName), fullImg)
+# Convers the list to array
+allImgFullPath_array = np.array(allImgFullPath)
+
+# Combines all the individual isle images to one image
+fullImg = cv2.hconcat(allImgFullPath_array)
+
+# Save the file to path
+cv2.imwrite("{}/{}.jpeg".format(saveToPath,newFileName), fullImg)

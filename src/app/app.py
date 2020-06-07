@@ -5,7 +5,9 @@ from PIL import Image
 import barcode
 from barcode.writer import ImageWriter
 
+#TODO: Create variables for location of files. DO NOT hardcode file paths
 
+# Adds "00" to a 1 digit number or "0" to a 2 digit number
 def addZero_threeDigits(check):
     if check <= 9:
         check = '00' + str(check)
@@ -13,26 +15,38 @@ def addZero_threeDigits(check):
         check = '0' + str(check)
     return check
 
+# Adds a "0" to a 2 digit number
 def addZero_twoDigits(check):
     if check <= 9:
         check = '0' + str(check)
     else:
+        #Force to be string by adding ''
         check = '' + str(check)
     return check
 
+# Returns the single digit image for the header
 def getDigit(digit):
     path ="C:/personal-git/aresta-barcode/src/app/images/single-digits/digit{}.PNG".format(digit)
     digitImg = cv2.imread(path)
     return digitImg
 
+# Generates the barcode image
 def getBarcode(barcodeNumber):
+    # Select encoding
     bcEcnoding = barcode.get_barcode_class('code128')
+    # create the img writer
     barcodeImg = bcEcnoding(barcodeNumber, writer=ImageWriter())
+    # Location where the new file will be saved
     savePath = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/"+str(barcodeNumber)
+    # Save file and specify styling.
+    # File defaults to PNG
     barcodeFile = barcodeImg.save(savePath,options={"font_size": 24, "text_distance": 1.2,})
     return barcodeFile
 
+# Generates the correct arrow given the isle number
 def getArrow(isle):
+    #pattern repeats for every 4 digits.
+    #Current Patters: >> >> << <<
     isle = int(isle)
     total = isle/4
     totalNoRemainder = isle//4
@@ -45,16 +59,21 @@ def getArrow(isle):
         arrow = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/arrows/left-arrow.PNG")
     return arrow
 
-
+# generates the isle label, buy taking a isle number and generating a image from the digit images
 def createIsleLable(isle):
+
+    #Makes "1" into "001"
     isle = addZero_threeDigits(isle)
+    
+    #substring the input into 3 digits
     isleDigit1 = isle[0:1]
     isleDigit2 = isle[1:2]
     isleDigit3 = isle[2:3]
 
-    # Pad
+    # Padding
     pad = cv2.imread("C:/personal-git/aresta-barcode/graphics-design/pads-labels/pad.PNG")
     
+    # Gets the digits images for each isle digit 
     firstDigit = getDigit(isleDigit1)
     secondDigit = getDigit(isleDigit2)
     thirdDigit = getDigit(isleDigit3)
@@ -66,8 +85,8 @@ def createIsleLable(isle):
     return headerImg
 
 
-# Generate Barcode Number
-def generateAllImages(state, city, region, isle, shelfMax, product):
+# Generates all isle images
+def createAllImages(state, city, region, isle, shelfMax, product):
     state = state
     city = addZero_twoDigits(city)
     region = addZero_twoDigits(region)
@@ -78,18 +97,21 @@ def generateAllImages(state, city, region, isle, shelfMax, product):
         isleThreeDigits = addZero_threeDigits(isle)
         for shelf in range(1, shelfMax):
             shelf = addZero_twoDigits(shelf) 
+
             # Generate Barcode
             barcodeNumber = ('{}.{}.{}.{}.{}.{}').format(state, city, region, isleThreeDigits, shelf, product)
             getBarcode(barcodeNumber)
             barcodeImgPath = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/{}.{}.{}.{}.{}.{}.png".format(state, city, region, isleThreeDigits,shelf,product)
             allBarcodesPath.append(barcodeImgPath)
-            # FIX ME: Barcode is only passing one array value
 
-        createFullImage(isle, shelf, allBarcodesPath)
+        # Generates the a single isle image
+        createIsleImage(isle, shelf, allBarcodesPath)
+
+        # Clear list for next iteration
         allBarcodesPath.clear()
 
-def createFullImage(isle, shelf, allBarcodesPath):
-    # 1,01,7
+# Generates the a single isle image
+def createIsleImage(isle, shelf, allBarcodesPath):
 
     # Labels
     label1 = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/number-labels/label-1.PNG")
@@ -100,6 +122,7 @@ def createFullImage(isle, shelf, allBarcodesPath):
     label6 = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/number-labels/label-6.PNG")
     label7 = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/number-labels/label-7.PNG")
 
+    # TODO: Dynamicaly generate the barcode
     # allBarcodeImg = []
 
     # for i in range(len(allBarcodesPath)):
@@ -109,6 +132,7 @@ def createFullImage(isle, shelf, allBarcodesPath):
     # allBarcodeImg_array = np.array(allBarcodeImg)
     # fullImg = cv2.vconcat(createIsleLable(isle),allBarcodeImg_array)
 
+    # Each barcode for the isle image
     i=0
     barcodeImg1 = cv2.imread(allBarcodesPath[i])
     barcodeImg2 = cv2.imread(allBarcodesPath[i+1])
@@ -118,7 +142,7 @@ def createFullImage(isle, shelf, allBarcodesPath):
     barcodeImg6 = cv2.imread(allBarcodesPath[i+5])
     barcodeImg7 = cv2.imread(allBarcodesPath[i+6])
 
-    # Generate File
+    # Generate Isle Image File
     fullImg = cv2.vconcat([createIsleLable(isle), label7, barcodeImg7, label6, barcodeImg6, label5, barcodeImg5, label4, barcodeImg4, label3, barcodeImg3, label2, barcodeImg2, label1, barcodeImg1])
 
     # Save file
@@ -130,8 +154,8 @@ def createFullImage(isle, shelf, allBarcodesPath):
     print("Generating Image: {}.jpeg".format(fileName))
     print ('Isle: {} \nMax Shelf: {} \nBarcodes List: {}'.format(isle,shelf,allBarcodesPath))
 
-# ---------------------------------------------------------------------------------
-# Start Program
+# ===============================================================
+# USER INPUT 
 
 state = 1
 city = 1
@@ -140,8 +164,12 @@ isle = 10
 shelf = 7
 product = 1
 
+# ===============================================================
+
+# Apply offset
 isle = isle + 1
 shelf = shelf + 1
 
-generateAllImages(state, city, region, isle, shelf, product)
+# Generate all images
+createAllImages(state, city, region, isle, shelf, product)
 
