@@ -8,13 +8,13 @@ from os import listdir
 from os.path import isfile, join
 
 # Path to where all the individual images are
-path = 'C:/personal-git/aresta-barcode/src/app/images/print-folder/'
+path = 'C:/personal-git/aresta-barcode/src/app/images/sign-single-done/'
 
 # New file name
 newFileName = "isle-1-10"
 
 # Save new file to the path below 
-saveToPath = "C:/personal-git/aresta-barcode/src/app/images/mergeAll"
+saveToPath = "C:/personal-git/aresta-barcode/src/app/images/sign-multiple-done"
 
 # Search for all the files in directory
 # FIXME: join is not working 
