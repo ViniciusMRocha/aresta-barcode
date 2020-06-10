@@ -26,6 +26,9 @@ def addZero_threeDigits(check):
         check = '00' + str(check)
     elif check <= 99:
         check = '0' + str(check)
+    else:
+        #Force to be string by adding ''
+        check = '' + str(check)
     return check
 
 def addZero_twoDigits(check):

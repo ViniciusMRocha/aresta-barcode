@@ -8,7 +8,6 @@ from os import listdir
 from os.path import isfile, join
 
 
-
 # Adds a "0" to a 2 digit number
 def addZero_twoDigits(check):
     if check <= 9:
@@ -24,6 +23,9 @@ def addZero_threeDigits(check):
         check = '00' + str(check)
     elif check <= 99:
         check = '0' + str(check)
+    else:
+        #Force to be string by adding ''
+        check = '' + str(check)
     return check
 
 def mergeFiles(inputIsle,shelf):
@@ -31,7 +33,6 @@ def mergeFiles(inputIsle,shelf):
     path = 'C:/personal-git/aresta-barcode/src/app/images/sticker-single-done/'
 
     # New file name
-    # TODO: Make it dynamic
     inputIsleThreeDigits = addZero_threeDigits(inputIsle)
     newFileName = "sticker-{}".format(inputIsleThreeDigits)
 
@@ -52,7 +53,6 @@ def mergeFiles(inputIsle,shelf):
 
         isleGroup = beforeIsle+inputIsleThreeDigits+afterIsle
         fullPath = join(path,isleGroup)
-        # print("fullPath: "+fullPath)
 
         #Creates image object
         toImg = cv2.imread(fullPath)
@@ -66,16 +66,17 @@ def mergeFiles(inputIsle,shelf):
         fullImg = cv2.vconcat(allImgFullPath_array)
 
         # Save the file to path
-        cv2.imwrite("{}/{}.jpeg".format(saveToPath,newFileName), fullImg)
+        newFilePath="{}/{}.PNG".format(saveToPath,newFileName)
+        cv2.imwrite(newFilePath, fullImg)
 
 def createAll(isle, shelf):
     for i in range(1, isle+1):
         if (i % 2) == 0:
             mergeFiles(i,shelf-1)
         elif (i % 2) > 0:
-            mergeFiles(i,shelf)
+            mergeFiles(i,shelf) 
 
-isle = 3
+isle = 10
 shelf = 8
 
 createAll(isle, shelf)

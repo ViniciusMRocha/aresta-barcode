@@ -2,7 +2,6 @@ from PIL import Image
 import os
 from resizeimage import resizeimage
 
-
 def renameLoop():
     for i in range(1,11):
         print(i)

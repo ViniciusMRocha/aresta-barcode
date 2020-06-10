@@ -15,6 +15,9 @@ def addZero_threeDigits(check):
         check = '00' + str(check)
     elif check <= 99:
         check = '0' + str(check)
+    else:
+        #Force to be string by adding ''
+        check = '' + str(check)
     return check
 
 # Adds a "0" to a 2 digit number
@@ -44,7 +47,7 @@ def getArrow(index):
     return arrow
 
 def getPad():
-    print("Runnig getArrow")
+    print("Runnig getPad")
     path = "C:/personal-git/aresta-barcode/src/app/images/sticker-barcode-header-pad/pad.PNG"
     pad = cv2.imread(path)
     return pad
@@ -106,12 +109,9 @@ def createSticker(state, city, region, isle, shelf, product):
 state = 1
 city = 1
 region = 2
-isle = 3 #Give Max Value
+isle = 10 #Give Max Value
 shelf = 8 #Give Max Value
-product = 2
-
-# isleMax = 9
-# shelfMax = 9
+product = 1
 
 for i in range(1, isle+1):
     isleThreeDigits = addZero_threeDigits(i)
