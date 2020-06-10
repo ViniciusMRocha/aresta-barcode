@@ -1,7 +1,9 @@
 import cv2
 import numpy as np
+
 from pathlib import Path
 from PIL import Image
+
 import barcode
 from barcode.writer import ImageWriter
 
@@ -88,7 +90,6 @@ def createIsleLable(isle):
 
 # Generates all isle images
 def createAllImages(state, city, region, isle, shelfMax, product):
-    state = state
     city = addZero_twoDigits(city)
     region = addZero_twoDigits(region)
     product = addZero_twoDigits(product)
@@ -163,7 +164,7 @@ city = 1
 region = 2
 isle = 10
 shelf = 7
-product = 1
+product = 2
 
 # ===============================================================
 

@@ -13,7 +13,7 @@ for path in os.listdir(directory):
             count += 1 
 print ("Total item count",count)
 
-for i in range(1,count+1):
+for i in range(0,count+1):
     eachFile = folderPath+fileNameNoNumer+str(i)+extension
     
     newFileName = folderPath+newFileNameNoNumer+str(i)+extension
