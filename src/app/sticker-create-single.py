@@ -38,7 +38,8 @@ def getDigit(index):
 
 def getArrow(index):
     print("Runnig getArrow")
-    path ="C:/personal-git/aresta-barcode/src/app/images/sticker-arrow-up/sticker-arrow-up-{}.PNG".format(index)
+    # path = "C:/personal-git/aresta-barcode/src/app/images/sticker-arrow-up/sticker-arrow-up-{}.PNG".format(index)
+    path = "C:/personal-git/aresta-barcode/src/app/images/sticker-arrow-up/sticker-arrow-up-black.PNG"
     arrow = cv2.imread(path)
     return arrow
 
@@ -104,10 +105,31 @@ def createSticker(state, city, region, isle, shelf, product):
 
 state = 1
 city = 1
-region = 2 
-isle = 1 
-shelf = 2 
+region = 2
+isle = 3 #Give Max Value
+shelf = 8 #Give Max Value
 product = 2
 
-createSticker(state, city, region, isle, shelf, product)
+# isleMax = 9
+# shelfMax = 9
+
+for i in range(1, isle+1):
+    isleThreeDigits = addZero_threeDigits(i)
+    if (i % 2) == 0:
+        print("Is even - Top 7")
+        for j in range(1, shelf):
+            shelfThreeDigits = addZero_twoDigits(j)
+            stickerInfo = isleThreeDigits+"."+shelfThreeDigits
+            createSticker(state, city, region, i, j, product)
+            print(stickerInfo)
+    if (i % 2) > 0:
+        print("Is odd - Top 8")
+        for j in range(1, shelf+1):
+            shelfThreeDigits = addZero_twoDigits(j)
+            stickerInfo = isleThreeDigits+"."+shelfThreeDigits
+            # create level 8
+            createSticker(state, city, region, i, j, product)
+            print(stickerInfo)
+
+
 
