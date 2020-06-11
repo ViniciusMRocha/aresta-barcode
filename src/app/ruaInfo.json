@@ -1,0 +1,153 @@
+{
+  "ruas": [
+    {
+      "rua1": {
+        "maxLength": "56",
+        "rightSideHight": "8",
+        "leftSideHight": "7",
+        "apt": {
+          "exist": "False",
+          "startShelfRight": "",
+          "endShelfRight": "",
+          "startShelfLeft": "",
+          "endShelfLeft": ""
+        }
+      }
+    },
+
+    {
+      "rua2": {
+        "maxLength": "56",
+        "rightSideHight": "7",
+        "leftSideHight": "7",
+        "apt": {
+          "exist": "False",
+          "startShelfRight": "",
+          "endShelfRight": "",
+          "startShelfLeft": "",
+          "endShelfLeft": ""
+        }
+      }
+    },
+
+    {
+      "rua3": {
+        "maxLength": "56",
+        "rightSideHight": "7",
+        "leftSideHight": "7",
+        "apt": {
+          "exist": "False",
+          "startShelfRight": "",
+          "endShelfRight": "",
+          "startShelfLeft": "",
+          "endShelfLeft": ""
+        }
+      }
+    },
+
+    {
+      "rua4": {
+        "maxLength": "80",
+        "rightSideHight": "8",
+        "leftSideHight": "7",
+        "apt": {
+          "exist": "True",
+          "startShelfRight": "",
+          "endShelfRight": "",
+          "startShelfLeft": "10",
+          "endShelfLeft": "60"
+        }
+      }
+    },
+
+    {
+      "rua5": {
+        "maxLength": "80",
+        "rightSideHight": "7",
+        "leftSideHight": "7",
+        "apt": {
+          "exist": "True",
+          "startShelfRight": "9",
+          "endShelfRight": "67",
+          "startShelfLeft": "10",
+          "endShelfLeft": "68"
+        }
+      }
+    },
+
+    {
+      "rua6": {
+        "maxLength": "96",
+        "rightSideHight": "7",
+        "leftSideHight": "7",
+        "apt": {
+          "exist": "True",
+          "startShelfRight": "9",
+          "endShelfRight": "67",
+          "startShelfLeft": "",
+          "endShelfLeft": ""
+        }
+      }
+    },
+
+    {
+      "rua7": {
+        "maxLength": "96",
+        "rightSideHight": "7",
+        "leftSideHight": "7",
+        "apt": {
+          "exist": "False",
+          "startShelfRight": "",
+          "endShelfRight": "",
+          "startShelfLeft": "",
+          "endShelfLeft": ""
+        }
+      }
+    },
+
+    {
+      "rua8": {
+        "maxLength": "96",
+        "rightSideHight": "7",
+        "leftSideHight": "7",
+        "apt": {
+          "exist": "False",
+          "startShelfRight": "",
+          "endShelfRight": "",
+          "startShelfLeft": "",
+          "endShelfLeft": ""
+        }
+      }
+    },
+
+    {
+      "rua9": {
+        "maxLength": "62",
+        "rightSideHight": "7",
+        "leftSideHight": "7",
+        "apt": {
+          "exist": "False",
+          "startShelfRight": "",
+          "endShelfRight": "",
+          "startShelfLeft": "",
+          "endShelfLeft": ""
+        }
+      }
+    },
+
+    {
+      "rua10": {
+        "maxLength": "32",
+        "rightSideHight": "6",
+        "leftSideHight": "6",
+        "apt": {
+          "exist": "False",
+          "startShelfRight": "",
+          "endShelfRight": "",
+          "startShelfLeft": "",
+          "endShelfLeft": ""
+        }
+      }
+    }
+  ]
+}

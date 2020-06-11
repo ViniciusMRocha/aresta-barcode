@@ -6,34 +6,14 @@ from barcode.writer import ImageWriter
 import numpy as np
 from os import listdir
 from os.path import isfile, join
-
-
-# Adds a "0" to a 2 digit number
-def addZero_twoDigits(check):
-    if check <= 9:
-        check = '0' + str(check)
-    else:
-        # Force to be string by adding ''
-        check = '' + str(check)
-    return check
-
-# Adds "00" to a 1 digit number or "0" to a 2 digit number
-def addZero_threeDigits(check):
-    if check <= 9:
-        check = '00' + str(check)
-    elif check <= 99:
-        check = '0' + str(check)
-    else:
-        #Force to be string by adding ''
-        check = '' + str(check)
-    return check
+import customeFunctions
 
 def mergeFiles(inputIsle,shelf):
     # Path to where all the individual images are
     path = 'C:/personal-git/aresta-barcode/src/app/images/sticker-single-done/'
 
     # New file name
-    inputIsleThreeDigits = addZero_threeDigits(inputIsle)
+    inputIsleThreeDigits = customeFunctions.addZero_threeDigits(inputIsle)
     newFileName = "sticker-{}".format(inputIsleThreeDigits)
 
     # Save new file to the path below 
@@ -47,7 +27,7 @@ def mergeFiles(inputIsle,shelf):
     allImgFullPath = []
 
     for i in range(0,shelf):
-        inputIsleThreeDigits = addZero_threeDigits(inputIsle)
+        inputIsleThreeDigits = customeFunctions.addZero_threeDigits(inputIsle)
         beforeIsle = isleStickerImg[i][0:16]
         afterIsle = isleStickerImg[i][19:31]
 

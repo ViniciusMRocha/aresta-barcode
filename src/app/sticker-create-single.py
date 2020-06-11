@@ -7,67 +7,45 @@ from PIL import Image
 import barcode
 from barcode.writer import ImageWriter
 
-# Define file paths
-
-# Adds "00" to a 1 digit number or "0" to a 2 digit number
-def addZero_threeDigits(check):
-    if check <= 9:
-        check = '00' + str(check)
-    elif check <= 99:
-        check = '0' + str(check)
-    else:
-        #Force to be string by adding ''
-        check = '' + str(check)
-    return check
-
-# Adds a "0" to a 2 digit number
-def addZero_twoDigits(check):
-    if check <= 9:
-        check = '0' + str(check)
-    else:
-        # Force to be string by adding ''
-        check = '' + str(check)
-    return check
+import customeFunctions
 
 # =================================================
 # Get Images
 # =================================================
 
 def getDigit(index):
-    print("Runnig getDigit")
+    # print("Runnig getDigit")
     path ="C:/personal-git/aresta-barcode/src/app/images/sticker-header-digits/resized/sticker-digit-{}.png".format(index)
     digit = cv2.imread(path)
     return digit
 
 def getArrow(index):
-    print("Runnig getArrow")
+    # print("Runnig getArrow")
     # path = "C:/personal-git/aresta-barcode/src/app/images/sticker-arrow-up/sticker-arrow-up-{}.PNG".format(index)
     path = "C:/personal-git/aresta-barcode/src/app/images/sticker-arrow-up/sticker-arrow-up-black.PNG"
     arrow = cv2.imread(path)
     return arrow
 
 def getPad():
-    print("Runnig getPad")
+    # print("Runnig getPad")
     path = "C:/personal-git/aresta-barcode/src/app/images/sticker-barcode-header-pad/pad.PNG"
     pad = cv2.imread(path)
     return pad
 
 def getHeader(index):
-    print("Runnig getHeader")
+    # print("Runnig getHeader")
     path ="C:/personal-git/aresta-barcode/src/app/images/sticker-header/sticker-header-{}.PNG".format(index)
     header = cv2.imread(path)
     return header
 
 def getBarcode(state, city, region, isle, shelf, product):
-    print("Runnig getBarcode")
-    
-    city = addZero_twoDigits(city)
-    region = addZero_twoDigits(region)
-    isle = addZero_threeDigits(isle)
-    shelf = addZero_twoDigits(shelf)
-    product = addZero_twoDigits(product)
+    # print("Runnig getBarcode")
+    city = customeFunctions.addZero_twoDigits(city)
+    region = customeFunctions.addZero_twoDigits(region)
+    isle = customeFunctions.addZero_threeDigits(isle)
+    shelf = customeFunctions.addZero_twoDigits(shelf)
+    product = customeFunctions.addZero_twoDigits(product)
     path = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/{}.{}.{}.{}.{}.{}.png".format(state, city, region, isle, shelf, product)
-    print(path)
     barcode = cv2.imread(path)
     return barcode
 
@@ -75,7 +53,7 @@ def getBarcode(state, city, region, isle, shelf, product):
 # Combine Images
 # =================================================
 
-def createSticker(state, city, region, isle, shelf, product):
+def createSticker(state, city, region, isle, shelf, product, apt):
 
     # Generate sectioin images
     arrow = getArrow(shelf)
@@ -84,13 +62,11 @@ def createSticker(state, city, region, isle, shelf, product):
     barcode = getBarcode(state, city, region, isle, shelf, product)
 
     # create the product number
-    product = addZero_twoDigits(product)
-    digit1 = product[0:1]
-    digit2 = product[1:2]
+    apt = customeFunctions.addZero_twoDigits(apt)
+    digit1 = apt[0:1]
+    digit2 = apt[1:2]
     firstDigit = getDigit(digit1) # 82 x 114
     secondDigit = getDigit(digit2)
-    print("digit1: ",digit1)
-    print("digit2: ",digit2)
 
     # Combine Images
     img1 = cv2.hconcat([header,firstDigit,secondDigit,pad])
@@ -98,38 +74,49 @@ def createSticker(state, city, region, isle, shelf, product):
     img3 = cv2.hconcat([img2,arrow])
 
     # Create File Name
-    city = addZero_twoDigits(city)
-    region = addZero_twoDigits(region)
-    isle = addZero_threeDigits(isle)
-    shelf = addZero_twoDigits(shelf)
-    fileName = "sticker-{}.{}.{}.{}.{}.{}.png".format(state, city, region, isle, shelf, product)
+    city = customeFunctions.addZero_twoDigits(city)
+    region = customeFunctions.addZero_twoDigits(region)
+    isle = customeFunctions.addZero_threeDigits(isle)
+    shelf = customeFunctions.addZero_twoDigits(shelf)
+    fileName = "{}.{}.{}.{}.{}.{}-andar-{}-apt-{}.png".format(state, city, region, isle, shelf, product,shelf, apt)
 
-    cv2.imwrite("C:/personal-git/aresta-barcode/src/app/images/sticker-single-done/{}".format(fileName), img3)
+    savePath = "C:/personal-git/aresta-barcode/src/app/images/sticker-single-done/{}".format(fileName)
+    cv2.imwrite(savePath, img3)
+    print(savePath)
+
 
 state = 1
 city = 1
 region = 2
-isle = 10 #Give Max Value
-shelf = 8 #Give Max Value
+isle = 3 #Give Max Value
+shelf = 2 #Give Max Value
 product = 1
+apt = 3
 
-for i in range(1, isle+1):
-    isleThreeDigits = addZero_threeDigits(i)
-    if (i % 2) == 0:
-        print("Is even - Top 7")
-        for j in range(1, shelf):
-            shelfThreeDigits = addZero_twoDigits(j)
-            stickerInfo = isleThreeDigits+"."+shelfThreeDigits
-            createSticker(state, city, region, i, j, product)
-            print(stickerInfo)
-    if (i % 2) > 0:
-        print("Is odd - Top 8")
-        for j in range(1, shelf+1):
-            shelfThreeDigits = addZero_twoDigits(j)
-            stickerInfo = isleThreeDigits+"."+shelfThreeDigits
-            # create level 8
-            createSticker(state, city, region, i, j, product)
-            print(stickerInfo)
+# createSticker(state, city, region, isle, shelf, product, apt)
+
+for i in range(1,isle+1):
+    print("Isle: ",i)
+    for s in range(1,shelf+1):
+        for a in range(1,apt+1):
+            # print("isle-{} floor-{} apt-{}".format(i,s,a))
+            createSticker(state, city, region, i, s, product, a)
+
+
+#Loop all apt options
+# for i in range(1,isle+1):
+#     print("Isle: ",i)
+#     for s in range(1,shelf+1):
+#         for a in range(1,apt+1):
+#             print("isle-{} floor-{} apt-{}".format(i,s,a))
+#         for a in range(apt,0,-1):
+#             print("isle-{} floor-{} apt-{}".format(i,s,a))
+
+
+
+
+
+
 
 
 

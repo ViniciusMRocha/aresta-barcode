@@ -6,6 +6,7 @@ from barcode.writer import ImageWriter
 import numpy as np
 from os import listdir
 from os.path import isfile, join
+import customeFunctions
 
 # Path to where all the individual images are
 path = 'C:/personal-git/aresta-barcode/src/app/images/sign-single-done/'
