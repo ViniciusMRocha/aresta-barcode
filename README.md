@@ -17,3 +17,10 @@ generate barcodes
 https://dummyimage.com/
 
 # 70 files combines
+
+Goals:
+1 - (Done) Generate all RUAS from 1-8
+2 - (Done) Generate all RUAS for Cidade 2
+3 - (Done) Merge files when creating
+3 - Generate stikers for the inventario
+4 - Generate SHELF to 12 by overriding the older ones

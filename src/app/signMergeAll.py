@@ -10,6 +10,7 @@ from os.path import isfile, join
 #My Files
 import customeFunctions
 
+#TODO: Name the file according to the city-rua-00
 def mergeSigns(signPerSheet):
     # Path to where all the individual images are
     path = 'C:/personal-git/aresta-barcode/src/app/images/sign-single-done/'
@@ -55,7 +56,7 @@ def mergeSigns(signPerSheet):
             fullImg = cv2.hconcat(allImgFullPath_array)
 
             # Save the file to path
-            cv2.imwrite("{}/{}.jpeg".format(saveToPath,"Rua{}".format(streetId)), fullImg)
+            cv2.imwrite("{}/{}.jpeg".format(saveToPath,"Cidade-Rua{}".format(streetId)), fullImg)
             allImgFullPath.clear()
             listTest.clear()
 
