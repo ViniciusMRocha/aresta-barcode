@@ -1,152 +1,156 @@
 {
   "ruas": [
     {
-      "rua1": {
-        "maxLength": "56",
-        "rightSideHight": "8",
-        "leftSideHight": "7",
-        "apt": {
-          "exist": "False",
-          "startShelfRight": "",
-          "endShelfRight": "",
-          "startShelfLeft": "",
-          "endShelfLeft": ""
-        }
+      "ruaid": "1",
+      "maxLength": "56",
+      "rightSideHight": "8",
+      "leftSideHight": "8",
+      "apt": {
+        "exist": "False",
+        "startlevelRight": "",
+        "endlevelRight": "",
+        "startlevelLeft": "",
+        "endlevelLeft": ""
       }
     },
 
     {
-      "rua2": {
-        "maxLength": "56",
-        "rightSideHight": "7",
-        "leftSideHight": "7",
-        "apt": {
-          "exist": "False",
-          "startShelfRight": "",
-          "endShelfRight": "",
-          "startShelfLeft": "",
-          "endShelfLeft": ""
-        }
+      "ruaid": "2",
+      "maxLength": "56",
+      "rightSideHight": "8",
+      "leftSideHight": "8",
+      "apt": {
+        "exist": "False",
+        "startlevelRight": "",
+        "endlevelRight": "",
+        "startlevelLeft": "",
+        "endlevelLeft": ""
       }
     },
 
     {
-      "rua3": {
-        "maxLength": "56",
-        "rightSideHight": "7",
-        "leftSideHight": "7",
-        "apt": {
-          "exist": "False",
-          "startShelfRight": "",
-          "endShelfRight": "",
-          "startShelfLeft": "",
-          "endShelfLeft": ""
-        }
+      "ruaid": "3",
+      "maxLength": "56",
+      "rightSideHight": "8",
+      "leftSideHight": "8",
+      "apt": {
+        "exist": "False",
+        "startlevelRight": "",
+        "endlevelRight": "",
+        "startlevelLeft": "",
+        "endlevelLeft": ""
       }
     },
 
     {
-      "rua4": {
-        "maxLength": "80",
-        "rightSideHight": "8",
-        "leftSideHight": "7",
-        "apt": {
-          "exist": "True",
-          "startShelfRight": "",
-          "endShelfRight": "",
-          "startShelfLeft": "10",
-          "endShelfLeft": "60"
-        }
+      "ruaid": "4",
+      "maxLength": "80",
+      "rightSideHight": "8",
+      "leftSideHight": "8",
+      "apt": {
+        "exist": "True",
+        "startlevelRight": "",
+        "endlevelRight": "",
+        "startlevelLeft": "10",
+        "endlevelLeft": "60"
       }
     },
 
     {
-      "rua5": {
-        "maxLength": "80",
-        "rightSideHight": "7",
-        "leftSideHight": "7",
-        "apt": {
-          "exist": "True",
-          "startShelfRight": "9",
-          "endShelfRight": "67",
-          "startShelfLeft": "10",
-          "endShelfLeft": "68"
-        }
+      "ruaid": "5",
+      "maxLength": "80",
+      "rightSideHight": "8",
+      "leftSideHight": "8",
+      "apt": {
+        "exist": "True",
+        "startlevelRight": "9",
+        "endlevelRight": "67",
+        "startlevelLeft": "10",
+        "endlevelLeft": "68"
       }
     },
 
     {
-      "rua6": {
-        "maxLength": "96",
-        "rightSideHight": "7",
-        "leftSideHight": "7",
-        "apt": {
-          "exist": "True",
-          "startShelfRight": "9",
-          "endShelfRight": "67",
-          "startShelfLeft": "",
-          "endShelfLeft": ""
-        }
+      "ruaid": "6",
+      "maxLength": "96",
+      "rightSideHight": "8",
+      "leftSideHight": "8",
+      "apt": {
+        "exist": "True",
+        "startlevelRight": "9",
+        "endlevelRight": "67",
+        "startlevelLeft": "",
+        "endlevelLeft": ""
       }
     },
 
     {
-      "rua7": {
-        "maxLength": "96",
-        "rightSideHight": "7",
-        "leftSideHight": "7",
-        "apt": {
-          "exist": "False",
-          "startShelfRight": "",
-          "endShelfRight": "",
-          "startShelfLeft": "",
-          "endShelfLeft": ""
-        }
+      "ruaid": "7",
+      "maxLength": "96",
+      "rightSideHight": "8",
+      "leftSideHight": "8",
+      "apt": {
+        "exist": "False",
+        "startlevelRight": "",
+        "endlevelRight": "",
+        "startlevelLeft": "",
+        "endlevelLeft": ""
       }
     },
 
     {
-      "rua8": {
-        "maxLength": "96",
-        "rightSideHight": "7",
-        "leftSideHight": "7",
-        "apt": {
-          "exist": "False",
-          "startShelfRight": "",
-          "endShelfRight": "",
-          "startShelfLeft": "",
-          "endShelfLeft": ""
-        }
+      "ruaid": "8",
+      "maxLength": "96",
+      "rightSideHight": "8",
+      "leftSideHight": "8",
+      "apt": {
+        "exist": "False",
+        "startlevelRight": "",
+        "endlevelRight": "",
+        "startlevelLeft": "",
+        "endlevelLeft": ""
       }
     },
 
     {
-      "rua9": {
-        "maxLength": "62",
-        "rightSideHight": "7",
-        "leftSideHight": "7",
-        "apt": {
-          "exist": "False",
-          "startShelfRight": "",
-          "endShelfRight": "",
-          "startShelfLeft": "",
-          "endShelfLeft": ""
-        }
+      "ruaid": "9",
+      "maxLength": "62",
+      "rightSideHight": "8",
+      "leftSideHight": "8",
+      "apt": {
+        "exist": "False",
+        "startlevelRight": "",
+        "endlevelRight": "",
+        "startlevelLeft": "",
+        "endlevelLeft": ""
       }
     },
 
     {
-      "rua10": {
-        "maxLength": "32",
-        "rightSideHight": "6",
-        "leftSideHight": "6",
-        "apt": {
-          "exist": "False",
-          "startShelfRight": "",
-          "endShelfRight": "",
-          "startShelfLeft": "",
-          "endShelfLeft": ""
-        }
+      "ruaid": "10",
+      "maxLength": "32",
+      "rightSideHight": "6",
+      "leftSideHight": "6",
+      "apt": {
+        "exist": "False",
+        "startlevelRight": "",
+        "endlevelRight": "",
+        "startlevelLeft": "",
+        "endlevelLeft": ""
+      }
+    },
+
+    {
+      "ruaid": "11",
+      "maxLength": "0",
+      "rightSideHight": "0",
+      "leftSideHight": "0",
+      "apt": {
+        "exist": "False",
+        "startlevelRight": "",
+        "endlevelRight": "",
+        "startlevelLeft": "",
+        "endlevelLeft": ""
       }
     }
   ]

@@ -11,10 +11,10 @@ num4Limit = 4  # Enter one more then needed
 num5Limit = 8  # Enter one more then needed
 
 num1 = '1'  # State
-num2 = '01'  # Region
+num2 = '01'  # street
 num3 = '02'  # City
-num4 = 0  # Isle
-num5 = 0  # Shelf
+num4 = 0  # column
+num5 = 0  # level
 num6 = 1  # Product
 
 prefix = ('{}.{}.{}.').format(num1, num2, num3)

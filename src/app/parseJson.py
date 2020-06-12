@@ -16,3 +16,5 @@ for i in data['ruas']:
   
 # Closing file 
 f.close() 
+
+# Trocar pallet pra inventario

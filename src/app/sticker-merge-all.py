@@ -8,31 +8,31 @@ from os import listdir
 from os.path import isfile, join
 import customeFunctions
 
-def mergeFiles(inputIsle,shelf):
+def mergeFiles(inputcolumn,level):
     # Path to where all the individual images are
     path = 'C:/personal-git/aresta-barcode/src/app/images/sticker-single-done/'
 
     # New file name
-    inputIsleThreeDigits = customeFunctions.addZero_threeDigits(inputIsle)
-    newFileName = "sticker-{}".format(inputIsleThreeDigits)
+    inputcolumnThreeDigits = customeFunctions.addZero_threeDigits(inputcolumn)
+    newFileName = "sticker-{}".format(inputcolumnThreeDigits)
 
     # Save new file to the path below 
     saveToPath = "C:/personal-git/aresta-barcode/src/app/images/sticker-multiple-done"
 
     # Search for all the files in directory
     # FIXME: join is not working 
-    isleStickerImg = [f for f in listdir(path) if isfile(join(path, f))]
+    columnStickerImg = [f for f in listdir(path) if isfile(join(path, f))]
 
     # list for all the images full path
     allImgFullPath = []
 
-    for i in range(0,shelf):
-        inputIsleThreeDigits = customeFunctions.addZero_threeDigits(inputIsle)
-        beforeIsle = isleStickerImg[i][0:16]
-        afterIsle = isleStickerImg[i][19:31]
+    for i in range(0,level):
+        inputcolumnThreeDigits = customeFunctions.addZero_threeDigits(inputcolumn)
+        beforecolumn = columnStickerImg[i][0:16]
+        aftercolumn = columnStickerImg[i][19:31]
 
-        isleGroup = beforeIsle+inputIsleThreeDigits+afterIsle
-        fullPath = join(path,isleGroup)
+        columnGroup = beforecolumn+inputcolumnThreeDigits+aftercolumn
+        fullPath = join(path,columnGroup)
 
         #Creates image object
         toImg = cv2.imread(fullPath)
@@ -42,21 +42,21 @@ def mergeFiles(inputIsle,shelf):
         # Convers the list to array
         allImgFullPath_array = np.array(allImgFullPath)
 
-        # Combines all the individual isle images to one image
+        # Combines all the individual column images to one image
         fullImg = cv2.vconcat(allImgFullPath_array)
 
         # Save the file to path
         newFilePath="{}/{}.PNG".format(saveToPath,newFileName)
         cv2.imwrite(newFilePath, fullImg)
 
-def createAll(isle, shelf):
-    for i in range(1, isle+1):
+def createAll(column, level):
+    for i in range(1, column+1):
         if (i % 2) == 0:
-            mergeFiles(i,shelf-1)
+            mergeFiles(i,level-1)
         elif (i % 2) > 0:
-            mergeFiles(i,shelf) 
+            mergeFiles(i,level) 
 
-isle = 10
-shelf = 8
+column = 10
+level = 8
 
-createAll(isle, shelf)
+createAll(column, level)

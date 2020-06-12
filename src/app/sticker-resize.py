@@ -1,10 +1,10 @@
 from resizeimage import resizeimage
 
-# resizeLoop(isle,378,1512)
-# def resizeLoop(isle,width,heigh):
-#     for i in range(1,isle+1):
-#         inputIsleThreeDigits = addZero_threeDigits(i)
-#         imagePath = "C:/personal-git/aresta-barcode/src/app/images/sticker-multiple-done/sticker-{}.PNG".format(inputIsleThreeDigits)
+# resizeLoop(column,378,1512)
+# def resizeLoop(column,width,heigh):
+#     for i in range(1,column+1):
+#         inputcolumnThreeDigits = addZero_threeDigits(i)
+#         imagePath = "C:/personal-git/aresta-barcode/src/app/images/sticker-multiple-done/sticker-{}.PNG".format(inputcolumnThreeDigits)
 #         with open(imagePath, 'r+b') as f:
 #             with Image.open(f) as image:
 #                 cover = resizeimage.resize_cover(image, [width, heigh])

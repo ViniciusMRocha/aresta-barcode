@@ -7,7 +7,9 @@ from PIL import Image
 import barcode
 from barcode.writer import ImageWriter
 
+#My Files
 import customeFunctions
+import signMergeAll
 
 # Returns the single digit image for the header
 def getDigit(digit):
@@ -27,13 +29,13 @@ def getPad():
     pad = cv2.imread(path)
     return pad
 
-# Generates the correct arrow given the isle number
-def getArrow(isle):
+# Generates the correct arrow given the column number
+def getArrow(column):
     #pattern repeats for every 4 digits.
     #Current Patters: >> >> << <<
-    isle = int(isle)
-    total = isle/4
-    totalNoRemainder = isle//4
+    column = int(column)
+    total = column/4
+    totalNoRemainder = column//4
     check = total-totalNoRemainder
     if check == 0.25 or check == 0.5:
         # Arrow: >>> 
@@ -43,14 +45,14 @@ def getArrow(isle):
         arrow = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/sign-header-arrow/left-arrow.PNG")
     return arrow
 
-def getBarcode(state, city, region, isle, shelf, product):
+def getBarcode(state, city, street, column, level, product):
     # print("Runnig getBarcode")
     city = customeFunctions.addZero_twoDigits(city)
-    region = customeFunctions.addZero_twoDigits(region)
-    isle = customeFunctions.addZero_threeDigits(isle)
-    shelf = customeFunctions.addZero_twoDigits(shelf)
+    street = customeFunctions.addZero_twoDigits(street)
+    column = customeFunctions.addZero_threeDigits(column)
+    level = customeFunctions.addZero_twoDigits(level)
     product = customeFunctions.addZero_twoDigits(product)
-    path = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/{}.{}.{}.{}.{}.{}.png".format(state, city, region, isle, shelf, product)
+    path = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/{}.{}.{}.{}.{}.{}.png".format(state, city, street, column, level, product)
     print(path)
     barcode = cv2.imread(path)
     return barcode
@@ -65,106 +67,124 @@ def generateBarcode(barcodeNumber):
     savePath = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/"+str(barcodeNumber)
     # Save file and specify styling.
     # File defaults to PNG
+    # fontPath = "C:/personal-git/aresta-barcode/src/app/Roboto/Roboto-Light.ttf"
     barcodeFile = barcodeImg.save(savePath,options={"font_size": 24, "text_distance": 1.2,})
     return barcodeFile
 
-# generates the isle label, buy taking a isle number and generating a image from the digit images
-def createIsleLable(isle):
+# generates the column label, buy taking a column number and generating a image from the digit images
+def createcolumnLable(column):
 
     #Makes "1" into "001"
-    isle = customeFunctions.addZero_threeDigits(isle)
+    column = customeFunctions.addZero_threeDigits(column)
     #substring the input into 3 digits
-    isleDigit1 = isle[0:1]
-    isleDigit2 = isle[1:2]
-    isleDigit3 = isle[2:3]
+    columnDigit1 = column[0:1]
+    columnDigit2 = column[1:2]
+    columnDigit3 = column[2:3]
 
-    # Gets the digits images for each isle digit 
-    firstDigit = getDigit(isleDigit1)
-    secondDigit = getDigit(isleDigit2)
-    thirdDigit = getDigit(isleDigit3)
-    # Create New Isle
+    # Gets the digits images for each column digit 
+    firstDigit = getDigit(columnDigit1)
+    secondDigit = getDigit(columnDigit2)
+    thirdDigit = getDigit(columnDigit3)
+    # Create New column
 
-    isleImg = cv2.hconcat([getPad(),firstDigit,secondDigit,thirdDigit,getPad()])
-    headerImg = cv2.vconcat([getArrow(isle),isleImg])
+    columnImg = cv2.hconcat([getPad(),firstDigit,secondDigit,thirdDigit,getPad()])
+    headerImg = cv2.vconcat([getArrow(column),columnImg])
 
     return headerImg
 
 
-# Generates all isle images
-def createAllImages(state, city, region, isle, shelfMax, product):
+# Generates all column images
+def createAllImages(state, city, street, column, levelMax, product):
     city = customeFunctions.addZero_twoDigits(city)
-    region = customeFunctions.addZero_twoDigits(region)
+    street = customeFunctions.addZero_twoDigits(street)
     product = customeFunctions.addZero_twoDigits(product)
     allBarcodesPath = []
 
-    for isle in range(1, isle):
-        isleThreeDigits = customeFunctions.addZero_threeDigits(isle)
-        for shelf in range(1, shelfMax):
-            shelf = customeFunctions.addZero_twoDigits(shelf) 
-
+    for column in range(1, column):
+        columnThreeDigits = customeFunctions.addZero_threeDigits(column)
+        for level in range(1, levelMax):
+            level = customeFunctions.addZero_twoDigits(level) 
+            
             # Generate Barcode
-            barcodeNumber = ('{}.{}.{}.{}.{}.{}').format(state, city, region, isleThreeDigits, shelf, product)
+            barcodeNumber = ('{}.{}.{}.{}.{}.{}').format(state, city, street, columnThreeDigits, level, product)
+            print("Barcode Number: "+barcodeNumber)
             generateBarcode(barcodeNumber)
-            barcodeImgPath = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/{}.{}.{}.{}.{}.{}.png".format(state, city, region, isleThreeDigits,shelf,product)
+            barcodeImgPath = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/{}.{}.{}.{}.{}.{}.png".format(state, city, street, columnThreeDigits, level, product)
             allBarcodesPath.append(barcodeImgPath)
 
-        # Generates the a single isle image
-        createIsleImage(isle, shelf, allBarcodesPath)
+        # Generates the a single column image
+        createColumnImage(street, column, level, allBarcodesPath)
 
         # Clear list for next iteration
         allBarcodesPath.clear()
 
-# Generates the a single isle image
-def createIsleImage(isle, shelf, allBarcodesPath):
+# Generates the a single column image
+def createColumnImage(street, column, level, allBarcodesPath):
 
     labelAndBarcode = []
-    isle = int(isle)
-    shelf = int(shelf)
-    
-    if (isle % 2) == 0:
-        for i in range(shelf-1,0,-1):
-            lable = getLabel(i)
-            labelAndBarcode.append(lable)
-            barcodeImg = cv2.imread(allBarcodesPath[i-1])
-            labelAndBarcode.append(barcodeImg)
-    if (isle % 2) > 0:
-        for i in range(shelf,0,-1):
-            lable = getLabel(i)
-            labelAndBarcode.append(lable)
-            barcodeImg = cv2.imread(allBarcodesPath[i-1])
-            labelAndBarcode.append(barcodeImg)
+    column = int(column)
+    level = int(level)
 
+    for i in range(level,0,-1):
+        lable = getLabel(i)
+        labelAndBarcode.append(lable)
+        barcodeImg = cv2.imread(allBarcodesPath[i-1])
+        labelAndBarcode.append(barcodeImg)
 
     # Convers the list to array
     labelAndBarcode_array = np.array(labelAndBarcode)
     
-    # Generate Isle Image File
+    # Generate column Image File
     fullImg = cv2.vconcat(labelAndBarcode_array)
-    fullImg = cv2.vconcat([createIsleLable(isle),fullImg])
+    fullImg = cv2.vconcat([createcolumnLable(column),fullImg])
     # Save file
-    isleThreeDigits = customeFunctions.addZero_threeDigits(isle)
-    fileName = ('{}.{}.{}.{}').format(state, city, region, isleThreeDigits)
-    cv2.imwrite("C:/personal-git/aresta-barcode/src/app/images/sign-single-done/{}.jpeg".format(fileName), fullImg)
+    columnThreeDigits = customeFunctions.addZero_threeDigits(column)
+    cityThreeDigits = customeFunctions.addZero_twoDigits(city)
+    
+
+    fileName = ("C:/personal-git/aresta-barcode/src/app/images/sign-single-done/{}.{}.{}.{}.PNG".format(state, cityThreeDigits, street, columnThreeDigits))
+
+    cv2.imwrite(fileName, fullImg)
 
     print("Generating Image: {}.jpeg".format(fileName))
 
 
-# ===============================================================
-# USER INPUT 
+# ========================   RUAS 1-11   =======================================
 
 state = 1
 city = 1
-region = 2
-isle = 5
-shelf = 8
+street = 11
+column = 5
+level = 8
 product = 1
 
-# ===============================================================
+# Apply offset
+column = column + 1
+level = level + 1
+street = street + 1
+
+# Crete street
+for i in range (1,street):
+    createAllImages(state, city, i, column, level, product)
+
+# ========================   RUAS 10   =======================================
+
+state = 1
+city = 2
+street = 1
+column = 5
+level = 6
+product = 1
 
 # Apply offset
-isle = isle + 1
-shelf = shelf + 1
+column = column + 1
+level = level + 1
+street = street + 1
 
-# Generate all images
-createAllImages(state, city, region, isle, shelf, product)
+# Creates 
+for i in range (1,street):
+    createAllImages(state, city, i, column, level, product)
 
+# fix ofset
+signPerPage = column-1
+signMergeAll.mergeSigns(signPerPage)

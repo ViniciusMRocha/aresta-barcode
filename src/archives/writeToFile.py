@@ -5,13 +5,13 @@ import sys
 import cv2
 import numpy as np
 
-path = "C:/personal-git/aresta-barcode/src/app/isle-bg.png"
-isleNumber = "001"
-isleBg = Image.open(path)
+path = "C:/personal-git/aresta-barcode/src/app/column-bg.png"
+columnNumber = "001"
+columnBg = Image.open(path)
 font = ImageFont.truetype('Roboto-Bold.ttf',65)
 draw = ImageDraw.Draw("001")
-draw.text((100, 100), isleNumber, (1, 1, 1), font=font)
-isleBg.show()
+draw.text((100, 100), columnNumber, (1, 1, 1), font=font)
+columnBg.show()
 
 
 
@@ -19,7 +19,7 @@ isleBg.show()
 # in_file = "C:/personal-git/aresta-barcode/src/app/pil_color.png"
 # # in_file = "C:/personal-git/aresta-barcode/src/app/blank-small.png"
 # text ="002"
-# out_file = "isle-out.png"
+# out_file = "column-out.png"
  
 # img = Image.open(in_file)
 # draw = ImageDraw.Draw(img)

@@ -28,14 +28,14 @@ def getHeader(index):
     header = cv2.imread(path)
     return header
 
-def getBarcode(state, city, region, isle, shelf, product):
+def getBarcode(state, city, street, column, level, product):
     # print("Runnig getBarcode")
     city = customeFunctions.addZero_twoDigits(city)
-    region = customeFunctions.addZero_twoDigits(region)
-    isle = customeFunctions.addZero_threeDigits(isle)
-    shelf = customeFunctions.addZero_twoDigits(shelf)
+    street = customeFunctions.addZero_twoDigits(street)
+    column = customeFunctions.addZero_threeDigits(column)
+    level = customeFunctions.addZero_twoDigits(level)
     product = customeFunctions.addZero_twoDigits(product)
-    path = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/{}.{}.{}.{}.{}.{}.png".format(state, city, region, isle, shelf, product)
+    path = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/{}.{}.{}.{}.{}.{}.png".format(state, city, street, column, level, product)
     barcode = cv2.imread(path)
     return barcode
 
@@ -43,12 +43,12 @@ def getBarcode(state, city, region, isle, shelf, product):
 # Combine Images
 # =================================================
 
-def createPallet(state, city, region, isle, shelf, product, pallet):
+def createPallet(state, city, street, column, level, product, pallet):
 
     # Generate sectioin images
     arrow = getArrow()
     header = getHeader(pallet) #420 x 114
-    barcode = getBarcode(state, city, region, isle, shelf, product)
+    barcode = getBarcode(state, city, street, column, level, product)
 
     # Combine Images
     img1 = cv2.vconcat([header,barcode])
@@ -56,10 +56,10 @@ def createPallet(state, city, region, isle, shelf, product, pallet):
 
     # Create File Name
     city = customeFunctions.addZero_twoDigits(city)
-    region = customeFunctions.addZero_twoDigits(region)
-    isle = customeFunctions.addZero_threeDigits(isle)
-    shelf = customeFunctions.addZero_twoDigits(shelf)
-    fileName = "{}.{}.{}.{}.{}.{}-pallet-{}.png".format(state, city, region, isle, shelf, product, pallet)
+    street = customeFunctions.addZero_twoDigits(street)
+    column = customeFunctions.addZero_threeDigits(column)
+    level = customeFunctions.addZero_twoDigits(level)
+    fileName = "{}.{}.{}.{}.{}.{}-pallet-{}.png".format(state, city, street, column, level, product, pallet)
 
     savePath = "C:/personal-git/aresta-barcode/src/app/images/pallet-done/{}".format(fileName)
     cv2.imwrite(savePath, img2)
@@ -68,20 +68,20 @@ def createPallet(state, city, region, isle, shelf, product, pallet):
 
 state = 1
 city = 1
-region = 2
-isle = 3 #Give Max Value
-shelf = 2 #Give Max Value
+street = 2
+column = 3 #Give Max Value
+level = 2 #Give Max Value
 product = 1
 pallet = 2
 
-# createPallet(state, city, region, isle, shelf, product, pallet)
+# createPallet(state, city, street, column, level, product, pallet)
 
-for i in range(1,isle+1):
-    print("Isle: ",i)
-    for s in range(1,shelf+1):
+for i in range(1,column+1):
+    print("column: ",i)
+    for s in range(1,level+1):
         for a in range(1,pallet+1):
-            # print("isle-{} floor-{} pallet-{}".format(i,s,a))
-            createPallet(state, city, region, i, s, product, a)
+            # print("column-{} floor-{} pallet-{}".format(i,s,a))
+            createPallet(state, city, street, i, s, product, a)
 
 
 
