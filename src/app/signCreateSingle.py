@@ -10,7 +10,10 @@ from barcode.writer import ImageWriter
 #My Files
 import customeFunctions
 import signMergeAll
-
+import aptStickerCreate
+import aptStickerMerge
+import columnStickerCreate
+import columnStickerMerge
 # Returns the single digit image for the header
 def getDigit(digit):
     path ="C:/personal-git/aresta-barcode/src/app/images/sign-header-single-digits/digit{}.PNG".format(digit)
@@ -167,6 +170,15 @@ street = street + 1
 for i in range (1,street):
     createAllImages(state, city, i, column, level, product)
 
+state = 1
+city = 1
+street = 3
+column = 5
+level = 2
+product = 1
+apt = 3
+aptStickerCreate.createAllAptSticker(state, city, street, column, level, product, apt)
+aptStickerMerge.aptMergeFiles(column, level, apt)
 # ========================   RUAS 10   =======================================
 
 state = 1
@@ -188,3 +200,18 @@ for i in range (1,street):
 # fix ofset
 signPerPage = column-1
 signMergeAll.mergeSigns(signPerPage)
+
+# ========================   Pallet Sticker   =======================================
+
+state = 1
+city = 1
+street = 3
+column = 5 #Give Max Value
+level = 8 #Give Max Value
+product = 1
+
+columnStickerCreate.createAllColumnStickers(state, city, street, column, level, product)
+
+# ========================= Top Column Headers =========================
+column = 5
+columnStickerMerge.stickerMergeFiles(column)
