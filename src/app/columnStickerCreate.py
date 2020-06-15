@@ -21,7 +21,6 @@ def createAllColumnStickers(state, city, street, column, level, product):
         arrow = cv2.imread(path)
         return arrow
 
-
     def getHeader(index):
         # print("Runnig getHeader")
         path = "C:/personal-git/aresta-barcode/src/app/images/pallet-header/pallet-{}.PNG".format(index)
@@ -47,7 +46,7 @@ def createAllColumnStickers(state, city, street, column, level, product):
 
         # Generate sectioin images
         arrow = getArrow()
-        header = getHeader(column) #420 x 114
+        header = getHeader(level) #420 x 114
         barcode = getBarcode(state, city, street, column, level, product)
 
         # Combine Images
@@ -59,29 +58,30 @@ def createAllColumnStickers(state, city, street, column, level, product):
         street = customeFunctions.addZero_twoDigits(street)
         column = customeFunctions.addZero_threeDigits(column)
         level = customeFunctions.addZero_twoDigits(level)
-        fileName = "{}.{}.{}.{}.{}.{}-column-{}.png".format(state, city, street, column, level, product, column)
+        product = customeFunctions.addZero_twoDigits(product)
+
+        fileName = "{}.{}.{}.{}.{}.{}-coluna-{}-nivel-{}.PNG".format(state, city, street, column, level, product, column, level)
 
         savePath = "C:/personal-git/aresta-barcode/src/app/images/pallet-done/{}".format(fileName)
         cv2.imwrite(savePath, img2)
         print(savePath)
 
 
-
-
     for s in range(1,street+1):
         print("Creating for street: ",s)
         for c in range(1,column+1):
-            # print(" img: street-{} column-{} level-{} ".format(s, c, level))
-            createColumnSticker(state, city, s, c, level, product)
+            for l in range(1,level+1):
+                # print("img: street-{} column-{} level-{} ".format(s, c, l))
+                createColumnSticker(state, city, s, c, l, product)
 
 
 # ==================================================================
 
-# state = 1
-# city = 1
-# street = 3
-# column = 5 #Give Max Value
-# level = 8 #Give Max Value
-# product = 1
+state = 1
+city = 1
+street = 3
+column = 5 #Give Max Value
+level = 8 #Give Max Value
+product = 1
 
-# createAllColumnStickers(state, city, street, column, level, product)
+createAllColumnStickers(state, city, street, column, level, product)

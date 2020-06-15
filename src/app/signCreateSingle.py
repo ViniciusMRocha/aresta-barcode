@@ -14,6 +14,8 @@ import aptStickerCreate
 import aptStickerMerge
 import columnStickerCreate
 import columnStickerMerge
+import generateBarcode
+
 # Returns the single digit image for the header
 def getDigit(digit):
     path ="C:/personal-git/aresta-barcode/src/app/images/sign-header-single-digits/digit{}.PNG".format(digit)
@@ -21,13 +23,11 @@ def getDigit(digit):
     return digitImg
 
 def getLabel(index):
-    # print("Runnig getLabel")
     path ="C:/personal-git/aresta-barcode/src/app/images/sign-barcode-header/label-{}.PNG".format(index)
     label = cv2.imread(path)
     return label
 
 def getPad():
-    # print("Runnig getPad")
     path = "C:/personal-git/aresta-barcode/src/app/images/sign-barcode-header-pad/pad.PNG"
     pad = cv2.imread(path)
     return pad
@@ -49,7 +49,6 @@ def getArrow(column):
     return arrow
 
 def getBarcode(state, city, street, column, level, product):
-    # print("Runnig getBarcode")
     city = customeFunctions.addZero_twoDigits(city)
     street = customeFunctions.addZero_twoDigits(street)
     column = customeFunctions.addZero_threeDigits(column)
@@ -60,25 +59,12 @@ def getBarcode(state, city, street, column, level, product):
     barcode = cv2.imread(path)
     return barcode
 
-# Generates the barcode image
-def generateBarcode(barcodeNumber):
-    # Select encoding
-    bcEcnoding = barcode.get_barcode_class('code128')
-    # create the img writer
-    barcodeImg = bcEcnoding(barcodeNumber, writer=ImageWriter())
-    # Location where the new file will be saved
-    savePath = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/"+str(barcodeNumber)
-    # Save file and specify styling.
-    # File defaults to PNG
-    # fontPath = "C:/personal-git/aresta-barcode/src/app/Roboto/Roboto-Light.ttf"
-    barcodeFile = barcodeImg.save(savePath,options={"font_size": 24, "text_distance": 1.2,})
-    return barcodeFile
-
-# generates the column label, buy taking a column number and generating a image from the digit images
-def createcolumnLable(column):
+# Generates the column label, buy taking a column number and generating a image from the digit images
+def createColumnLable(column):
 
     #Makes "1" into "001"
     column = customeFunctions.addZero_threeDigits(column)
+
     #substring the input into 3 digits
     columnDigit1 = column[0:1]
     columnDigit2 = column[1:2]
@@ -88,8 +74,8 @@ def createcolumnLable(column):
     firstDigit = getDigit(columnDigit1)
     secondDigit = getDigit(columnDigit2)
     thirdDigit = getDigit(columnDigit3)
-    # Create New column
 
+    # Create New column
     columnImg = cv2.hconcat([getPad(),firstDigit,secondDigit,thirdDigit,getPad()])
     headerImg = cv2.vconcat([getArrow(column),columnImg])
 
@@ -111,7 +97,7 @@ def createAllImages(state, city, street, column, levelMax, product):
             # Generate Barcode
             barcodeNumber = ('{}.{}.{}.{}.{}.{}').format(state, city, street, columnThreeDigits, level, product)
             print("Barcode Number: "+barcodeNumber)
-            generateBarcode(barcodeNumber)
+            generateBarcode.generateSingleBarcode(barcodeNumber)
             barcodeImgPath = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/{}.{}.{}.{}.{}.{}.png".format(state, city, street, columnThreeDigits, level, product)
             allBarcodesPath.append(barcodeImgPath)
 
@@ -139,20 +125,20 @@ def createColumnImage(street, column, level, allBarcodesPath):
     
     # Generate column Image File
     fullImg = cv2.vconcat(labelAndBarcode_array)
-    fullImg = cv2.vconcat([createcolumnLable(column),fullImg])
+    fullImg = cv2.vconcat([createColumnLable(column),fullImg])
+
     # Save file
     columnThreeDigits = customeFunctions.addZero_threeDigits(column)
     cityThreeDigits = customeFunctions.addZero_twoDigits(city)
-    
 
     fileName = ("C:/personal-git/aresta-barcode/src/app/images/sign-single-done/{}.{}.{}.{}.PNG".format(state, cityThreeDigits, street, columnThreeDigits))
 
     cv2.imwrite(fileName, fullImg)
 
-    print("Generating Image: {}.jpeg".format(fileName))
+    print("Generating Image: {}.PNG".format(fileName))
 
 
-# ========================   RUAS 1-11   =======================================
+# =======================================   RUAS 1-11   =======================================
 
 state = 1
 city = 1
@@ -179,7 +165,7 @@ product = 1
 apt = 3
 aptStickerCreate.createAllAptSticker(state, city, street, column, level, product, apt)
 aptStickerMerge.aptMergeFiles(column, level, apt)
-# ========================   RUAS 10   =======================================
+# =======================================   RUAS 10   =======================================
 
 state = 1
 city = 2
@@ -201,7 +187,7 @@ for i in range (1,street):
 signPerPage = column-1
 signMergeAll.mergeSigns(signPerPage)
 
-# ========================   Pallet Sticker   =======================================
+# =======================================   Pallet Sticker   =======================================
 
 state = 1
 city = 1
@@ -212,6 +198,6 @@ product = 1
 
 columnStickerCreate.createAllColumnStickers(state, city, street, column, level, product)
 
-# ========================= Top Column Headers =========================
+# ======================================= Top Column Headers =======================================
 column = 5
 columnStickerMerge.stickerMergeFiles(column)

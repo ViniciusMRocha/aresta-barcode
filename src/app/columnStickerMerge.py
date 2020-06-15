@@ -12,9 +12,9 @@ from os.path import isfile, join
 
 import customeFunctions
 
-def stickerMergeFiles(column):
+def stickerMergeFiles(column,level):
     # Path to where all the individual images are
-    path = 'C:/personal-git/aresta-barcode/src/app/images/pallet-done'
+    path = 'C:/personal-git/aresta-barcode/src/app/images/pallet-done/'
 
     # Save new file to the path below 
     saveToPath = "C:/personal-git/aresta-barcode/src/app/images/pallet-merge-done"
@@ -25,22 +25,23 @@ def stickerMergeFiles(column):
     allImgFullPath = []
     singleSheet = []
 
-        # Add full path to each file
+    # Add full path to each file
     for i in range(len(columnStickerImg)):
         # Merge the file name to the rest of the path
-        fullPath = join(path,columnStickerImg[i])
+        fullPath = path+columnStickerImg[i]
         columnStickerImg[i] = fullPath
 
     for i in range(len(columnStickerImg)):
-        if i%column == 0:
-            for j in range(column):
+        if i%level == 0:
+            for j in range(level):
                 sign = i+j
                 singleSheet.append(columnStickerImg[sign])
                 # singleSheet.append(sign)
                 cityId = singleSheet[0][60:62]
                 streetId = singleSheet[0][63:65]
-            print("Creating Cidade{}-Rua{}".format(cityId,streetId))
-            # print(singleSheet)
+                columnId = singleSheet[0][66:69]
+            print("Creating Cidade{}-Rua{}-Coluna{}".format(cityId,streetId,columnId))
+            print(singleSheet)
 
             for k in range(len(singleSheet)):
                 #Creates image object
@@ -55,9 +56,10 @@ def stickerMergeFiles(column):
             fullImg = cv2.vconcat(allImgFullPath_array)
 
             # Save the file to path
-            cv2.imwrite("{}/{}.PNG".format(saveToPath,"Cidade{}-Rua{}".format(cityId,streetId)), fullImg)
+            cv2.imwrite("{}/{}.PNG".format(saveToPath,"Cidade{}-Rua{}-Coluna{}".format(cityId,streetId,columnId)), fullImg)
             allImgFullPath.clear()
             singleSheet.clear()
 
-# column = 5
-# stickerMergeFiles(column)
+column = 5
+level = 8
+stickerMergeFiles(column,level)
