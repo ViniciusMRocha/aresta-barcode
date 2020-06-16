@@ -2,10 +2,10 @@ def getArrow(column):
     total = column/4
     totalNoRemainder = column//4
     check = total-totalNoRemainder
-    # print (check)
-    if check == 0.25 or check == 0.5:
+    if check == 0.0 or check == 0.75:
         print(">> ",column,check)
-    elif check == 0.75 or check == 0.0:
+    elif check == 0.25 or check == 0.5:
         print("<< ",column,check)
 
-getArrow(16)
+for i in range(1,17):
+    getArrow(i)

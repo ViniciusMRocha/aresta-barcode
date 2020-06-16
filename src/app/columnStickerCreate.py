@@ -60,28 +60,28 @@ def createAllColumnStickers(state, city, street, column, level, product):
         level = customeFunctions.addZero_twoDigits(level)
         product = customeFunctions.addZero_twoDigits(product)
 
-        fileName = "{}.{}.{}.{}.{}.{}-coluna-{}-nivel-{}.PNG".format(state, city, street, column, level, product, column, level)
+        fileName = "inv-{}.{}.{}.{}.{}.{}.PNG".format(state, city, street, column, level, product)
 
         savePath = "C:/personal-git/aresta-barcode/src/app/images/pallet-done/{}".format(fileName)
         cv2.imwrite(savePath, img2)
         print(savePath)
 
 
-    for s in range(1,street+1):
-        print("Creating for street: ",s)
-        for c in range(1,column+1):
-            for l in range(1,level+1):
-                # print("img: street-{} column-{} level-{} ".format(s, c, l))
-                createColumnSticker(state, city, s, c, l, product)
+
+    print("Creating for street: ",street)
+    for c in range(1,column):
+        for l in range(1,level):
+            # print("img: street-{} column-{} level-{} ".format(street, c, l))
+            createColumnSticker(state, city, street, c, l, product)
 
 
 # ==================================================================
 
-state = 1
-city = 1
-street = 3
-column = 5 #Give Max Value
-level = 8 #Give Max Value
-product = 1
+# state = 1
+# city = 1
+# street = 3
+# column = 5 #Give Max Value
+# level = 8 #Give Max Value
+# product = 1
 
-createAllColumnStickers(state, city, street, column, level, product)
+# createAllColumnStickers(state, city, street, column, level, product)

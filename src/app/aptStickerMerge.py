@@ -18,48 +18,78 @@ def aptMergeFiles(column,level,apt):
     # Search for all the files in directory
     columnStickerImg = [f for f in listdir(path) if isfile(join(path, f))]
 
-    # list for all the images full path
-    allImgFullPath = []
+    for i in range(len(columnStickerImg)):
+        print(columnStickerImg[i])
+
     singleSheet = []
-
-    #Total 16
-
-    rounds = column*apt*2
-
-    for i in range(rounds):
-        if i%apt == 0:
+    for i in range(1,column+1):
+        print("\nColumn: ",i)
+        total = i/4
+        totalNoRemainder = i//4
+        check = total-totalNoRemainder
+        if check == 0.25 or check == 0.5:
+            print("Normal")
+            #define start point
             for j in range(apt):
-                sign = i+j
-                singleSheet.append(columnStickerImg[sign])
-                # singleSheet.append(sign)
-                columnId = singleSheet[0][8:11]
-                levelId = singleSheet[0][12:14]
+                singleSheet.append(columnStickerImg[j])
+                print(singleSheet)
+                singleSheet.clear()              
+        
+        elif check == 0.75 or check == 0.0:
+            print("Inverted")
+            for j in range(apt-1,-1,-1):
+                singleSheet.append(columnStickerImg[j])
+                print(singleSheet)
+                singleSheet.clear()
+
+
+        # print("Master Counter: ",masterCounter)
+        
+
+
+
+    # # list for all the images full path
+    # allImgFullPath = []
+    # singleSheet = []
+
+    # rounds = column*apt*2
+
+    # for i in range(rounds):
+    #     if i%apt == 0:
+    #         for j in range(apt):
+    #             sign = i+j
+    #             singleSheet.append(columnStickerImg[sign])
+    #             # singleSheet.append(sign)
+    #             columnId = singleSheet[0][8:11]
+    #             levelId = singleSheet[0][12:14]
+
+    #         # Apt 1,2,3 of column
+    #         for k in range(len(singleSheet)):
+    #             # print(singleSheet[k])
+    #             #Creates image object
+    #             toImg = cv2.imread(path+singleSheet[k])
+    #             # Saves image object to list
+    #             allImgFullPath.append(toImg)
+
+    #         # # Apt 1,2,3 column+2
+    #         # for l in range(len(singleSheet)-1,-1,-1):
+    #         #     print(singleSheet[l])
+    #         #     #Creates image object
+    #         #     toImg = cv2.imread(path+singleSheet[l])
+    #         #     # Saves image object to list
+    #         #     allImgFullPath.append(toImg)
+
+    #         print("Creating Column{}-Nivel{}".format(columnId,levelId))
+    #         # Convers the list to array
+    #         allImgFullPath_array = np.array(allImgFullPath)
+
+    #         # Combines all the individual column images to one image
+    #         fullImg = cv2.hconcat(allImgFullPath_array)
             
-            for k in range(len(singleSheet)):
-                # print(singleSheet[k])
-                #Creates image object
-                toImg = cv2.imread(path+singleSheet[k])
-                # Saves image object to list
-                allImgFullPath.append(toImg)
-
-            for l in range(len(singleSheet)-1,-1,-1):
-                print(singleSheet[l])
-                #Creates image object
-                toImg = cv2.imread(path+singleSheet[l])
-                # Saves image object to list
-                allImgFullPath.append(toImg)
-
-            print("Creating Column{}-Nivel{}".format(columnId,levelId))
-            # Convers the list to array
-            allImgFullPath_array = np.array(allImgFullPath)
-
-            # Combines all the individual column images to one image
-            fullImg = cv2.hconcat(allImgFullPath_array)
-            
-            # Save the file to path
-            cv2.imwrite("{}/{}.PNG".format(saveToPath,"Column{}-Nivel{}".format(columnId,levelId)), fullImg)
-            allImgFullPath.clear()
-            singleSheet.clear()    
+    #         # Save the file to path
+    #         cv2.imwrite("{}/{}.PNG".format(saveToPath,"Column{}-Nivel{}".format(columnId,levelId)), fullImg)
+    #         allImgFullPath.clear()
+    #         singleSheet.clear()    
 
 
 # column = 5

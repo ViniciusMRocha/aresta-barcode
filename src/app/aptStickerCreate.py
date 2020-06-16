@@ -13,7 +13,7 @@ import customeFunctions
 # Get Images
 # =================================================
 
-def createAllAptSticker(state, city, street, column, level, product, apt):
+def createAllAptSticker(state, city, street, column, level, product, apt, columnStart, columnEnd, evenOddAll):
     def getDigit(index):
         # print("Runnig getDigit")
         path ="C:/personal-git/aresta-barcode/src/app/images/sticker-header-digits/resized/sticker-digit-{}.png".format(index)
@@ -86,27 +86,50 @@ def createAllAptSticker(state, city, street, column, level, product, apt):
         cv2.imwrite(savePath, img3)
         print(savePath)
 
-
-
-
-
-    for s in range (1,street+1):
-        print("street:",s)
-        for c in range(1,column+1):
+    if evenOddAll == "all":
+        print("Doing all")
+        for c in range(columnStart,columnEnd):
             print("column: ",c)
             for l in range(1,level+1):
                 for a in range(1,apt+1):
-                    # print("street-{} column-{} level-{} apt-{}".format(s,c,l,a))
-                    createSingleAptSticker(state, city, s, c, l, product, a)
+                    # print("street-{} column-{} level-{} apt-{}".format(street,c,l,a))
+                    createSingleAptSticker(state, city, street, c, l, product, a)
+    elif evenOddAll == "even":
+        print("Doing even")
+        for c in range(columnStart,columnEnd):
+            if c%2 == 0:
+                print("column: ",c)
+                for l in range(1,level+1):
+                    for a in range(1,apt+1):
+                        # print("street-{} column-{} level-{} apt-{}".format(street,c,l,a))
+                        createSingleAptSticker(state, city, street, c, l, product, a)
+
+    elif evenOddAll == "odd":
+        print("Doing odd")
+        for c in range(columnStart,columnEnd):
+            if c%2 != 0:
+                print("column: ",c)
+                for l in range(1,level+1):
+                    for a in range(1,apt+1):
+                        # print("street-{} column-{} level-{} apt-{}".format(street,c,l,a))
+                        createSingleAptSticker(state, city, street, c, l, product, a)
+
 
 
 # state = 1
 # city = 1
-# street = 2
-# column = 3 #Give Max Value
+# street = 1
+# column = 12 #Give Max Value
 # level = 2 #Give Max Value
 # product = 1
 # apt = 3
+# columnStart = 9
+# columnEnd = 57
+# evenOddAll = "even"
+# evenOddAll = "odd" 
+# evenOddAll = "all"
 
-# createAllAptSticker(state, city, street, column, level, product, apt)
+# createAllAptSticker(state, city, street, column, level, product, apt, columnStart, columnEnd, evenOddAll)
 
+# columnStart = 9
+# columnEnd = 68

@@ -9,11 +9,6 @@ from barcode.writer import ImageWriter
 
 #My Files
 import customeFunctions
-import signMergeAll
-import aptStickerCreate
-import aptStickerMerge
-import columnStickerCreate
-import columnStickerMerge
 import generateBarcode
 
 # Returns the single digit image for the header
@@ -40,11 +35,12 @@ def getArrow(column):
     total = column/4
     totalNoRemainder = column//4
     check = total-totalNoRemainder
-    if check == 0.25 or check == 0.5:
-        # Arrow: >>> 
+    # TODO: Arrows are wrong
+    if check == 0.0 or check == 0.75:
+        # Arrow 1 - 2: >>> 
         arrow = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/sign-header-arrow/right-arrow.PNG")
-    elif check == 0.75 or check == 0.0:
-        # Arrow: <<<
+    elif check == 0.25 or check == 0.5:
+        # Arrow 3 - 4: <<<
         arrow = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/sign-header-arrow/left-arrow.PNG")
     return arrow
 
@@ -102,15 +98,16 @@ def createAllImages(state, city, street, column, levelMax, product):
             allBarcodesPath.append(barcodeImgPath)
 
         # Generates the a single column image
-        createColumnImage(street, column, level, allBarcodesPath)
+        createColumnImage(city, street, column, level, allBarcodesPath)
 
         # Clear list for next iteration
         allBarcodesPath.clear()
 
 # Generates the a single column image
-def createColumnImage(street, column, level, allBarcodesPath):
+def createColumnImage(city, street, column, level, allBarcodesPath):
 
     labelAndBarcode = []
+    city = int(city)
     column = int(column)
     level = int(level)
 
@@ -129,75 +126,11 @@ def createColumnImage(street, column, level, allBarcodesPath):
 
     # Save file
     columnThreeDigits = customeFunctions.addZero_threeDigits(column)
-    cityThreeDigits = customeFunctions.addZero_twoDigits(city)
+    cityTwoDigits = customeFunctions.addZero_twoDigits(city)
 
-    fileName = ("C:/personal-git/aresta-barcode/src/app/images/sign-single-done/{}.{}.{}.{}.PNG".format(state, cityThreeDigits, street, columnThreeDigits))
+    fileName = ("C:/personal-git/aresta-barcode/src/app/images/sign-single-done/{}.{}.{}.{}.PNG".format(state, cityTwoDigits, street, columnThreeDigits))
 
     cv2.imwrite(fileName, fullImg)
 
-    print("Generating Image: {}.PNG".format(fileName))
+    print("Generating Image: {}".format(fileName))
 
-
-# =======================================   RUAS 1-11   =======================================
-
-state = 1
-city = 1
-street = 11
-column = 5
-level = 8
-product = 1
-
-# Apply offset
-column = column + 1
-level = level + 1
-street = street + 1
-
-# Crete street
-for i in range (1,street):
-    createAllImages(state, city, i, column, level, product)
-
-state = 1
-city = 1
-street = 3
-column = 5
-level = 2
-product = 1
-apt = 3
-aptStickerCreate.createAllAptSticker(state, city, street, column, level, product, apt)
-aptStickerMerge.aptMergeFiles(column, level, apt)
-# =======================================   RUAS 10   =======================================
-
-state = 1
-city = 2
-street = 1
-column = 5
-level = 6
-product = 1
-
-# Apply offset
-column = column + 1
-level = level + 1
-street = street + 1
-
-# Creates 
-for i in range (1,street):
-    createAllImages(state, city, i, column, level, product)
-
-# fix ofset
-signPerPage = column-1
-signMergeAll.mergeSigns(signPerPage)
-
-# =======================================   Pallet Sticker   =======================================
-
-state = 1
-city = 1
-street = 3
-column = 5 #Give Max Value
-level = 8 #Give Max Value
-product = 1
-
-columnStickerCreate.createAllColumnStickers(state, city, street, column, level, product)
-
-# ======================================= Top Column Headers =======================================
-column = 5
-columnStickerMerge.stickerMergeFiles(column)

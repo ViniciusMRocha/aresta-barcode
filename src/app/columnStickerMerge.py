@@ -60,6 +60,6 @@ def stickerMergeFiles(column,level):
             allImgFullPath.clear()
             singleSheet.clear()
 
-column = 5
-level = 8
-stickerMergeFiles(column,level)
+# column = 5
+# level = 8
+# stickerMergeFiles(column,level)
