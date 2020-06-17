@@ -15,11 +15,12 @@ import deleteExtras
 
 # =========== MERGE TEST ==================================================
 
-perSheet = 75
-nivelMax = 8
-columnSign.mergeSigns(perSheet, nivelMax)
-
-
+# =========== LEVEL 12 ==================================================
+perSheet = 45
+nivelMax = 12
+printRow = 3
+printColumn = 15 
+columnSign.mergeSigns(perSheet, nivelMax, printRow, printColumn)
 
 '''
 # =========== RUA 1 ==================================================
@@ -185,6 +186,28 @@ columnSign.createAllRange(state, city, street, startColumn, level, product, endC
 # columnSticker.createAllRange(state, city, street, level, product, startColumn, endColumn)
 
 
+# =========== LEVEL 8 ==================================================
+perSheet = 80
+nivelMax = 8
+printRow = 5
+printColumn = 16 
+columnSign.mergeSigns(perSheet, nivelMax, printRow, printColumn)
 
+
+
+# =========== LEVEL 6 ==================================================
+perSheet = 90
+nivelMax = 6
+printRow = 6
+printColumn = 15 
+columnSign.mergeSigns(perSheet, nivelMax, printRow, printColumn)
+
+
+# =========== LEVEL 12 ==================================================
+perSheet = 90
+nivelMax = 12
+printRow = 6
+printColumn = 15 
+columnSign.mergeSigns(perSheet, nivelMax, printRow, printColumn)
 '''
 
