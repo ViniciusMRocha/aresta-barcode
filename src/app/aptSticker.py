@@ -77,7 +77,7 @@ def createAll(state, city, street, column, level, product, apt, columnStart, col
 
         width = 378
         height = 189
-        resize.singleFileRename(savePath,width,height)
+        resize.singleFileResize(savePath,width,height)
 
     if evenOddAll == "all":
         print("Doing all")

@@ -8,35 +8,19 @@ import barcode
 from barcode.writer import ImageWriter
 
 #My Files
-import aptSticker
-import columnSticker
 import columnSign
+import columnSticker
+import aptSticker
 import deleteExtras
 
-# =========== RUA TEST ==================================================
+# =========== MERGE TEST ==================================================
 
-state = 1
-city = 1
-street = 6
-column = 96
-level = 8
-product = 1
-
-aptLevelMax = 2
-apt = 3
-columnStart = 9
-columnEnd = 68
-evenOddAll = "odd"
-
-startDelet = 81
-
-columnSign.createAll(state, city, street, column, level, product)
-columnSticker.createAll(state, city, street, column, level, product)
-aptSticker.createAll(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
-deleteExtras.remove(state=1, city=1, street=6, column=96, level=8, product=1, startDelet=81, sideRemove="odd")
+perSheet = 75
+nivelMax = 8
+columnSign.mergeSigns(perSheet, nivelMax)
 
 
-#TODO: Account for the difference of column lengths
+
 '''
 # =========== RUA 1 ==================================================
 state = 1
@@ -46,7 +30,7 @@ column = 56
 level = 8
 product = 1
 columnSign.createAll(state, city, street, column, level, product)
-columnSticker.createAll(state, city, street, column, level, product)
+# columnSticker.createAll(state, city, street, column, level, product)
 
 
 # =========== RUA 2 ==================================================
@@ -57,7 +41,7 @@ column = 56
 level = 8
 product = 1
 columnSign.createAll(state, city, street, column, level, product)
-columnSticker.createAll(state, city, street, column, level, product)
+# columnSticker.createAll(state, city, street, column, level, product)
 
 
 # =========== RUA 3 ==================================================
@@ -68,7 +52,7 @@ column = 56
 level = 8
 product = 1
 columnSign.createAll(state, city, street, column, level, product)
-columnSticker.createAll(state, city, street, column, level, product)
+# columnSticker.createAll(state, city, street, column, level, product)
 
 
 # =========== RUA 4 ==================================================
@@ -86,8 +70,8 @@ columnEnd = 60
 evenOddAll = "even"
 
 columnSign.createAll(state, city, street, column, level, product)
-columnSticker.createAll(state, city, street, column, level, product)
-aptSticker.createAll(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
+# columnSticker.createAll(state, city, street, column, level, product)
+# aptSticker.createAll(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
 
 
 # =========== RUA 5 ==================================================
@@ -105,8 +89,8 @@ columnEnd = 68
 evenOddAll = "all"
 
 columnSign.createAll(state, city, street, column, level, product)
-columnSticker.createAll(state, city, street, column, level, product)
-aptSticker.createAll(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
+# columnSticker.createAll(state, city, street, column, level, product)
+# aptSticker.createAll(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
 
 
 # =========== RUA 6 ==================================================
@@ -123,9 +107,14 @@ columnStart = 9
 columnEnd = 68
 evenOddAll = "odd"
 
+startDelete = 81
+endDelete = column
+sideRemove="odd"
+
 columnSign.createAll(state, city, street, column, level, product)
-columnSticker.createAll(state, city, street, column, level, product)
-aptSticker.createAll(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
+# columnSticker.createAll(state, city, street, column, level, product)
+# aptSticker.createAll(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
+# deleteExtras.remove(state, city, street, column, level, product, startDelete, endDelete, sideRemove)
 
 # =========== RUA 7 ==================================================
 state = 1
@@ -135,7 +124,7 @@ column = 96
 level = 8
 product = 1
 columnSign.createAll(state, city, street, column, level, product)
-columnSticker.createAll(state, city, street, column, level, product)
+# columnSticker.createAll(state, city, street, column, level, product)
 
 
 # =========== RUA 8 ==================================================
@@ -146,7 +135,7 @@ column = 96
 level = 8
 product = 1
 columnSign.createAll(state, city, street, column, level, product)
-columnSticker.createAll(state, city, street, column, level, product)
+# columnSticker.createAll(state, city, street, column, level, product)
 
 
 # =========== RUA 9 ==================================================
@@ -157,7 +146,7 @@ column = 62
 level = 8
 product = 1
 columnSign.createAll(state, city, street, column, level, product)
-columnSticker.createAll(state, city, street, column, level, product)
+# columnSticker.createAll(state, city, street, column, level, product)
 
 
 # =========== RUA 10 ==================================================
@@ -168,17 +157,34 @@ column = 32
 level = 6
 product = 1
 columnSign.createAll(state, city, street, column, level, product)
-columnSticker.createAll(state, city, street, column, level, product)
+# columnSticker.createAll(state, city, street, column, level, product)
 
 
 # =========== RUA 11 ==================================================
 state = 1
 city = 2
 street = 11
-column = 40
-level = 8
 product = 1
-columnSign.createAll(state, city, street, column, level, product)
-columnSticker.createAll(state, city, street, column, level, product)
-#TODO: make it start and end point for 12 level column
+
+startColumn = 1
+endColumn = 11
+level = 8
+columnSign.createAllRange(state, city, street, startColumn, level, product, endColumn)
+# columnSticker.createAllRange(state, city, street, level, product, startColumn, endColumn)
+
+startColumn = 12
+endColumn = 31
+level = 12
+columnSign.createAllRange(state, city, street, startColumn, level, product, endColumn)
+# columnSticker.createAllRange(state, city, street, level, product, startColumn, endColumn)
+
+startColumn = 32
+endColumn = 40
+level = 8
+columnSign.createAllRange(state, city, street, startColumn, level, product, endColumn)
+# columnSticker.createAllRange(state, city, street, level, product, startColumn, endColumn)
+
+
+
 '''
+

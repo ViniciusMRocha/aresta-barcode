@@ -19,7 +19,7 @@ import resize
 # Get Images
 # =================================================
 
-
+# createAllRange
 def createAll(state, city, street, column, level, product):
     def getArrow():
         # print("Runnig getArrow")
@@ -63,7 +63,7 @@ def createAll(state, city, street, column, level, product):
 
         width = 378
         height = 189
-        resize.singleFileRename(savePath,width,height)
+        resize.singleFileResize(savePath,width,height)
 
 
     print("Creating for street: ",street)
@@ -71,6 +71,62 @@ def createAll(state, city, street, column, level, product):
         for l in range(1,level+1):
             # print("img: street-{} column-{} level-{} ".format(street, c, l))
             createColumnSticker(state, city, street, c, l, product)
+
+
+
+# createAllRange
+def createAllRange(state, city, street, level, product, startColumn, endColumn):
+    def getArrow():
+        # print("Runnig getArrow")
+        path = "C:/personal-git/aresta-barcode/src/app/images/apt-sticker-arrow-up/apt-sticker-arrow-up-black.PNG"
+        arrow = cv2.imread(path)
+        return arrow
+
+    def getHeader(index):
+        # print("Runnig getHeader")
+        path = "C:/personal-git/aresta-barcode/src/app/images/column-header/header-{}.PNG".format(index)
+        header = cv2.imread(path)
+        return header
+
+    # =================================================
+    # Combine Images
+    # =================================================
+
+    def createColumnSticker(state, city, street, column, level, product):
+
+        # Generate sectioin images
+        arrow = getArrow()
+        header = getHeader(level) #420 x 114
+        barcode = barcodeGenerator.getBarcode(state, city, street, column, level, product)
+
+        # Combine Images
+        img1 = cv2.vconcat([header,barcode])
+        img2 = cv2.hconcat([img1,arrow])
+
+        # Create File Name
+        city = customeFunctions.addZero_twoDigits(city)
+        street = customeFunctions.addZero_twoDigits(street)
+        column = customeFunctions.addZero_threeDigits(column)
+        level = customeFunctions.addZero_twoDigits(level)
+        product = customeFunctions.addZero_twoDigits(product)
+
+        fileName = "inv-{}.{}.{}.{}.{}.{}.PNG".format(state, city, street, column, level, product)
+
+        savePath = "C:/personal-git/aresta-barcode/src/app/images/column-done-single/{}".format(fileName)
+        cv2.imwrite(savePath, img2)
+        print(savePath)
+
+        width = 378
+        height = 189
+        resize.singleFileResize(savePath,width,height)
+
+
+    print("Creating for street: ",street)
+    for c in range(startColumn,endColumn+1):
+        for l in range(1,level+1):
+            # print("img: street-{} column-{} level-{} ".format(street, c, l))
+            createColumnSticker(state, city, street, c, l, product)
+
 
 
 # ==================================================================

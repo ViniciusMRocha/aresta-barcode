@@ -4,8 +4,13 @@ import numpy as np
 from pathlib import Path
 from PIL import Image
 
+from os import listdir
+from os.path import isfile, join
+
 import barcode
 from barcode.writer import ImageWriter
+
+import glob
 
 #My Files
 import customeFunctions
@@ -119,22 +124,22 @@ def createColumnImage(state, city, street, column, level, allBarcodesPath, check
     columnThreeDigits = customeFunctions.addZero_threeDigits(column)
     cityTwoDigits = customeFunctions.addZero_twoDigits(city)
 
-    fileName = ("C:/personal-git/aresta-barcode/src/app/images/sign-done-single/{}.{}.{}.{}.PNG".format(state, cityTwoDigits, street, columnThreeDigits))
+    fileName = ("C:/personal-git/aresta-barcode/src/app/images/sign-done-single/{}.{}.{}.{}.nivelMax-{}.PNG".format(state, cityTwoDigits, street, columnThreeDigits,check))
 
     cv2.imwrite(fileName, fullImg)
 
     if check == 6:
         width = 246
         height = 1118
-        resize.singleFileRename(fileName,width,height)
+        resize.singleFileResize(fileName,width,height)
     elif check == 8:
         width = 246
         height = 1437
-        resize.singleFileRename(fileName,width,height)
+        resize.singleFileResize(fileName,width,height)
     elif check == 12:
         width = 246
         height = 2075
-        resize.singleFileRename(fileName,width,height)
+        resize.singleFileResize(fileName,width,height)
 
     print("Generating Image: {}".format(fileName))
 
@@ -143,60 +148,187 @@ def createColumnImage(state, city, street, column, level, allBarcodesPath, check
 
 
 
+# Generates all column images
+def createAllRange(state, city, street, startColumn, levelMax, product, endColumn):
+    check = levelMax
+    city = customeFunctions.addZero_twoDigits(city)
+    street = customeFunctions.addZero_twoDigits(street)
+    product = customeFunctions.addZero_twoDigits(product)
+    allBarcodesPath = []
+
+    for column in range(startColumn, endColumn+1):
+        columnThreeDigits = customeFunctions.addZero_threeDigits(column)
+        for level in range(1, levelMax+1):
+            level = customeFunctions.addZero_twoDigits(level) 
+            
+            # Generate Barcode
+            barcodeNumber = ('{}.{}.{}.{}.{}.{}').format(state, city, street, columnThreeDigits, level, product)
+            print("Barcode Number: "+barcodeNumber)
+            barcodeGenerator.generateSingleBarcode(barcodeNumber)
+            barcodeImgPath = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/{}.{}.{}.{}.{}.{}.png".format(state, city, street, columnThreeDigits, level, product)
+            allBarcodesPath.append(barcodeImgPath)
+
+        # Generates the a single column image
+        createColumnImage(state, city, street, column, level, allBarcodesPath, check)
+
+        # Clear list for next iteration
+        allBarcodesPath.clear()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# C:\personal-git\aresta-barcode\src\app\images\sign-done-single\1.01.01.001.PNG
+# 
+
 # ====== Merge ===============================
 
 #TODO: Name the file according to the city-rua-00
-def mergeSigns(signPerRow):
+def mergeSigns(perSheet, nivelMax):
+
+    print("============== Testing mergeSigns ==================")
+    print("Per Sheet: {}".format(perSheet))
+
     # Path to where all the individual images are
-    path = 'C:/personal-git/aresta-barcode/src/app/images/sign-done-single/'
+    path = 'C:/personal-git/aresta-barcode/src/app/images/sign-done-single'
 
     # Save new file to the path below 
-    saveToPath = "C:/personal-git/aresta-barcode/src/app/images/sign-done-merge"
+    saveToPath = "C:/personal-git/aresta-barcode/src/app/images/sign-done-merge/"
 
-    # Search for all the files in directory
-    # FIXME: join is not working 
-    columnImg = [f for f in listdir(path) if isfile(join(path, f))]
+    # Gets all files according to pattern
+    files=glob.glob("{}/*nivelMax-{}*".format(path,nivelMax))
+    
+    # for i in range(len(files)):
+    #     print(files[i])
 
-    # list for all the images full path
-    allImgFullPath = []
+    totalFiles = len(files)
+    print("Total files: {}".format(totalFiles))
 
-    #All Images
-    singleSheet = []
+    fullSheets = totalFiles//perSheet
+    print("Full Sheets: {}".format(fullSheets))
 
-    # Add full path to each file
-    for i in range(len(columnImg)):
-        # Merge the file name to the rest of the path
-        fullPath = join(path,columnImg[i])
-        columnImg[i] = fullPath
+    totalFilesInFullSheet = perSheet*fullSheets
+    print("Total Files In Full Sheet: {}".format(totalFilesInFullSheet))
 
-    streetId = 0
-    for i in range(len(columnImg)):
-        if i%signPerRow == 0:
-            for j in range(signPerRow):
-                sign = i+j
-                singleSheet.append(columnImg[sign])
-                # Gets the city and street from the file name
-                cityId = singleSheet[0][65:67]
-                streetId = singleSheet[0][68:70]
-            print("Creating Cidade{}-Rua{}".format(cityId,streetId))
+    leftOver = totalFiles-totalFilesInFullSheet 
+    print("Left Over: {}".format(leftOver))
+
+    blankFiles = perSheet-leftOver
+    print("Blank Files: {}".format(blankFiles))
+
+    
+
+
+
+
+
+
+# https://stackoverflow.com/questions/2225564/get-a-filtered-list-of-files-in-a-directory
+
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.001.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.002.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.004.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.005.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.006.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.007.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.009.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.010.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.011.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.012.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.013.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.014.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.015.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.016.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.017.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.019.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.020.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.021.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.022.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.023.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.024.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.025.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.026.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.027.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.029.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.030.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.031.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.032.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.034.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.035.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.036.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.037.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.038.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.039.PNG
+# C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.02.11.040.PNG
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#     # Search for all the files in directory
+#     # FIXME: join is not working 
+#     columnImg = [f for f in listdir(path) if isfile(join(path, f))]
+
+#     # list for all the images full path
+#     allImgFullPath = []
+
+#     #All Images
+#     singleSheet = []
+
+#     # Add full path to each file
+#     for i in range(len(columnImg)):
+#         # Merge the file name to the rest of the path
+#         fullPath = join(path,columnImg[i])
+#         columnImg[i] = fullPath
+
+#     streetId = 0
+#     for i in range(len(columnImg)):
+#         if i%signPerRow == 0:
+#             for j in range(signPerRow):
+#                 sign = i+j
+#                 singleSheet.append(columnImg[sign])
+#                 # Gets the city and street from the file name
+#                 cityId = singleSheet[0][65:67]
+#                 streetId = singleSheet[0][68:70]
+#             print("Creating Cidade{}-Rua{}".format(cityId,streetId))
             
-            for k in range(len(singleSheet)):
-                #Creates image object
-                toImg = cv2.imread(singleSheet[k])
-                # Saves image object to list
-                allImgFullPath.append(toImg)
+#             for k in range(len(singleSheet)):
+#                 #Creates image object
+#                 toImg = cv2.imread(singleSheet[k])
+#                 # Saves image object to list
+#                 allImgFullPath.append(toImg)
 
-            # Convers the list to array
-            allImgFullPath_array = np.array(allImgFullPath)
+#             # Convers the list to array
+#             allImgFullPath_array = np.array(allImgFullPath)
 
-            # Combines all the individual column images to one image
-            fullImg = cv2.hconcat(allImgFullPath_array)
+#             # Combines all the individual column images to one image
+#             fullImg = cv2.hconcat(allImgFullPath_array)
 
-            # Save the file to path
-            cv2.imwrite("{}/{}.PNG".format(saveToPath,"Cidade{}-Rua{}".format(cityId,streetId)), fullImg)
-            allImgFullPath.clear()
-            singleSheet.clear()
+#             # Save the file to path
+#             cv2.imwrite("{}/{}.PNG".format(saveToPath,"Cidade{}-Rua{}".format(cityId,streetId)), fullImg)
+#             allImgFullPath.clear()
+#             singleSheet.clear()
 
 
-# Testing
-# mergeSigns(5)
+# # Testing
+# # mergeSigns(5)
