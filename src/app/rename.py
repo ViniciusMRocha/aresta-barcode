@@ -1,14 +1,14 @@
 import os
 
-folderPath = "C:/personal-git/aresta-barcode/src/graphics-design/sticker/sticker-pallet-header/sticker-pallet-header/"
+folderPath = "C:/personal-git/aresta-barcode/src/graphics-design/sign/sign-barcode-header/sign-barcode-header/"
 fileNameNoNumer = "Slide"
-newFileNameNoNumer = "pallet-"
+newFileNameNoNumer = "label-"
 extension = ".PNG"
 count = 0
-directory = "C:/personal-git/aresta-barcode/src/graphics-design/sticker/sticker-pallet-header/sticker-pallet-header/"
 
-for path in os.listdir(directory):
-    if os.path.isfile(os.path.join(directory, path)):
+
+for path in os.listdir(folderPath):
+    if os.path.isfile(os.path.join(folderPath, path)):
         if path.endswith(extension):
             count += 1 
 print ("Total item count",count)

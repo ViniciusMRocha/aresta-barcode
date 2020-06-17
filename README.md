@@ -10,3 +10,9 @@
 8. resize files for printing (Maybe before merge\*)
 9. create PS1 job to zip all files for sharing
 10. Create documentation
+
+Barcode Reader
+pctop - LCB2DPR
+
+generate file
+https://dummyimage.com/
