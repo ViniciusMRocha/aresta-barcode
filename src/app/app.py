@@ -14,6 +14,21 @@ import aptSticker
 import deleteExtras
 
 # =========== MERGE TEST ==================================================
+# =========== LEVEL 8 ==================================================
+perSheet = 80
+nivelMax = 8
+printRow = 5
+printColumn = 15 
+columnSign.mergeSigns(perSheet, nivelMax, printRow, printColumn)
+
+
+# =========== LEVEL 6 ==================================================
+perSheet = 90
+nivelMax = 6
+printRow = 6
+printColumn = 15 
+columnSign.mergeSigns(perSheet, nivelMax, printRow, printColumn)
+
 
 # =========== LEVEL 12 ==================================================
 perSheet = 45
@@ -190,9 +205,8 @@ columnSign.createAllRange(state, city, street, startColumn, level, product, endC
 perSheet = 80
 nivelMax = 8
 printRow = 5
-printColumn = 16 
+printColumn = 15 
 columnSign.mergeSigns(perSheet, nivelMax, printRow, printColumn)
-
 
 
 # =========== LEVEL 6 ==================================================
@@ -204,9 +218,9 @@ columnSign.mergeSigns(perSheet, nivelMax, printRow, printColumn)
 
 
 # =========== LEVEL 12 ==================================================
-perSheet = 90
+perSheet = 45
 nivelMax = 12
-printRow = 6
+printRow = 3
 printColumn = 15 
 columnSign.mergeSigns(perSheet, nivelMax, printRow, printColumn)
 '''

@@ -33,13 +33,17 @@ def getPad():
     pad = cv2.imread(path)
     return pad
 
-def getBlankSign(index):
-    path = "C:/personal-git/aresta-barcode/src/app/images/sign-blank-pad/blank-sign{}.PNG".format(index)
-    blankSign = cv2.imread(path)
-    return blankSign
+# def getBlankSign(index):
+#     path = "C:/personal-git/aresta-barcode/src/app/images/sign-blank-pad/blank-sign{}.PNG".format(index)
+#     blankSign = cv2.imread(path)
+#     return blankSign
 
 def getBlankSignPath(index):
     path = "C:/personal-git/aresta-barcode/src/app/images/sign-blank-pad/blank-sign{}.PNG".format(index)
+    return path
+
+def getBlankSignRowPath(index):
+    path = "C:/personal-git/aresta-barcode/src/app/images/sign-blank-pad/blank-sign-row{}.PNG".format(index)
     return path
 
 # Generates the correct arrow given the column number
@@ -206,27 +210,22 @@ def createAllRange(state, city, street, startColumn, levelMax, product, endColum
 #TODO: Name the file according to the city-rua-00
 def mergeSigns(perSheet, nivelMax, printRow, printColumn):
 
-    blankSign = getBlankSign(nivelMax)
+    # blankSign = getBlankSign(nivelMax)
     blankSignPath = getBlankSignPath(nivelMax)
+    blankRowPath = getBlankSignRowPath(nivelMax)
 
     print("============== Testing mergeSigns ==================")
-    print("Per Sheet: {}".format(perSheet))
 
     # Path to where all the individual images are
     path = 'C:/personal-git/aresta-barcode/src/app/images/sign-done-single'
 
     # Save new file to the path below 
-    saveToPath = "C:/personal-git/aresta-barcode/src/app/images/sign-done-merge/"
+    saveToPathRow = "C:/personal-git/aresta-barcode/src/app/images/sign-done-row-merge"
 
     # Gets all files according to pattern
     files=glob.glob("{}/*nivelMax-{}*".format(path,nivelMax))
-    
-    # lista=[]
-    # for i in range(90):
-    #     lista.append(i)
-    # print(lista)
 
-    #files = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89]
+    print("Per Sheet: {}".format(perSheet))
 
     totalFiles = len(files)
     print("Total files: {}".format(totalFiles))
@@ -249,7 +248,7 @@ def mergeSigns(perSheet, nivelMax, printRow, printColumn):
     
     # list for all the images full path
     allImgFullPath = []
-    temp = []
+    rowImg = []
     newStartPoint = 0
     for i in range(len(files)):
         if i%printColumn == 0:
@@ -260,14 +259,14 @@ def mergeSigns(perSheet, nivelMax, printRow, printColumn):
                 toImg = cv2.imread(files[newStartPoint])
 
                 # Append Path
-                temp.append(files[newStartPoint])
+                rowImg.append(files[newStartPoint])
 
                 # Saves image object to list
                 allImgFullPath.append(toImg)
 
             newStartPoint = newStartPoint+1
-            # print("Total: ",len(temp))
-            # print("Temp: ",temp)
+            # print("Total: ",len(rowImg))
+            # print("Row Image: ",rowImg)
             # print("newStartPoint: ",newStartPoint)
 
             # Convers the list to array
@@ -276,16 +275,80 @@ def mergeSigns(perSheet, nivelMax, printRow, printColumn):
             # Combines all the individual column images to one image
             fullImg = cv2.hconcat(allImgFullPath_array)
 
-            fileName = 'nivelMax-{}-coluna-{}-{}'.format(nivelMax,newStartPoint-printColumn+1,newStartPoint)
+            pageCount = customeFunctions.addZero_twoDigits(int(i/printColumn))
+            fileName = 'nivelMax-{}-linha-{}'.format(nivelMax,pageCount)
 
             # Save the file to path
-            cv2.imwrite("{}{}.PNG".format(saveToPath,fileName), fullImg)
+            cv2.imwrite("{}/{}.PNG".format(saveToPathRow,fileName), fullImg)
 
             allImgFullPath.clear()
-            temp.clear()
+            rowImg.clear()
 
-    # for row in range(printRow):
 
+    # Save new file to the path below 
+    saveToPathFullPage = "C:/personal-git/aresta-barcode/src/app/images/sign-done-full-page-merge"
+
+    rows=glob.glob("{}/nivelMax-{}-linha*".format(saveToPathRow,nivelMax))
+
+    totalRows = len(rows)
+    print("Total rows: {}".format(totalRows))
+
+    fullSheets = totalRows//printRow
+    print("Total Full Sheets: {}".format(fullSheets))
+
+    totalRowsInFullSheet = printRow*fullSheets
+    print("Total Rows In Full Sheet: {}".format(totalRowsInFullSheet))
+
+    leftOver = totalRows-totalRowsInFullSheet 
+    print("Left Over Rows: {}".format(leftOver))
+
+    blankRows = printRow-leftOver
+    print("Blank Rows: {}\n".format(blankRows))
+
+    for a in range(blankRows):
+        rows.append(blankRowPath)
+
+    for row in range(len(rows)):
+        print(rows[row])
+
+    sheetImg = []
+    allImgFullPath = []
+    newStartPoint = 0
+
+    print("Total in rows: ",len(rows))
+    rounds = int(len(rows)/printRow)
+    for i in range(rounds):
+        for j in range(printRow):
+            
+            individualRow = newStartPoint+j
+
+            # print(individualRow)
+            sheetImg.append(rows[individualRow])
+
+            # Creates image object
+            toImg = cv2.imread(rows[individualRow])
+
+            # Saves image object to list
+            allImgFullPath.append(toImg)
+
+        newStartPoint = individualRow+1
+
+        # Convers the list to array
+        allImgFullPath_array = np.array(allImgFullPath)
+
+        # Combines all the individual column images to one image
+        fullImg = cv2.vconcat(allImgFullPath_array)
+
+        pageCount = customeFunctions.addZero_twoDigits(i)
+        fileName = 'nivelMax-{}-pagina-{}'.format(nivelMax,pageCount)
+
+        # Save the file to path
+        cv2.imwrite("{}/{}.PNG".format(saveToPathFullPage,fileName), fullImg)        
+
+        print(sheetImg)
+
+        sheetImg.clear()
+        allImgFullPath.clear()
 
 # https://stackoverflow.com/questions/2225564/get-a-filtered-list-of-files-in-a-directory
 
