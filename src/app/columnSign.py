@@ -33,11 +33,6 @@ def getPad():
     pad = cv2.imread(path)
     return pad
 
-# def getBlankSign(index):
-#     path = "C:/personal-git/aresta-barcode/src/app/images/sign-blank-pad/blank-sign{}.PNG".format(index)
-#     blankSign = cv2.imread(path)
-#     return blankSign
-
 def getBlankSignPath(index):
     path = "C:/personal-git/aresta-barcode/src/app/images/sign-blank-pad/blank-sign{}.PNG".format(index)
     return path
@@ -193,28 +188,14 @@ def createAllRange(state, city, street, startColumn, levelMax, product, endColum
 
 
 
-
-
-
-
-
-
-
-
-
-# C:\personal-git\aresta-barcode\src\app\images\sign-done-single\1.01.01.001.PNG
-# 
-
 # ====== Merge ===============================
 
-#TODO: Name the file according to the city-rua-00
-def mergeSigns(perSheet, nivelMax, printRow, printColumn):
+def mergeSigns(nivelMax, printRow, printColumn):
 
-    # blankSign = getBlankSign(nivelMax)
+    perSheet = printRow*printColumn
+
     blankSignPath = getBlankSignPath(nivelMax)
     blankRowPath = getBlankSignRowPath(nivelMax)
-
-    print("============== Testing mergeSigns ==================")
 
     # Path to where all the individual images are
     path = 'C:/personal-git/aresta-barcode/src/app/images/sign-done-single'

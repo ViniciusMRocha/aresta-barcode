@@ -10,14 +10,29 @@ from barcode.writer import ImageWriter
 from os import listdir
 from os.path import isfile, join
 
+import glob
+
+
 #My Files
 import customeFunctions
 import barcodeGenerator
 import resize
 
+
+
+
+def getBlankColumnPath():
+    path = "C:/personal-git/aresta-barcode/src/app/images/column-blank-pad/column-sticker-blank.png"
+    return path
+
+def getBlankColumnRowPath():
+    path = "C:/personal-git/aresta-barcode/src/app/images/column-blank-pad/column-sticker-row-blank.png"
+    return path
+
 # =================================================
 # Get Images
 # =================================================
+
 
 # createAllRange
 def createAll(state, city, street, column, level, product):
@@ -142,57 +157,32 @@ def createAllRange(state, city, street, level, product, startColumn, endColumn):
 
 
 
-def merge(column,level):
+def merge(printRow, printColumn):
+
+    perSheet = printRow*printColumn
+
+    print("testing")
     # Path to where all the individual images are
     path = 'C:/personal-git/aresta-barcode/src/app/images/column-done-single/'
 
     # Save new file to the path below 
-    saveToPath = "C:/personal-git/aresta-barcode/src/app/images/column-done-merge"
+    saveToPathRow = "C:/personal-git/aresta-barcode/src/app/images/column-done-row-merge"
 
-    # Search for all the files in directory
-    columnStickerImg = [f for f in listdir(path) if isfile(join(path, f))]
-    # list for all the images full path
-    allImgFullPath = []
-    singleSheet = []
+    files=glob.glob("{}*".format(path))
 
-    # Add full path to each file
-    for i in range(len(columnStickerImg)):
-        # Merge the file name to the rest of the path
-        fullPath = path+columnStickerImg[i]
-        columnStickerImg[i] = fullPath
+    print("Per Sheet: {}".format(perSheet))
 
-    for i in range(len(columnStickerImg)):
-        if i%level == 0:
-            for j in range(level):
-                sign = i+j
-                singleSheet.append(columnStickerImg[sign])
-                # singleSheet.append(sign)
-                cityId = singleSheet[0][60:62]
-                streetId = singleSheet[0][63:65]
-                columnId = singleSheet[0][66:69]
-            print("Creating Cidade{}-Rua{}-Coluna{}".format(cityId,streetId,columnId))
-            print(singleSheet)
+    totalFiles = len(files)
+    print("Total files: {}".format(totalFiles))
 
-            for k in range(len(singleSheet)):
-                #Creates image object
-                toImg = cv2.imread(singleSheet[k])
-                # Saves image object to list
-                allImgFullPath.append(toImg)
+    fullSheets = totalFiles//perSheet
+    print("Full Sheets: {}".format(fullSheets))
 
-            # Convers the list to array
-            allImgFullPath_array = np.array(allImgFullPath)
+    totalFilesInFullSheet = perSheet*fullSheets
+    print("Total Files In Full Sheet: {}".format(totalFilesInFullSheet))
 
-            # Combines all the individual column images to one image
-            fullImg = cv2.vconcat(allImgFullPath_array)
+    leftOver = totalFiles-totalFilesInFullSheet 
+    print("Left Over: {}".format(leftOver))
 
-            # Save the file to path
-            cv2.imwrite("{}/{}.PNG".format(saveToPath,"Cidade{}-Rua{}-Coluna{}".format(cityId,streetId,columnId)), fullImg)
-            
-
-
-            allImgFullPath.clear()
-            singleSheet.clear()
-
-# column = 5
-# level = 8
-# merge(column,level)
+    blankFiles = perSheet-leftOver
+    print("Blank Files: {}".format(blankFiles))

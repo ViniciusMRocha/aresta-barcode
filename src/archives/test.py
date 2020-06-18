@@ -1,8 +1,12 @@
-import timeit
-def my_function():
-    y = 3.1415
-    for x in range(100):
-        y = y ** 0.7
-    return y
+import cv2
+import numpy as np
 
-print(timeit.timeit(my_function, number=10000))
+path = "C:/personal-git/aresta-barcode/src/app/images/column-blank-pad/column-sticker-row-blank.png"
+
+saveToPath = "C:/personal-git/aresta-barcode/src/app/images/column-blank-pad/"
+
+toImg = cv2.imread(path)
+
+img2 = cv2.hconcat([toImg,toImg])
+
+cv2.imwrite("{}long.png".format(saveToPath),img2)
