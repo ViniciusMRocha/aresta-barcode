@@ -144,19 +144,6 @@ def createAllRange(state, city, street, level, product, startColumn, endColumn):
 
 
 
-# ==================================================================
-
-# state = 1
-# city = 1
-# street = 3
-# column = 5 #Give Max Value
-# level = 8 #Give Max Value
-# product = 1
-
-# createAll(state, city, street, column, level, product)
-
-
-
 def merge(printRow, printColumn):
     
     perSheet = printRow*printColumn

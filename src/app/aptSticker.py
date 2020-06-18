@@ -10,6 +10,8 @@ from barcode.writer import ImageWriter
 from os import listdir
 from os.path import isfile, join
 
+import glob
+
 import barcodeGenerator
 import resize
 import customeFunctions
@@ -108,56 +110,148 @@ def createAll(state, city, street, column, level, product, apt, columnStart, col
                         createSingle(state, city, street, c, l, product, a)
 
 
+def getBlankColumnPath():
+    path = "C:/personal-git/aresta-barcode/src/app/images/apt-sticker-blank-pad/apt-sticker-blank.png"
+    return path
 
-# state = 1
-# city = 1
-# street = 1
-# column = 12 #Give Max Value
-# level = 2 #Give Max Value
-# product = 1
-# apt = 3
-# columnStart = 9
-# columnEnd = 57
-# evenOddAll = "even"
-# evenOddAll = "odd" 
-# evenOddAll = "all"
+def getBlankColumnRowPath():
+    path = "C:/personal-git/aresta-barcode/src/app/images/apt-sticker-blank-pad/apt-sticker-row-blank.png"
+    return path
 
-# createAll(state, city, street, column, level, product, apt, columnStart, columnEnd, evenOddAll)
+def merge(printRow, printColumn):
+    
+    perSheet = printRow*printColumn
 
-# columnStart = 9
-# columnEnd = 68
+    blankSingleColumnPath = getBlankColumnPath()
+    blankColumnRowPath = getBlankColumnRowPath()
+    
+    print("testing")
+    # Path to where all the individual images are
+    path = 'C:/personal-git/aresta-barcode/src/app/images/apt-sticker-done-single/'
+
+    # Save new file to the path below 
+    saveToPathRow = "C:/personal-git/aresta-barcode/src/app/images/apt-sticker-done-row-merge"
+
+    files=glob.glob("{}*".format(path))
+
+    print("Per Sheet: {}".format(perSheet))
+
+    totalFiles = len(files)
+    print("Total files: {}".format(totalFiles))
+
+    fullSheets = totalFiles//perSheet
+    print("Full Sheets: {}".format(fullSheets))
+
+    totalFilesInFullSheet = perSheet*fullSheets
+    print("Total Files In Full Sheet: {}".format(totalFilesInFullSheet))
+
+    leftOver = totalFiles-totalFilesInFullSheet 
+    print("Left Over: {}".format(leftOver))
+
+    if leftOver != 0:
+        blankFiles = perSheet-leftOver
+        print("Blank Files: {}".format(blankFiles))
+
+        for a in range(blankFiles):
+            files.append(blankSingleColumnPath)
+
+    allImgFullPath = []
+    rowImg = []
+    newStartPoint = 0
+    for i in range(len(files)):
+        if i%printColumn == 0:
+            for j in range(printColumn):
+                newStartPoint = j+i
+
+                # Append Path
+                rowImg.append(files[newStartPoint])
+
+                # Creates image object
+                toImg = cv2.imread(files[newStartPoint])
+
+                # Saves image object to list
+                allImgFullPath.append(toImg)
+
+            # print(rowImg)
+            newStartPoint = newStartPoint+1
+
+            # Convers the list to array
+            allImgFullPath_array = np.array(allImgFullPath)
+
+            # Combines all the individual column images to one image
+            fullImg = cv2.hconcat(allImgFullPath_array)
+
+            rowCount = customeFunctions.addZero_twoDigits(int(i/printColumn))
+            fileName = 'aptSticker-row-{}'.format(rowCount)
+
+            print("Generating File: {}".format(fileName))
+
+            # Save the file to path
+            cv2.imwrite("{}/{}.PNG".format(saveToPathRow,fileName), fullImg)
+
+            allImgFullPath.clear()
+            rowImg.clear()
 
 
-# def merge(column,level,apt):
-#     # Path to where all the individual images are
-#     path = 'C:/personal-git/aresta-barcode/src/app/images/apt-sticker-done-single/'
+    # Save new file to the path below 
+    saveToPathFullPage = "C:/personal-git/aresta-barcode/src/app/images/apt-sticker-done-full-page-merge"
 
-#     # Save new file to the path below 
-#     saveToPath = "C:/personal-git/aresta-barcode/src/app/images/apt-sticker-done-merge"
+    rows=glob.glob("{}/*".format(saveToPathRow))
 
-#     # Search for all the files in directory
-#     columnStickerImg = [f for f in listdir(path) if isfile(join(path, f))]
+    totalRows = len(rows)
+    print("Total rows: {}".format(totalRows))
 
-#     for i in range(len(columnStickerImg)):
-#         print(columnStickerImg[i])
+    fullSheets = totalRows//printRow
+    print("Total Full Sheets: {}".format(fullSheets))
 
-#     singleSheet = []
-#     for i in range(1,column+1):
-#         print("\nColumn: ",i)
-#         total = i/4
-#         totalNoRemainder = i//4
-#         check = total-totalNoRemainder
-#         if check == 0.25 or check == 0.5:
-#             print("Normal")
-#             #define start point
-#             for j in range(apt):
-#                 singleSheet.append(columnStickerImg[j])
-#                 print(singleSheet)
-#                 singleSheet.clear()              
-        
-#         elif check == 0.75 or check == 0.0:
-#             print("Inverted")
-#             for j in range(apt-1,-1,-1):
-#                 singleSheet.append(columnStickerImg[j])
-#                 print(singleSheet)
-#                 singleSheet.clear()
+    totalRowsInFullSheet = printRow*fullSheets
+    print("Total Rows In Full Sheet: {}".format(totalRowsInFullSheet))
+
+    leftOver = totalRows-totalRowsInFullSheet 
+    print("Left Over Rows: {}".format(leftOver))
+
+    if leftOver != 0:
+        blankRows = printRow-leftOver
+        print("Blank Rows: {}\n".format(blankRows))
+
+        for a in range(blankRows):
+            rows.append(blankColumnRowPath)
+
+    sheetImg = []
+    allImgFullPath = []
+    newStartPoint = 0
+
+    print("Total in rows: ",len(rows))
+    rounds = int(len(rows)/printRow)
+    for i in range(rounds):
+        for j in range(printRow):
+            
+            individualRow = newStartPoint+j
+
+            # print(individualRow)
+            sheetImg.append(rows[individualRow])
+            # sheetImg.append(individualRow)
+
+            # Creates image object
+            toImg = cv2.imread(rows[individualRow])
+
+            # Saves image object to list
+            allImgFullPath.append(toImg)
+
+        newStartPoint = individualRow+1
+
+        # Convers the list to array
+        allImgFullPath_array = np.array(allImgFullPath)
+
+        # Combines all the individual column images to one image
+        fullImg = cv2.vconcat(allImgFullPath_array)
+
+        pageCount = customeFunctions.addZero_twoDigits(i)
+        fileName = 'apt-pagina-{}'.format(pageCount)
+
+        print("Generating File: {}".format(fileName))
+        # Save the file to path
+        cv2.imwrite("{}/{}.PNG".format(saveToPathFullPage,fileName), fullImg)        
+
+        sheetImg.clear()
+        allImgFullPath.clear()

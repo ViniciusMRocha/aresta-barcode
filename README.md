@@ -6,10 +6,10 @@
 4. (Done) Generate stikers for the inventario
 5. (Done) fix parameter intake to account for offset of max numbers (column and level mainly)
 6. (Done) create ps1 jobs to clear all image files for reruns and for future runs
-7. fix merge files functions following messurements
+7. (Done) fix merge files functions following messurements
 8. (Done) resize all files files for printing
 9. (Done) create PS1 job to zip all files for sharing
-10. Remove column sticker for apts
+10. (Done) Remove column sticker for apts
 11. Create documentation
 
 Barcode Reader

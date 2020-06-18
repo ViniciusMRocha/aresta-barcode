@@ -1,60 +1,96 @@
 # All Paths Variables
-$aptStickerDoneMerge = "C:\personal-git\aresta-barcode\src\app\images\apt-sticker-done-merge"
+$barcodeLibrary = "C:\personal-git\aresta-barcode\src\app\images\barcode-library"
+
 $aptStickerDoneSingle = "C:\personal-git\aresta-barcode\src\app\images\apt-sticker-done-single"
+$aptStickerDoneRowMerge = "C:\personal-git\aresta-barcode\src\app\images\apt-sticker-done-row-merge"
+$aptStickerDoneFullPageMerge = "C:\personal-git\aresta-barcode\src\app\images\apt-sticker-done-full-page-merge"
 
-$columnDoneMerge = "C:\personal-git\aresta-barcode\src\app\images\column-done-merge"
 $columnDoneSingle = "C:\personal-git\aresta-barcode\src\app\images\column-done-single"
+$columnDoneRowMerge = "C:\personal-git\aresta-barcode\src\app\images\column-done-row-merge"
+$columnDoneFullPageMerge = "C:\personal-git\aresta-barcode\src\app\images\column-done-full-page-merge"
 
-$signDoneMerge = "C:\personal-git\aresta-barcode\src\app\images\sign-done-merge"
 $signDoneSingle = "C:\personal-git\aresta-barcode\src\app\images\sign-done-single"
 $signDoneRowMerge = "C:\personal-git\aresta-barcode\src\app\images\sign-done-row-merge"
 $signDoneFullPageMerge = "C:\personal-git\aresta-barcode\src\app\images\sign-done-full-page-merge"
 
 # Temp Name
-$new_aptStickerDoneMerge = "C:\personal-git\aresta-barcode\src\app\images\apt-grupo"
+$new_barcodeLibrary = "C:\personal-git\aresta-barcode\src\app\images\codigos-de-barra-individual"
+
 $new_aptStickerDoneSingle = "C:\personal-git\aresta-barcode\src\app\images\apt-individual"
+$new_aptStickerDoneRowMerge = "C:\personal-git\aresta-barcode\src\app\images\apt-linhas"
+$new_aptStickerDoneFullPageMerge = "C:\personal-git\aresta-barcode\src\app\images\apt-pagina-completa"
 
-$new_columnDoneMerge = "C:\personal-git\aresta-barcode\src\app\images\estanteria-grupo"
 $new_columnDoneSingle = "C:\personal-git\aresta-barcode\src\app\images\estanteria-individual"
+$new_columnDoneRowMerge = "C:\personal-git\aresta-barcode\src\app\images\estanteria-linhas"
+$new_columnDoneFullPageMerge = "C:\personal-git\aresta-barcode\src\app\images\column-pagina-completa"
 
-$new_signDoneMerge = "C:\personal-git\aresta-barcode\src\app\images\placas-grupo"
 $new_signDoneSingle = "C:\personal-git\aresta-barcode\src\app\images\placas-individual"
-$new_signDoneRowMerge = "C:\personal-git\aresta-barcode\src\app\images\placas-juntas-por-linha"
-$new_signDoneFullPageMerge = "C:\personal-git\aresta-barcode\src\app\images\placas-para-imprimir"
+$new_signDoneRowMerge = "C:\personal-git\aresta-barcode\src\app\images\placas-linhas"
+$new_signDoneFullPageMerge = "C:\personal-git\aresta-barcode\src\app\images\placas-pagina-completa"
+
 
 #Save to Path
 $saveTo = "C:\Users\vinir\OneDrive\Desktop\aresta-share\AllFiles-TLS.Zip"
 
 #Rename files for distribution
-Rename-Item -Path $aptStickerDoneMerge -NewName $new_aptStickerDoneMerge
+# Barcode
+Rename-Item -Path $barcodeLibrary -NewName $new_barcodeLibrary
+# Apt
 Rename-Item -Path $aptStickerDoneSingle -NewName $new_aptStickerDoneSingle
-
-Rename-Item -Path $columnDoneMerge -NewName $new_columnDoneMerge
+Rename-Item -Path $aptStickerDoneRowMerge -NewName $new_aptStickerDoneRowMerge
+Rename-Item -Path $aptStickerDoneFullPageMerge -NewName $new_aptStickerDoneFullPageMerge
+# Column
 Rename-Item -Path $columnDoneSingle -NewName $new_columnDoneSingle
-
-Rename-Item -Path $signDoneMerge -NewName $new_signDoneMerge
+Rename-Item -Path $columnDoneRowMerge -NewName $new_columnDoneRowMerge
+Rename-Item -Path $columnDoneFullPageMerge -NewName $new_columnDoneFullPageMerge
+# Sign
 Rename-Item -Path $signDoneSingle -NewName $new_signDoneSingle
-Rename-Item -Path $signDoneMerge -NewName $new_signDoneRowMerge
-Rename-Item -Path $signDoneSingle -NewName $new_signDoneFullPageMerge
+Rename-Item -Path $signDoneRowMerge -NewName $new_signDoneRowMerge
+Rename-Item -Path $signDoneFullPageMerge -NewName $new_signDoneFullPageMerge
 
 #Compress files
 $compress = @{
-    Path             = $new_aptStickerDoneMerge, $new_aptStickerDoneSingle, $new_columnDoneMerge, $new_columnDoneSingle, $new_signDoneMerge, $new_signDoneSingle, $new_signDoneRowMerge, $new_signDoneFullPageMerge
+    Path             = $new_barcodeLibrary, $new_aptStickerDoneSingle, $new_aptStickerDoneRowMerge, $new_aptStickerDoneFullPageMerge, $new_columnDoneSingle, $new_columnDoneRowMerge, $new_columnDoneFullPageMerge, $new_signDoneSingle, $new_signDoneRowMerge, $new_signDoneFullPageMerge
     CompressionLevel = "Fastest"
     DestinationPath  = $saveTo
 }
 
 Compress-Archive @compress
 
-
 # Bring the name back to original
-Rename-Item -Path $new_aptStickerDoneMerge -NewName $aptStickerDoneMerge
+
+# Barcode
+Rename-Item -Path $new_barcodeLibrary -NewName $barcodeLibrary
+# Apt
 Rename-Item -Path $new_aptStickerDoneSingle -NewName $aptStickerDoneSingle
-Rename-Item -Path $new_columnDoneMerge -NewName $columnDoneMerge
+Rename-Item -Path $new_aptStickerDoneRowMerge -NewName $aptStickerDoneRowMerge
+Rename-Item -Path $new_aptStickerDoneFullPageMerge -NewName $aptStickerDoneFullPageMerge
+# Column
 Rename-Item -Path $new_columnDoneSingle -NewName $columnDoneSingle
-Rename-Item -Path $new_signDoneMerge -NewName $signDoneMerge
+Rename-Item -Path $new_columnDoneRowMerge -NewName $columnDoneRowMerge
+Rename-Item -Path $new_columnDoneFullPageMerge -NewName $columnDoneFullPageMerge
+# Sign
 Rename-Item -Path $new_signDoneSingle -NewName $signDoneSingle
-Rename-Item -Path $new_signDoneRowMerge -NewName $signDoneMerge
-Rename-Item -Path $new_signDoneFullPageMerge -NewName $signDoneSingle
+Rename-Item -Path $new_signDoneRowMerge -NewName $signDoneRowMerge
+Rename-Item -Path $new_signDoneFullPageMerge -NewName $signDoneFullPageMerge
 
 Write-Output "Compress Done"
+
+
+
+apt-individual
+apt-linhas
+apt-pagina-completa
+estanteria-individual
+estanteria-linhas
+column-pagina-completa
+placas-individual
+placas-linhas
+placas-pagina-completa
+
+
+
+
+
+
+
