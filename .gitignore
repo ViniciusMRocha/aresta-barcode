@@ -1,5 +1,13 @@
 
-images/
+src/app/images/apt-sticker-done-single/
+src/app/images/apt-sticker-done-merge/
+src/app/images/barcode-library/
+src/app/images/column-done-single/
+src/app/images/column-done-merge/
+src/app/images/sign-done-full-page-merge/
+src/app/images/sign-done-row-merge/
+src/app/images/sign-done-single/
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
