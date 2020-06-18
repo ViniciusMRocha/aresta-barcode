@@ -9,7 +9,8 @@
 7. fix merge files functions following messurements
 8. (Done) resize all files files for printing
 9. (Done) create PS1 job to zip all files for sharing
-10. Create documentation
+10. Remove column sticker for apts
+11. Create documentation
 
 Barcode Reader
 pctop - LCB2DPR

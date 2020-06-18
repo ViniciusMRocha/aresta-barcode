@@ -17,9 +17,7 @@ import deleteExtras
 
 printRow = 40
 printColumn = 10
-
 columnSticker.merge(printRow, printColumn)
-
 
 '''
 # =========== RUA 1 ==================================================
@@ -173,6 +171,18 @@ columnSign.createAllRange(state, city, street, startColumn, level, product, endC
 # columnSticker.createAllRange(state, city, street, level, product, startColumn, endColumn)
 
 startColumn = 12
+endColumn = 14
+level = 12
+columnSign.createAllRange(state, city, street, startColumn, level, product, endColumn)
+# columnSticker.createAllRange(state, city, street, level, product, startColumn, endColumn)
+
+startColumn = 15
+endColumn = 24
+level = 8
+columnSign.createAllRange(state, city, street, startColumn, level, product, endColumn)
+# columnSticker.createAllRange(state, city, street, level, product, startColumn, endColumn)
+
+startColumn = 25
 endColumn = 31
 level = 12
 columnSign.createAllRange(state, city, street, startColumn, level, product, endColumn)
@@ -183,7 +193,6 @@ endColumn = 40
 level = 8
 columnSign.createAllRange(state, city, street, startColumn, level, product, endColumn)
 # columnSticker.createAllRange(state, city, street, level, product, startColumn, endColumn)
-
 
 # =========== LEVEL 8 ==================================================
 nivelMax = 8
@@ -204,6 +213,11 @@ nivelMax = 12
 printRow = 3
 printColumn = 15 
 columnSign.mergeSigns(nivelMax, printRow, printColumn)
+
+# =========== ALL column stickers ==================================================
+printRow = 40
+printColumn = 10
+columnSticker.merge(printRow, printColumn)
 
 '''
 

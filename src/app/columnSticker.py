@@ -158,9 +158,12 @@ def createAllRange(state, city, street, level, product, startColumn, endColumn):
 
 
 def merge(printRow, printColumn):
-
+    
     perSheet = printRow*printColumn
 
+    blankSingleColumnPath = getBlankColumnPath()
+    blankColumnRowPath = getBlankColumnRowPath()
+    
     print("testing")
     # Path to where all the individual images are
     path = 'C:/personal-git/aresta-barcode/src/app/images/column-done-single/'
@@ -184,5 +187,110 @@ def merge(printRow, printColumn):
     leftOver = totalFiles-totalFilesInFullSheet 
     print("Left Over: {}".format(leftOver))
 
-    blankFiles = perSheet-leftOver
-    print("Blank Files: {}".format(blankFiles))
+    if leftOver != 0:
+        blankFiles = perSheet-leftOver
+        print("Blank Files: {}".format(blankFiles))
+
+        for a in range(blankFiles):
+            files.append(blankSingleColumnPath)
+
+    allImgFullPath = []
+    rowImg = []
+    newStartPoint = 0
+    for i in range(len(files)):
+        if i%printColumn == 0:
+            for j in range(printColumn):
+                newStartPoint = j+i
+
+                # Append Path
+                rowImg.append(files[newStartPoint])
+
+                # Creates image object
+                toImg = cv2.imread(files[newStartPoint])
+
+                # Saves image object to list
+                allImgFullPath.append(toImg)
+
+            # print(rowImg)
+            newStartPoint = newStartPoint+1
+
+            # Convers the list to array
+            allImgFullPath_array = np.array(allImgFullPath)
+
+            # Combines all the individual column images to one image
+            fullImg = cv2.hconcat(allImgFullPath_array)
+
+            rowCount = customeFunctions.addZero_twoDigits(int(i/printColumn))
+            fileName = 'columSticker-row-{}'.format(rowCount)
+
+            print("Generating File: {}".format(fileName))
+
+            # Save the file to path
+            cv2.imwrite("{}/{}.PNG".format(saveToPathRow,fileName), fullImg)
+
+            allImgFullPath.clear()
+            rowImg.clear()
+
+
+    # Save new file to the path below 
+    saveToPathFullPage = "C:/personal-git/aresta-barcode/src/app/images/column-done-full-page-merge"
+
+    rows=glob.glob("{}/*".format(saveToPathRow))
+
+    totalRows = len(rows)
+    print("Total rows: {}".format(totalRows))
+
+    fullSheets = totalRows//printRow
+    print("Total Full Sheets: {}".format(fullSheets))
+
+    totalRowsInFullSheet = printRow*fullSheets
+    print("Total Rows In Full Sheet: {}".format(totalRowsInFullSheet))
+
+    leftOver = totalRows-totalRowsInFullSheet 
+    print("Left Over Rows: {}".format(leftOver))
+
+    if leftOver != 0:
+        blankRows = printRow-leftOver
+        print("Blank Rows: {}\n".format(blankRows))
+
+        for a in range(blankRows):
+            rows.append(blankColumnRowPath)
+
+    sheetImg = []
+    allImgFullPath = []
+    newStartPoint = 0
+
+    print("Total in rows: ",len(rows))
+    rounds = int(len(rows)/printRow)
+    for i in range(rounds):
+        for j in range(printRow):
+            
+            individualRow = newStartPoint+j
+
+            # print(individualRow)
+            sheetImg.append(rows[individualRow])
+            # sheetImg.append(individualRow)
+
+            # Creates image object
+            toImg = cv2.imread(rows[individualRow])
+
+            # Saves image object to list
+            allImgFullPath.append(toImg)
+
+        newStartPoint = individualRow+1
+
+        # Convers the list to array
+        allImgFullPath_array = np.array(allImgFullPath)
+
+        # Combines all the individual column images to one image
+        fullImg = cv2.vconcat(allImgFullPath_array)
+
+        pageCount = customeFunctions.addZero_twoDigits(i)
+        fileName = 'pallet-pagina-{}'.format(pageCount)
+
+        print("Generating File: {}".format(fileName))
+        # Save the file to path
+        cv2.imwrite("{}/{}.PNG".format(saveToPathFullPage,fileName), fullImg)        
+
+        sheetImg.clear()
+        allImgFullPath.clear()

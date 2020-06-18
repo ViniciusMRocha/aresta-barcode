@@ -220,12 +220,12 @@ def mergeSigns(nivelMax, printRow, printColumn):
     leftOver = totalFiles-totalFilesInFullSheet 
     print("Left Over: {}".format(leftOver))
 
-    blankFiles = perSheet-leftOver
-    print("Blank Files: {}".format(blankFiles))
+    if leftOver != 0:
+        blankFiles = perSheet-leftOver
+        print("Blank Files: {}".format(blankFiles))
 
-    # Why 54?
-    for i in range(blankFiles):
-        files.append(blankSignPath)
+        for i in range(blankFiles):
+            files.append(blankSignPath)
     
     # list for all the images full path
     allImgFullPath = []
@@ -259,6 +259,8 @@ def mergeSigns(nivelMax, printRow, printColumn):
             pageCount = customeFunctions.addZero_twoDigits(int(i/printColumn))
             fileName = 'nivelMax-{}-linha-{}'.format(nivelMax,pageCount)
 
+            print("Generating File: {}".format(fileName))
+
             # Save the file to path
             cv2.imwrite("{}/{}.PNG".format(saveToPathRow,fileName), fullImg)
 
@@ -283,14 +285,12 @@ def mergeSigns(nivelMax, printRow, printColumn):
     leftOver = totalRows-totalRowsInFullSheet 
     print("Left Over Rows: {}".format(leftOver))
 
-    blankRows = printRow-leftOver
-    print("Blank Rows: {}\n".format(blankRows))
+    if leftOver != 0:
+        blankRows = printRow-leftOver
+        print("Blank Rows: {}\n".format(blankRows))
 
-    for a in range(blankRows):
-        rows.append(blankRowPath)
-
-    for row in range(len(rows)):
-        print(rows[row])
+        for a in range(blankRows):
+            rows.append(blankRowPath)
 
     sheetImg = []
     allImgFullPath = []
@@ -323,10 +323,9 @@ def mergeSigns(nivelMax, printRow, printColumn):
         pageCount = customeFunctions.addZero_twoDigits(i)
         fileName = 'nivelMax-{}-pagina-{}'.format(nivelMax,pageCount)
 
+        print("Generating File: {}".format(fileName))
         # Save the file to path
         cv2.imwrite("{}/{}.PNG".format(saveToPathFullPage,fileName), fullImg)        
-
-        print(sheetImg)
 
         sheetImg.clear()
         allImgFullPath.clear()
