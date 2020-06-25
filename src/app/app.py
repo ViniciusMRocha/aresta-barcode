@@ -24,7 +24,7 @@ product = 1
 columnSign.createAll(state, city, street, column, level, product)
 columnSticker.createAll(state, city, street, column, level, product)
 
-
+'''
 # =========== RUA 2 ==================================================
 state = 1
 city = 1
@@ -211,7 +211,6 @@ printRow = 3
 printColumn = 15 
 columnSign.mergeSigns(nivelMax, printRow, printColumn)
 
-
 # =========== ALL COLUMN STICKERS ==================================================
 printRow = 40
 printColumn = 10
@@ -222,3 +221,4 @@ columnSticker.merge(printRow, printColumn)
 printRow = 40
 printColumn = 10
 aptSticker.merge(printRow, printColumn)
+'''
