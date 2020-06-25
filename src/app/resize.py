@@ -2,15 +2,12 @@ from PIL import Image
 import os
 from resizeimage import resizeimage
 
-def singleFileResize(fileName,width,height):
-    sample = ""
-    return sample
 
-# def singleFileResize(fileName,width,height):
-#     with open(fileName, 'r+b') as f:
-#             with Image.open(f) as image:
-#                 cover = resizeimage.resize_cover(image, [width, height])
-#                 cover.save(fileName, image.format)
+def singleFileResize(fileName,width,height):
+    with open(fileName, 'r+b') as f:
+            with Image.open(f) as image:
+                cover = resizeimage.resize_cover(image, [width, height])
+                cover.save(fileName, image.format)
 
 '''
 # ====== APT ==========================================

@@ -219,68 +219,66 @@ def merge(printRow, printColumn):
             allImgFullPath.clear()
             rowImg.clear()
 
-    def mergeRow():
-        # Save new file to the path below 
-        saveToPathFullPage = "C:/personal-git/aresta-barcode/src/app/images/column-done-full-page-merge"
 
-        rows=glob.glob("{}/*".format(saveToPathRow))
+    # Save new file to the path below 
+    saveToPathFullPage = "C:/personal-git/aresta-barcode/src/app/images/column-done-full-page-merge"
 
-        totalRows = len(rows)
-        print("Total rows: {}".format(totalRows))
+    rows=glob.glob("{}/*".format(saveToPathRow))
 
-        fullSheets = totalRows//printRow
-        print("Total Full Sheets: {}".format(fullSheets))
+    totalRows = len(rows)
+    print("Total rows: {}".format(totalRows))
 
-        totalRowsInFullSheet = printRow*fullSheets
-        print("Total Rows In Full Sheet: {}".format(totalRowsInFullSheet))
+    fullSheets = totalRows//printRow
+    print("Total Full Sheets: {}".format(fullSheets))
 
-        leftOver = totalRows-totalRowsInFullSheet 
-        print("Left Over Rows: {}".format(leftOver))
+    totalRowsInFullSheet = printRow*fullSheets
+    print("Total Rows In Full Sheet: {}".format(totalRowsInFullSheet))
 
-        if leftOver != 0:
-            blankRows = printRow-leftOver
-            print("Blank Rows: {}\n".format(blankRows))
+    leftOver = totalRows-totalRowsInFullSheet 
+    print("Left Over Rows: {}".format(leftOver))
 
-            for a in range(blankRows):
-                rows.append(blankColumnRowPath)
+    if leftOver != 0:
+        blankRows = printRow-leftOver
+        print("Blank Rows: {}\n".format(blankRows))
 
-        sheetImg = []
-        allImgFullPath = []
-        newStartPoint = 0
+        for a in range(blankRows):
+            rows.append(blankColumnRowPath)
 
-        print("Total in rows: ",len(rows))
-        rounds = int(len(rows)/printRow)
-        for i in range(rounds):
-            for j in range(printRow):
-                
-                individualRow = newStartPoint+j
+    sheetImg = []
+    allImgFullPath = []
+    newStartPoint = 0
 
-                # print(individualRow)
-                sheetImg.append(rows[individualRow])
-                # sheetImg.append(individualRow)
+    print("Total in rows: ",len(rows))
+    rounds = int(len(rows)/printRow)
+    for i in range(rounds):
+        for j in range(printRow):
+            
+            individualRow = newStartPoint+j
 
-                # Creates image object
-                toImg = cv2.imread(rows[individualRow])
+            # print(individualRow)
+            sheetImg.append(rows[individualRow])
+            # sheetImg.append(individualRow)
 
-                # Saves image object to list
-                allImgFullPath.append(toImg)
+            # Creates image object
+            toImg = cv2.imread(rows[individualRow])
 
-            newStartPoint = individualRow+1
+            # Saves image object to list
+            allImgFullPath.append(toImg)
 
-            # Convers the list to array
-            allImgFullPath_array = np.array(allImgFullPath)
+        newStartPoint = individualRow+1
 
-            # Combines all the individual column images to one image
-            fullImg = cv2.vconcat(allImgFullPath_array)
+        # Convers the list to array
+        allImgFullPath_array = np.array(allImgFullPath)
 
-            pageCount = customeFunctions.addZero_twoDigits(i)
-            fileName = 'pallet-pagina-{}'.format(pageCount)
+        # Combines all the individual column images to one image
+        fullImg = cv2.vconcat(allImgFullPath_array)
 
-            print("Generating File: {}".format(fileName))
-            # Save the file to path
-            cv2.imwrite("{}/{}.PNG".format(saveToPathFullPage,fileName), fullImg)        
+        pageCount = customeFunctions.addZero_twoDigits(i)
+        fileName = 'pallet-pagina-{}'.format(pageCount)
 
-            sheetImg.clear()
-            allImgFullPath.clear()
+        print("Generating File: {}".format(fileName))
+        # Save the file to path
+        cv2.imwrite("{}/{}.PNG".format(saveToPathFullPage,fileName), fullImg)        
 
-    # mergeRow()
+        sheetImg.clear()
+        allImgFullPath.clear()
