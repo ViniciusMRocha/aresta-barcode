@@ -17,28 +17,34 @@ import customeFunctions
 import barcodeGenerator
 import resize
 
+imagePath = "C:/personal-git/aresta-barcode/src/app/images/"
+
 # Returns the single digit image for the header
 def getDigit(digit):
-    path ="C:/personal-git/aresta-barcode/src/app/images/sign-header-single-digits/digit{}.PNG".format(digit)
+    path ="{}sign-header-single-digits/digit{}.PNG".format(imagePath,digit)
     digitImg = cv2.imread(path)
     return digitImg
 
+# Returns the label for each level
 def getLabel(index):
-    path ="C:/personal-git/aresta-barcode/src/app/images/sign-barcode-header/label-{}.PNG".format(index)
+    path ="{}sign-barcode-header/label-{}.PNG".format(imagePath,index)
     label = cv2.imread(path)
     return label
 
+# Returns the padding
 def getPad():
-    path = "C:/personal-git/aresta-barcode/src/app/images/sign-barcode-header-pad/pad.PNG"
+    path = "{}sign-barcode-header-pad/pad.PNG".format(imagePath)
     pad = cv2.imread(path)
     return pad
 
+# Returns single blank sign
 def getBlankSignPath(index):
-    path = "C:/personal-git/aresta-barcode/src/app/images/sign-blank-pad/blank-sign{}.PNG".format(index)
+    path = "{}sign-blank-pad/blank-sign{}.PNG".format(imagePath,index)
     return path
 
+# Returns row of blank sign
 def getBlankSignRowPath(index):
-    path = "C:/personal-git/aresta-barcode/src/app/images/sign-blank-pad/blank-sign-row{}.PNG".format(index)
+    path = "{}sign-blank-pad/blank-sign-row{}.PNG".format(imagePath,index)
     return path
 
 # Generates the correct arrow given the column number
@@ -52,10 +58,10 @@ def getArrow(column):
     # TODO: Arrows are wrong
     if check == 0.0 or check == 0.75:
         # Arrow 1 - 2: >>> 
-        arrow = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/sign-header-arrow/right-arrow.PNG")
+        arrow = cv2.imread("{}sign-header-arrow/right-arrow.PNG".format(imagePath))
     elif check == 0.25 or check == 0.5:
         # Arrow 3 - 4: <<<
-        arrow = cv2.imread("C:/personal-git/aresta-barcode/src/app/images/sign-header-arrow/left-arrow.PNG")
+        arrow = cv2.imread("{}sign-header-arrow/left-arrow.PNG".format(imagePath))
     return arrow
 
 # Generates the column label, buy taking a column number and generating a image from the digit images
@@ -98,7 +104,7 @@ def createAll(state, city, street, column, levelMax, product):
             barcodeNumber = ('{}.{}.{}.{}.{}.{}').format(state, city, street, columnThreeDigits, level, product)
             print("Barcode Number: "+barcodeNumber)
             barcodeGenerator.generateSingleBarcode(barcodeNumber)
-            barcodeImgPath = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/{}.{}.{}.{}.{}.{}.png".format(state, city, street, columnThreeDigits, level, product)
+            barcodeImgPath = "{}barcode-library/{}.{}.{}.{}.{}.{}.png".format(imagePath,state, city, street, columnThreeDigits, level, product)
             allBarcodesPath.append(barcodeImgPath)
 
         # Generates the a single column image
@@ -132,7 +138,7 @@ def createColumnImage(state, city, street, column, level, allBarcodesPath, check
     columnThreeDigits = customeFunctions.addZero_threeDigits(column)
     cityTwoDigits = customeFunctions.addZero_twoDigits(city)
 
-    fileName = ("C:/personal-git/aresta-barcode/src/app/images/sign-done-single/{}.{}.{}.{}.nivelMax-{}.PNG".format(state, cityTwoDigits, street, columnThreeDigits,check))
+    fileName = ("{}sign-done-single/{}.{}.{}.{}.nivelMax-{}.PNG".format(imagePath, state, cityTwoDigits, street, columnThreeDigits,check))
 
     cv2.imwrite(fileName, fullImg)
 
@@ -164,6 +170,7 @@ def createAllRange(state, city, street, startColumn, levelMax, product, endColum
     product = customeFunctions.addZero_twoDigits(product)
     allBarcodesPath = []
 
+    barcodeTotalCount = 0
     for column in range(startColumn, endColumn+1):
         columnThreeDigits = customeFunctions.addZero_threeDigits(column)
         for level in range(1, levelMax+1):
@@ -173,15 +180,16 @@ def createAllRange(state, city, street, startColumn, levelMax, product, endColum
             barcodeNumber = ('{}.{}.{}.{}.{}.{}').format(state, city, street, columnThreeDigits, level, product)
             print("Barcode Number: "+barcodeNumber)
             barcodeGenerator.generateSingleBarcode(barcodeNumber)
-            barcodeImgPath = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/{}.{}.{}.{}.{}.{}.png".format(state, city, street, columnThreeDigits, level, product)
+            barcodeImgPath = "{}barcode-library/{}.{}.{}.{}.{}.{}.png".format(imagePath, state, city, street, columnThreeDigits, level, product)
             allBarcodesPath.append(barcodeImgPath)
+            barcodeTotalCount = barcodeTotalCount+1
 
         # Generates the a single column image
         createColumnImage(state, city, street, column, level, allBarcodesPath, check)
 
         # Clear list for next iteration
         allBarcodesPath.clear()
-
+        print("Barcode Total Count: {}".format(barcodeTotalCount)
 
 
 
@@ -198,10 +206,10 @@ def mergeSigns(nivelMax, printRow, printColumn):
     blankRowPath = getBlankSignRowPath(nivelMax)
 
     # Path to where all the individual images are
-    path = 'C:/personal-git/aresta-barcode/src/app/images/sign-done-single'
+    path = "{}sign-done-single".format(imagePath)
 
     # Save new file to the path below 
-    saveToPathRow = "C:/personal-git/aresta-barcode/src/app/images/sign-done-row-merge"
+    saveToPathRow = "{}sign-done-row-merge".format(imagePath)
 
     # Gets all files according to pattern
     files=glob.glob("{}/*nivelMax-{}*".format(path,nivelMax))
@@ -269,7 +277,7 @@ def mergeSigns(nivelMax, printRow, printColumn):
 
 
     # Save new file to the path below 
-    saveToPathFullPage = "C:/personal-git/aresta-barcode/src/app/images/sign-done-full-page-merge"
+    saveToPathFullPage = "{}sign-done-full-page-merge".format(imagePath)
 
     rows=glob.glob("{}/nivelMax-{}-linha*".format(saveToPathRow,nivelMax))
 

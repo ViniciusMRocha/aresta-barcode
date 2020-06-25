@@ -10,7 +10,8 @@
 8. (Done) resize all files files for printing
 9. (Done) create PS1 job to zip all files for sharing
 10. (Done) Remove column sticker for apts
-11. Create documentation
+11. Check if resize on columnSign.py line 145 on is turned on or not
+12. Create documentation
 
 Barcode Reader
 pctop - LCB2DPR
