@@ -62,12 +62,28 @@ def mergeSign(state, city, street, level, printRow, printColumn):
     totalFilesInFullSheet = perSheet*fullSheets
     print("Total Files In Full Sheet: {}".format(totalFilesInFullSheet))
 
-    leftOver = totalFiles-totalFilesInFullSheet 
+    leftOver = totalFiles-totalFilesInFullSheet
     print("Left Over: {}".format(leftOver))
 
+
+
     if leftOver != 0:
+
+        # All blank spaces to end of print sheet
         blankFiles = perSheet-leftOver
+
+        # Total of blank rows
+        blankRow = blankFiles // printColumn
+
+        # unit count of total blank signs
+        blankRow = blankRow * printColumn
+
+        # Total blank files to fill out the last line
+        blankFiles = blankFiles-blankRow
+
+
         print("Blank Files: {}".format(blankFiles))
+
 
         for i in range(blankFiles):
             files.append(blankSignPath)
