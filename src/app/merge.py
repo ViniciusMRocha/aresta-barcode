@@ -23,14 +23,15 @@ import resize
 imagesPath = "C:/personal-git/aresta-barcode/src/app/images/"
 
 
-def getBlankSignPath(index):
-    path = "{}sign_blank_pad/blank-sign{}.PNG".format(imagesPath, index)
-    return path
 
 # ====== Merge ===============================
 
 def mergeSign(state, city, street, level, printRow, printColumn):
 
+    def getBlankSignPath(index):
+        path = "{}sign_blank_pad/blank-sign{}.PNG".format(imagesPath, index)
+        return path
+    
     # Got the steet to search the directory
     city = customeFunctions.addZero_twoDigits(city)
     street = customeFunctions.addZero_twoDigits(street)
@@ -68,22 +69,16 @@ def mergeSign(state, city, street, level, printRow, printColumn):
 
 
     if leftOver != 0:
-
         # All blank spaces to end of print sheet
         blankFiles = perSheet-leftOver
-
         # Total of blank rows
         blankRow = blankFiles // printColumn
-
         # unit count of total blank signs
         blankRow = blankRow * printColumn
-
         # Total blank files to fill out the last line
         blankFiles = blankFiles-blankRow
 
-
         print("Blank Files: {}".format(blankFiles))
-
 
         for i in range(blankFiles):
             files.append(blankSignPath)
@@ -128,3 +123,223 @@ def mergeSign(state, city, street, level, printRow, printColumn):
 
             allImgFullPath.clear()
             rowImg.clear()
+            
+
+def mergeColumn(state, city, street, printRow, printColumn):
+
+    city = customeFunctions.addZero_twoDigits(city)
+    street = customeFunctions.addZero_twoDigits(street)
+
+    def getBlankColumnPath():
+        path = "{}column_blank_pad/column-sticker-blank.png".format(imagesPath)
+        return path
+
+    perSheet = printRow*printColumn
+
+    blankSingleColumnPath = getBlankColumnPath()
+    
+    # Path to where all the individual images are
+    path = '{}column_done_single/'.format(imagesPath)
+
+    # Save new file to the path below 
+    saveToPathRow = "{}column_done_row_merge".format(imagesPath)
+
+    files = glob.glob("{}/inv-{}.{}.{}*".format(path, state, city, street))
+
+    print("Per Sheet: {}".format(perSheet))
+
+    totalFiles = len(files)
+    print("Total files: {}".format(totalFiles))
+
+    fullSheets = totalFiles//perSheet
+    print("Full Sheets: {}".format(fullSheets))
+
+    totalFilesInFullSheet = perSheet*fullSheets
+    print("Total Files In Full Sheet: {}".format(totalFilesInFullSheet))
+
+    leftOver = totalFiles-totalFilesInFullSheet 
+    print("Left Over: {}".format(leftOver))
+
+    if leftOver != 0:
+        # All blank spaces to end of print sheet
+        blankFiles = perSheet-leftOver
+        # Total of blank rows
+        blankRow = blankFiles // printColumn
+        # unit count of total blank signs
+        blankRow = blankRow * printColumn
+        # Total blank files to fill out the last line
+        blankFiles = blankFiles-blankRow
+
+        print("Blank Files: {}".format(blankFiles))
+
+        for i in range(blankFiles):
+            files.append(blankSingleColumnPath)
+ 
+
+    allImgFullPath = []
+    rowImg = []
+    newStartPoint = 0
+    for i in range(len(files)):
+        if i%printColumn == 0:
+            for j in range(printColumn):
+                newStartPoint = j+i
+
+                # Append Path
+                rowImg.append(files[newStartPoint])
+
+                # Creates image object
+                toImg = cv2.imread(files[newStartPoint])
+
+                # Saves image object to list
+                allImgFullPath.append(toImg)
+
+            # print(rowImg)
+            newStartPoint = newStartPoint+1
+
+            # Convers the list to array
+            allImgFullPath_array = np.array(allImgFullPath)
+
+            # Combines all the individual column images to one image
+            fullImg = cv2.hconcat(allImgFullPath_array)
+
+            rowCount = customeFunctions.addZero_twoDigits(int(i/printColumn))
+            fileName = 'adesivo_inventario_rua{}_linha{}'.format(street, rowCount)
+
+            print("Generating File: {}".format(fileName))
+
+            # Save the file to path
+            cv2.imwrite("{}/{}.PNG".format(saveToPathRow,fileName), fullImg)
+
+            allImgFullPath.clear()
+            rowImg.clear()
+
+
+
+def mergeApt(state, city, street, printRow, printColumn):
+
+    city = customeFunctions.addZero_twoDigits(city)
+    street = customeFunctions.addZero_twoDigits(street)
+
+    def getBlankColumnPath():
+        path = "{}apt_sticker_blank_pad/apt-sticker-blank.png".format(imagesPath)
+        return path
+
+    perSheet = printRow*printColumn
+
+    blankSingleColumnPath = getBlankColumnPath()
+    
+    # Path to where all the individual images are
+    path = '{}apt_sticker_done_single/'.format(imagesPath)
+
+    # Save new file to the path below 
+    saveToPathRow = "{}apt_sticker_done_row_merge".format(imagesPath)
+
+    # files=glob.glob("{}*".format(path))
+    files = glob.glob("{}/{}.{}.{}*".format(path, state, city, street))
+
+
+    print("Per Sheet: {}".format(perSheet))
+
+    totalFiles = len(files)
+    print("Total files: {}".format(totalFiles))
+
+    fullSheets = totalFiles//perSheet
+    print("Full Sheets: {}".format(fullSheets))
+
+    totalFilesInFullSheet = perSheet*fullSheets
+    print("Total Files In Full Sheet: {}".format(totalFilesInFullSheet))
+
+    leftOver = totalFiles-totalFilesInFullSheet 
+    print("Left Over: {}".format(leftOver))
+
+    if leftOver != 0:
+        # All blank spaces to end of print sheet
+        blankFiles = perSheet-leftOver
+        # Total of blank rows
+        blankRow = blankFiles // printColumn
+        # unit count of total blank signs
+        blankRow = blankRow * printColumn
+        # Total blank files to fill out the last line
+        blankFiles = blankFiles-blankRow
+
+        print("Blank Files: {}".format(blankFiles))
+
+        for i in range(blankFiles):
+            files.append(blankSingleColumnPath)
+
+    allImgFullPath = []
+    rowImg = []
+    newStartPoint = 0
+    for i in range(len(files)):
+        if i%printColumn == 0:
+            for j in range(printColumn):
+                newStartPoint = j+i
+
+                # Append Path
+                rowImg.append(files[newStartPoint])
+
+                # Creates image object
+                toImg = cv2.imread(files[newStartPoint])
+
+                # Saves image object to list
+                allImgFullPath.append(toImg)
+
+            # print(rowImg)
+            newStartPoint = newStartPoint+1
+
+            # Convers the list to array
+            allImgFullPath_array = np.array(allImgFullPath)
+
+            # Combines all the individual column images to one image
+            fullImg = cv2.hconcat(allImgFullPath_array)
+
+            rowCount = customeFunctions.addZero_twoDigits(int(i/printColumn))
+            fileName = 'adesivo_apt_rua{}_linha{}'.format(street, rowCount)
+
+            print("Generating File: {}".format(fileName))
+
+            # Save the file to path
+            cv2.imwrite("{}/{}.PNG".format(saveToPathRow,fileName), fullImg)
+
+            allImgFullPath.clear()
+            rowImg.clear()
+    
+
+    # TODO: This only creates one single page per street
+    def mergeToSheet(state, city, street, printRow, printColumn):
+        city = customeFunctions.addZero_twoDigits(int(city))
+        street = customeFunctions.addZero_twoDigits(int(street))
+        saveToPathSheet = "{}apt_sticker_done_full_page_merge".format(imagesPath)
+        path = "{}apt_sticker_done_row_merge".format(imagesPath)
+
+        files = glob.glob("{}/adesivo_apt_rua{}*".format(path, street))
+
+        # pprint.pprint(files)
+
+        allImgFullPath_array = []
+
+        for i in range(len(files)):
+            # Creates image object
+            toImg = cv2.imread(files[i])
+
+            # Saves image object to list
+            allImgFullPath.append(toImg)
+        
+        
+        # Convers the list to array
+        allImgFullPath_array = np.array(allImgFullPath)
+
+        # Combines all the individual column images to one image
+        fullImg = cv2.vconcat(allImgFullPath_array)
+
+        fileName = 'apartament_rua{}_pagina{}'.format(street, "1")
+
+        print("Generating File: {}".format(fileName))
+
+        # Save the file to path
+        cv2.imwrite("{}/{}.PNG".format(saveToPathSheet,fileName), fullImg)
+
+        allImgFullPath.clear()
+    
+
+    mergeToSheet(state, city, street, printRow, printColumn)

@@ -22,7 +22,50 @@ import merge
 startTime = time.time()
 
 try:
+
+
+    # =========== RUA 4 ====================================================================================================
+    state = 1
+    city = 1
+    street = 4
+    column = 80
+    level = 8
+    product = 1
+    # columnSign.createAll(state, city, street, column, level, product)
+    # columnSticker.createAll(state, city, street, column, level, product)
+
+    aptLevelMax = 2
+    apt = 3
+    columnStart = 10
+    columnEnd = 60
+    evenOddAll = "even"
+    # aptSticker.createAll(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
+    # deleteExtras.removeColumnSticker(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
+
+    # === Merge Signs ===============
+    printRow = 5
+    printColumn = 15 
+    # merge.mergeSign(state, city, street, level, printRow, printColumn)
+
+    # === Merge Column Sticker ===============
+    printRow = 40
+    printColumn = 10
+    # merge.mergeColumn(state, city, street, printRow, printColumn)
+
+    # === Merge Apt Sticker ===============
+    printAptRow = 40
+    printAptColumn = 10
+    merge.mergeApt(state, city, street, printAptRow, printAptColumn)
+
+    street = 5
+    merge.mergeApt(state, city, street, printAptRow, printAptColumn)
+
+    street = 6
+    merge.mergeApt(state, city, street, printAptRow, printAptColumn)
+
     
+
+    '''
 
     # =========== RUA 1 ====================================================================================================
     state = 1
@@ -38,6 +81,11 @@ try:
     printRow = 5
     printColumn = 15 
     merge.mergeSign(state, city, street, level, printRow, printColumn)
+
+    # === Merge Column Sticker ===============
+    printRow = 40
+    printColumn = 10
+    merge.mergeColumn(state, city, street, printRow, printColumn)
 
     
     # =========== RUA 2 ====================================================================================================
@@ -55,6 +103,10 @@ try:
     printColumn = 15 
     merge.mergeSign(state, city, street, level, printRow, printColumn)
 
+    # === Merge Column Sticker ===============
+    printRow = 40
+    printColumn = 10
+    merge.mergeColumn(state, city, street, printRow, printColumn)
 
     
     # =========== RUA 3 ====================================================================================================
@@ -72,6 +124,10 @@ try:
     printColumn = 15 
     merge.mergeSign(state, city, street, level, printRow, printColumn)
 
+    # === Merge Column Sticker ===============
+    printRow = 40
+    printColumn = 10
+    merge.mergeColumn(state, city, street, printRow, printColumn)
 
 
     
@@ -98,6 +154,15 @@ try:
     printColumn = 15 
     merge.mergeSign(state, city, street, level, printRow, printColumn)
 
+    # === Merge Column Sticker ===============
+    printRow = 40
+    printColumn = 10
+    merge.mergeColumn(state, city, street, printRow, printColumn)
+
+    # === Merge Apt Sticker ===============
+    printAptRow = 40
+    printAptColumn = 10
+    merge.mergeApt(state, city, street, printAptRow, printAptColumn)
     
     # =========== RUA 5 ====================================================================================================
     state = 1
@@ -122,7 +187,18 @@ try:
     printColumn = 15 
     merge.mergeSign(state, city, street, level, printRow, printColumn)
 
+    # === Merge Column Sticker ===============
+    printRow = 40
+    printColumn = 10
+    merge.mergeColumn(state, city, street, printRow, printColumn)
     
+    # === Merge Apt Sticker ===============
+    printAptRow = 40
+    printAptColumn = 10
+    merge.mergeApt(state, city, street, printAptRow, printAptColumn)
+
+
+
     # =========== RUA 6 ====================================================================================================
     state = 1
     city = 1
@@ -150,6 +226,15 @@ try:
     printColumn = 15 
     merge.mergeSign(state, city, street, level, printRow, printColumn)
 
+    # === Merge Column Sticker ===============
+    printRow = 40
+    printColumn = 10
+    merge.mergeColumn(state, city, street, printRow, printColumn)
+
+    # === Merge Apt Sticker ===============
+    printAptRow = 40
+    printAptColumn = 10
+    merge.mergeApt(state, city, street, printAptRow, printAptColumn)
     
     # =========== RUA 7 ====================================================================================================
     state = 1
@@ -166,6 +251,10 @@ try:
     printColumn = 15 
     merge.mergeSign(state, city, street, level, printRow, printColumn)
 
+    # === Merge Column Sticker ===============
+    printRow = 40
+    printColumn = 10
+    merge.mergeColumn(state, city, street, printRow, printColumn)
     
     # =========== RUA 8 ====================================================================================================
     state = 1
@@ -182,6 +271,10 @@ try:
     printColumn = 15 
     merge.mergeSign(state, city, street, level, printRow, printColumn)
 
+    # === Merge Column Sticker ===============
+    printRow = 40
+    printColumn = 10
+    merge.mergeColumn(state, city, street, printRow, printColumn)
     
     # =========== RUA 9 ====================================================================================================
     state = 1
@@ -198,6 +291,10 @@ try:
     printColumn = 15 
     merge.mergeSign(state, city, street, level, printRow, printColumn)
 
+    # === Merge Column Sticker ===============
+    printRow = 40
+    printColumn = 10
+    merge.mergeColumn(state, city, street, printRow, printColumn)
 
     
     
@@ -210,11 +307,16 @@ try:
     product = 1
     columnSign.createAll(state, city, street, column, level, product)
     columnSticker.createAll(state, city, street, column, level, product)
+
     # === Merge Signs ===============
     printRow = 6
     printColumn = 15 
     merge.mergeSign(state, city, street, level, printRow, printColumn)
     
+    # === Merge Column Sticker ===============
+    printRow = 40
+    printColumn = 10
+    merge.mergeColumn(state, city, street, printRow, printColumn)
 
     # =========== RUA 11 ====================================================================================================
     state = 1
@@ -263,17 +365,19 @@ try:
     printColumn = 15 
     merge.mergeSign(state, city, street, level, printRow, printColumn)
 
-    # =========== ALL COLUMN STICKERS ====================================================================================================
+    # === Merge Column Sticker ===============
     printRow = 40
     printColumn = 10
-    columnSticker.merge(printRow, printColumn)
+    merge.mergeColumn(state, city, street, printRow, printColumn)
+
 
     # =========== ALL APT STICKERS ====================================================================================================
     printRow = 40
     printColumn = 10
-    aptSticker.merge(printRow, printColumn)
+    merge.mergeColumn(printRow, printColumn)
 
-
+    '''
+    
 except:
     print("\n!!!!!!! Error Found !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     raise Exception
