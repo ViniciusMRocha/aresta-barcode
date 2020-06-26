@@ -18,15 +18,15 @@ import customeFunctions
 import barcodeGenerator
 import resize
 
-
+imagesPath = "C:/personal-git/aresta-barcode/src/app/images/"
 
 
 def getBlankColumnPath():
-    path = "C:/personal-git/aresta-barcode/src/app/images/column_blank_pad/column-sticker-blank.png"
+    path = "{}column_blank_pad/column-sticker-blank.png".format(imagesPath)
     return path
 
 def getBlankColumnRowPath():
-    path = "C:/personal-git/aresta-barcode/src/app/images/column_blank_pad/column-sticker-row-blank.png"
+    path = "{}column_blank_pad/column-sticker-row-blank.png".format(imagesPath)
     return path
 
 # =================================================
@@ -38,13 +38,13 @@ def getBlankColumnRowPath():
 def createAll(state, city, street, column, level, product):
     def getArrow():
         # print("Runnig getArrow")
-        path = "C:/personal-git/aresta-barcode/src/app/images/apt_sticker_arrow_up/apt_sticker_arrow_up_black.PNG"
+        path = "{}apt_sticker_arrow_up/apt_sticker_arrow_up_black.PNG".format(imagesPath)
         arrow = cv2.imread(path)
         return arrow
 
     def getHeader(index):
         # print("Runnig getHeader")
-        path = "C:/personal-git/aresta-barcode/src/app/images/column_header/header-{}.PNG".format(index)
+        path = "{}column_header/header-{}.PNG".format(imagesPath, index)
         header = cv2.imread(path)
         return header
 
@@ -72,7 +72,7 @@ def createAll(state, city, street, column, level, product):
 
         fileName = "inv-{}.{}.{}.{}.{}.{}.PNG".format(state, city, street, column, level, product)
 
-        savePath = "C:/personal-git/aresta-barcode/src/app/images/column_done_single/{}".format(fileName)
+        savePath = "{}column_done_single/{}".format(imagesPath, fileName)
         cv2.imwrite(savePath, img2)
         print(savePath)
 
@@ -93,13 +93,13 @@ def createAll(state, city, street, column, level, product):
 def createAllRange(state, city, street, level, product, startColumn, endColumn):
     def getArrow():
         # print("Runnig getArrow")
-        path = "C:/personal-git/aresta-barcode/src/app/images/apt_sticker_arrow_up/apt_sticker_arrow_up_black.PNG"
+        path = "{}apt_sticker_arrow_up/apt_sticker_arrow_up_black.PNG".format(imagesPath)
         arrow = cv2.imread(path)
         return arrow
 
     def getHeader(index):
         # print("Runnig getHeader")
-        path = "C:/personal-git/aresta-barcode/src/app/images/column_header/header-{}.PNG".format(index)
+        path = "{}column_header/header-{}.PNG".format(imagesPath, index)
         header = cv2.imread(path)
         return header
 
@@ -127,7 +127,7 @@ def createAllRange(state, city, street, level, product, startColumn, endColumn):
 
         fileName = "inv-{}.{}.{}.{}.{}.{}.PNG".format(state, city, street, column, level, product)
 
-        savePath = "C:/personal-git/aresta-barcode/src/app/images/column_done_single/{}".format(fileName)
+        savePath = "{}column_done_single/{}".format(imagesPath, fileName)
         cv2.imwrite(savePath, img2)
         print(savePath)
 
@@ -153,10 +153,10 @@ def merge(printRow, printColumn):
     
     print("testing")
     # Path to where all the individual images are
-    path = 'C:/personal-git/aresta-barcode/src/app/images/column_done_single/'
+    path = '{}column_done_single/'.format(imagesPath)
 
     # Save new file to the path below 
-    saveToPathRow = "C:/personal-git/aresta-barcode/src/app/images/column_done_row_merge"
+    saveToPathRow = "{}column_done_row_merge".format(imagesPath)
 
     files=glob.glob("{}*".format(path))
 
@@ -220,7 +220,7 @@ def merge(printRow, printColumn):
 
     def mergeRow():
         # Save new file to the path below 
-        saveToPathFullPage = "C:/personal-git/aresta-barcode/src/app/images/column_done_full_page_merge"
+        saveToPathFullPage = "{}column_done_full_page_merge".format(imagesPath)
 
         rows=glob.glob("{}/*".format(saveToPathRow))
 

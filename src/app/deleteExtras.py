@@ -21,8 +21,8 @@ import barcodeGenerator
 import resize
 
 
-#C:/personal-git/aresta-barcode/src/app/images/column_done_single/inv-1.01.04.010.01.01.PNG
-#C:/personal-git/aresta-barcode/src/app/images/column_done_single/inv-1.01.04.010.02.01.PNG
+imagesPath = "C:/personal-git/aresta-barcode/src/app/images/"
+
 
 def removeColumnSticker(state, city, street, column, aptLevelMax, product, apt, startDelete, endDelete, sideRemove):
     print("Remove Column Sticker")

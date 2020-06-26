@@ -19,26 +19,27 @@ import customeFunctions
 # Get Images
 # =================================================
 
+imagesPath = "C:/personal-git/aresta-barcode/src/app/images/"
 
 
 def createAll(state, city, street, column, level, product, apt, columnStart, columnEnd, evenOddAll):
     def getDigit(index):
-        path ="C:/personal-git/aresta-barcode/src/app/images/apt_sticker_header_digits/resized/apt_sticker_digit_{}.png".format(index)
+        path ="{}apt_sticker_header_digits/resized/apt_sticker_digit_{}.png".format(imagesPath, index)
         digit = cv2.imread(path)
         return digit
 
     def getArrow():
-        path = "C:/personal-git/aresta-barcode/src/app/images/apt_sticker_arrow_up/apt_sticker_arrow_up_black.PNG"
+        path = "{}apt_sticker_arrow_up/apt_sticker_arrow_up_black.PNG".format(imagesPath)
         arrow = cv2.imread(path)
         return arrow
 
     def getPad():
-        path = "C:/personal-git/aresta-barcode/src/app/images/apt_sticker_barcode_header_pad/pad.PNG"
+        path = "{}apt_sticker_barcode_header_pad/pad.PNG".format(imagesPath)
         pad = cv2.imread(path)
         return pad
 
     def getHeader(index):
-        path ="C:/personal-git/aresta-barcode/src/app/images/apt_sticker_header/apt_sticker_header_{}.PNG".format(index)
+        path ="{}apt_sticker_header/apt_sticker_header_{}.PNG".format(imagesPath, index)
         header = cv2.imread(path)
         return header
 
@@ -75,7 +76,7 @@ def createAll(state, city, street, column, level, product, apt, columnStart, col
         product = customeFunctions.addZero_twoDigits(product)
         fileName = "{}.{}.{}.{}.{}.{}-apt-{}.png".format(state, city, street, column, level, product, apt)
 
-        savePath = "C:/personal-git/aresta-barcode/src/app/images/apt_sticker_done_single/{}".format(fileName)
+        savePath = "{}apt_sticker_done_single/{}".format(imagesPath, fileName)
         cv2.imwrite(savePath, img3)
         print(savePath)
 
@@ -113,11 +114,11 @@ def createAll(state, city, street, column, level, product, apt, columnStart, col
 
 
 def getBlankColumnPath():
-    path = "C:/personal-git/aresta-barcode/src/app/images/apt_sticker_blank_pad/apt-sticker-blank.png"
+    path = "{}apt_sticker_blank_pad/apt-sticker-blank.png".format(imagesPath)
     return path
 
 def getBlankColumnRowPath():
-    path = "C:/personal-git/aresta-barcode/src/app/images/apt_sticker_blank_pad/apt-sticker-row-blank.png"
+    path = "{}apt_sticker_blank_pad/apt-sticker-row-blank.png".format(imagesPath)
     return path
 
 def merge(printRow, printColumn):
@@ -129,10 +130,10 @@ def merge(printRow, printColumn):
     
     print("testing")
     # Path to where all the individual images are
-    path = 'C:/personal-git/aresta-barcode/src/app/images/apt_sticker_done_single/'
+    path = '{}apt_sticker_done_single/'.format(imagesPath)
 
     # Save new file to the path below 
-    saveToPathRow = "C:/personal-git/aresta-barcode/src/app/images/apt_sticker_done_row_merge"
+    saveToPathRow = "{}apt_sticker_done_row_merge".format(imagesPath)
 
     files=glob.glob("{}*".format(path))
 
@@ -197,7 +198,7 @@ def merge(printRow, printColumn):
 
     def mergeRow():
         # Save new file to the path below 
-        saveToPathFullPage = "C:/personal-git/aresta-barcode/src/app/images/apt_sticker_done_full_page_merge"
+        saveToPathFullPage = "{}apt_sticker_done_full_page_merge".format(imagesPath)
 
         rows=glob.glob("{}/*".format(saveToPathRow))
 
