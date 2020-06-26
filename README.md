@@ -9,8 +9,11 @@
 7. (Done) fix merge files functions following messurements
 8. (Done) resize all files files for printing
 9. (Done) create PS1 job to zip all files for sharing
-10. (Done) Remove column sticker for apts
-11. Create documentation
+10. (Done) Externalize Root Path
+11. (Done) Creted Timer to measure program execution
+12. (Done) Created total image counters
+13. Separate per street when creating print lines
+14. Create documentation
 
 Barcode Reader
 pctop - LCB2DPR
