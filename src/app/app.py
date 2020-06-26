@@ -16,6 +16,9 @@ import columnSticker
 import aptSticker
 import deleteExtras
 
+startTime = time.time()
+
+
 
 # =========== RUA 5 ==================================================
 state = 1
@@ -246,3 +249,5 @@ printRow = 40
 printColumn = 10
 aptSticker.merge(printRow, printColumn)
 '''
+endTime = time.time() - startTime
+print(endTime)

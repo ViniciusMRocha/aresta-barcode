@@ -19,6 +19,8 @@ import customeFunctions
 # Get Images
 # =================================================
 
+
+
 def createAll(state, city, street, column, level, product, apt, columnStart, columnEnd, evenOddAll):
     def getDigit(index):
         path ="C:/personal-git/aresta-barcode/src/app/images/apt_sticker_header_digits/resized/apt_sticker_digit_{}.png".format(index)
