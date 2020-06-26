@@ -306,38 +306,47 @@ def mergeApt(state, city, street, printRow, printColumn):
     
 
     # TODO: This only creates one single page per street
+    saveToPathSheet = "{}apt_sticker_done_full_page_merge".format(imagesPath)
+    path = "{}apt_sticker_done_row_merge".format(imagesPath)
+    searchFiles = "{}/adesivo_apt_rua{}*".format(path, street)
+    fileName = 'apartament_rua{}'.format(street)
+    
     def mergeToSheet(state, city, street, printRow, printColumn):
         city = customeFunctions.addZero_twoDigits(int(city))
         street = customeFunctions.addZero_twoDigits(int(street))
-        saveToPathSheet = "{}apt_sticker_done_full_page_merge".format(imagesPath)
-        path = "{}apt_sticker_done_row_merge".format(imagesPath)
+        # saveToPathSheet = "{}apt_sticker_done_full_page_merge".format(imagesPath)
+        # path = "{}apt_sticker_done_row_merge".format(imagesPath)
 
-        files = glob.glob("{}/adesivo_apt_rua{}*".format(path, street))
-
-        # pprint.pprint(files)
+        files = glob.glob(searchFiles)
 
         allImgFullPath_array = []
+        sheetCounter = 0
 
-        for i in range(len(files)):
-            # Creates image object
-            toImg = cv2.imread(files[i])
+        if len(files) <= printRow:
+            for i in range(len(files)):
+                # Creates image object
+                toImg = cv2.imread(files[i])
 
-            # Saves image object to list
-            allImgFullPath.append(toImg)
-        
-        
+                # Saves image object to list
+                allImgFullPath.append(toImg)
+                sheetCounter = sheetCounter + 1
+        elif len(files) > printRow:
+            print(" !!!!!!!!!!! HEY, ACCOUNT FOR THIS SENARIO !!!!!!!!")
+            sheetCounter = sheetCounter + 1
+            
+            
         # Convers the list to array
         allImgFullPath_array = np.array(allImgFullPath)
 
         # Combines all the individual column images to one image
         fullImg = cv2.vconcat(allImgFullPath_array)
 
-        fileName = 'apartament_rua{}_pagina{}'.format(street, "1")
+        fileNameLocal = '{}_pagina{}'.format(fileName, sheetCounter)
 
         print("Generating File: {}".format(fileName))
 
         # Save the file to path
-        cv2.imwrite("{}/{}.PNG".format(saveToPathSheet,fileName), fullImg)
+        cv2.imwrite("{}/{}.PNG".format(saveToPathSheet,fileNameLocal), fullImg)
 
         allImgFullPath.clear()
     
