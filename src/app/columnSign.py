@@ -11,6 +11,9 @@ import barcode
 from barcode.writer import ImageWriter
 
 import glob
+# https://stackoverflow.com/questions/2225564/get-a-filtered-list-of-files-in-a-directory
+
+import pprint
 
 #My Files
 import customeFunctions
@@ -38,10 +41,6 @@ def getPad():
 
 def getBlankSignPath(index):
     path = "{}sign_blank_pad/blank-sign{}.PNG".format(imagesPath, index)
-    return path
-
-def getBlankSignRowPath(index):
-    path = "{}sign_blank_pad/blank-sign-row{}.PNG".format(imagesPath, index)
     return path
 
 # Generates the correct arrow given the column number
@@ -155,10 +154,6 @@ def createColumnImage(state, city, street, column, level, allBarcodesPath, check
     print("Generating Image: {}".format(fileName))
 
 
-
-
-
-
 # Generates all column images
 def createAllRange(state, city, street, startColumn, levelMax, product, endColumn):
     check = levelMax
@@ -184,157 +179,4 @@ def createAllRange(state, city, street, startColumn, levelMax, product, endColum
 
         # Clear list for next iteration
         allBarcodesPath.clear()
-
-
-
-
-
-
-
-# ====== Merge ===============================
-
-def mergeSigns(nivelMax, printRow, printColumn):
-
-    perSheet = printRow*printColumn
-
-    blankSignPath = getBlankSignPath(nivelMax)
-    blankRowPath = getBlankSignRowPath(nivelMax)
-
-    # Path to where all the individual images are
-    path = '{}sign_done_single'.format(imagesPath)
-
-    # Save new file to the path below 
-    saveToPathRow = "{}sign_done_row_merge".format(imagesPath)
-
-    # Gets all files according to pattern
-    files=glob.glob("{}/*nivelMax-{}*".format(path,nivelMax))
-
-    print("Per Sheet: {}".format(perSheet))
-
-    totalFiles = len(files)
-    print("Total files: {}".format(totalFiles))
-
-    fullSheets = totalFiles//perSheet
-    print("Full Sheets: {}".format(fullSheets))
-
-    totalFilesInFullSheet = perSheet*fullSheets
-    print("Total Files In Full Sheet: {}".format(totalFilesInFullSheet))
-
-    leftOver = totalFiles-totalFilesInFullSheet 
-    print("Left Over: {}".format(leftOver))
-
-    if leftOver != 0:
-        blankFiles = perSheet-leftOver
-        print("Blank Files: {}".format(blankFiles))
-
-        for i in range(blankFiles):
-            files.append(blankSignPath)
-    
-    # list for all the images full path
-    allImgFullPath = []
-    rowImg = []
-    newStartPoint = 0
-    for i in range(len(files)):
-        if i%printColumn == 0:
-            for j in range(printColumn):
-                newStartPoint = j+i
-
-                # Creates image object
-                toImg = cv2.imread(files[newStartPoint])
-
-                # Append Path
-                rowImg.append(files[newStartPoint])
-
-                # Saves image object to list
-                allImgFullPath.append(toImg)
-
-            newStartPoint = newStartPoint+1
-            # print("Total: ",len(rowImg))
-            # print("Row Image: ",rowImg)
-            # print("newStartPoint: ",newStartPoint)
-
-            # Convers the list to array
-            allImgFullPath_array = np.array(allImgFullPath)
-
-            # Combines all the individual column images to one image
-            fullImg = cv2.hconcat(allImgFullPath_array)
-
-            pageCount = customeFunctions.addZero_twoDigits(int(i/printColumn))
-            fileName = 'nivelMax-{}-linha-{}'.format(nivelMax,pageCount)
-
-            print("Generating File: {}".format(fileName))
-
-            # Save the file to path
-            cv2.imwrite("{}/{}.PNG".format(saveToPathRow,fileName), fullImg)
-
-            allImgFullPath.clear()
-            rowImg.clear()
-
-
-    def mergeSignsRow():
-        # Save new file to the path below 
-        saveToPathFullPage = "{}sign_done_full_page_merge".format(imagesPath)
-
-        rows=glob.glob("{}/nivelMax-{}-linha*".format(saveToPathRow,nivelMax))
-
-        totalRows = len(rows)
-        print("Total rows: {}".format(totalRows))
-
-        fullSheets = totalRows//printRow
-        print("Total Full Sheets: {}".format(fullSheets))
-
-        totalRowsInFullSheet = printRow*fullSheets
-        print("Total Rows In Full Sheet: {}".format(totalRowsInFullSheet))
-
-        leftOver = totalRows-totalRowsInFullSheet 
-        print("Left Over Rows: {}".format(leftOver))
-
-        if leftOver != 0:
-            blankRows = printRow-leftOver
-            print("Blank Rows: {}\n".format(blankRows))
-
-            for a in range(blankRows):
-                rows.append(blankRowPath)
-
-        sheetImg = []
-        allImgFullPath = []
-        newStartPoint = 0
-
-        print("Total in rows: ",len(rows))
-        rounds = int(len(rows)/printRow)
-        for i in range(rounds):
-            for j in range(printRow):
-                
-                individualRow = newStartPoint+j
-
-                # print(individualRow)
-                sheetImg.append(rows[individualRow])
-
-                # Creates image object
-                toImg = cv2.imread(rows[individualRow])
-
-                # Saves image object to list
-                allImgFullPath.append(toImg)
-
-            newStartPoint = individualRow+1
-
-            # Convers the list to array
-            allImgFullPath_array = np.array(allImgFullPath)
-
-            # Combines all the individual column images to one image
-            fullImg = cv2.vconcat(allImgFullPath_array)
-
-            pageCount = customeFunctions.addZero_twoDigits(i)
-            fileName = 'nivelMax-{}-pagina-{}'.format(nivelMax,pageCount)
-
-            print("Generating File: {}".format(fileName))
-            # Save the file to path
-            cv2.imwrite("{}/{}.PNG".format(saveToPathFullPage,fileName), fullImg)        
-
-            sheetImg.clear()
-            allImgFullPath.clear()
-
-    # mergeSignsRow()
-
-# https://stackoverflow.com/questions/2225564/get-a-filtered-list-of-files-in-a-directory
 

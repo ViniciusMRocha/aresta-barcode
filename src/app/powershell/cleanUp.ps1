@@ -4,7 +4,6 @@ Write-Output "====== Runing File Clean Up ============ "
 Write-Output "======================================== "
 Write-Output ""
 
-
 Remove-Item C:\personal-git\aresta-barcode\src\app\images\barcode_library\*.*
 Write-Output "Cleaned ==> barcode_library"
 

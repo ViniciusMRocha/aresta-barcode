@@ -8,13 +8,15 @@ import barcode
 from barcode.writer import ImageWriter
 
 import time
+#https://stackoverflow.com/questions/3620943/measuring-elapsed-time-with-the-time-module/46544199
 
-#My Files
+# My Files
 import columnSign
 import columnSticker
 import aptSticker
 import deleteExtras
 import countFiles
+import merge
 
 # Start function timer
 startTime = time.time()
@@ -30,8 +32,12 @@ try:
     product = 1
     columnSign.createAll(state, city, street, column, level, product)
     columnSticker.createAll(state, city, street, column, level, product)
-    '''
 
+    printRow = 5
+    printColumn = 15 
+    merge.mergeSign(state, city, street, level, printRow, printColumn)
+
+    
     # =========== RUA 2 ==================================================
     state = 1
     city = 1
@@ -41,6 +47,10 @@ try:
     product = 1
     columnSign.createAll(state, city, street, column, level, product)
     columnSticker.createAll(state, city, street, column, level, product)
+
+    printRow = 5
+    printColumn = 15 
+    merge.mergeSign(state, city, street, level, printRow, printColumn)
 
 
     # =========== RUA 3 ==================================================
@@ -53,7 +63,12 @@ try:
     columnSign.createAll(state, city, street, column, level, product)
     columnSticker.createAll(state, city, street, column, level, product)
 
+    printRow = 5
+    printColumn = 15 
+    merge.mergeSign(state, city, street, level, printRow, printColumn)
 
+
+    '''
     # =========== RUA 4 ==================================================
     state = 1
     city = 1
@@ -73,6 +88,9 @@ try:
     aptSticker.createAll(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
     deleteExtras.removeColumnSticker(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
 
+    printRow = 5
+    printColumn = 15 
+    merge.mergeSign(state, city, street, level, printRow, printColumn)
 
     # =========== RUA 5 ==================================================
     state = 1
@@ -117,6 +135,7 @@ try:
     aptSticker.createAll(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
     deleteExtras.removeColumn(state, city, street, column, level, product, startDelete, endDelete, sideRemove)
     deleteExtras.removeColumnSticker(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
+
 
     # =========== RUA 7 ==================================================
     state = 1
@@ -198,6 +217,7 @@ try:
     columnSign.createAllRange(state, city, street, startColumn, level, product, endColumn)
     columnSticker.createAllRange(state, city, street, level, product, startColumn, endColumn)
 
+
     # =========== LEVEL 8 ==================================================
     nivelMax = 8
     printRow = 5
@@ -235,14 +255,11 @@ except:
     raise Exception
 
 
-
-
 # =========== COUNT ALL FILES ==================================================
 print("\n======= Total Images Report ==================================")
 countFiles.getTotalImageCount()
 
 print("\n======= Elapsed Time ==================================")
-#https://stackoverflow.com/questions/3620943/measuring-elapsed-time-with-the-time-module/46544199
 endTime = time.time() - startTime
 time.strftime("%H:%M:%S", time.gmtime(endTime))
 print(time.strftime("%H:%M:%S", time.gmtime(endTime)))
