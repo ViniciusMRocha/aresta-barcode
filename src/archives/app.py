@@ -57,7 +57,7 @@ for num4 in range(1, num4Limit):
                 num1, num2, num3, num4, num5, num6)
             bcEcnoding = barcode.get_barcode_class('code128')
             barcodeImg = bcEcnoding(barcodeNumber, writer=ImageWriter())
-            savePath = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/"+str(barcodeNumber)
+            savePath = "C:/personal-git/aresta-barcode/src/app/images/barcode_library/"+str(barcodeNumber)
             barcodeFile = barcodeImg.save(savePath)
             allFileName.append(savePath+str('.png'))
 

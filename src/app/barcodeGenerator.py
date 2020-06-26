@@ -16,17 +16,13 @@ def generateSingleBarcode(barcodeNumber):
     # create the img writer
     barcodeImg = bcEcnoding(barcodeNumber, writer=ImageWriter())
     # Location where the new file will be saved
-    savePath = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/"+str(barcodeNumber)
+    savePath = "C:/personal-git/aresta-barcode/src/app/images/barcode_library/"+str(barcodeNumber)
     # Save file and specify styling.
     # File defaults to PNG
 
-    fontPath = "C:/personal-git/aresta-barcode/src/app/Roboto/Roboto-Light.ttf"
-
-    customeOption = {"font_path": fontPath, "font_size": 24, "text_distance": 1.2,}
+    customeOption = {"font_size": 24, "text_distance": 1.2,}
     
     barcodeImg.save(savePath,options=customeOption)
-
-generateSingleBarcode("101010010101")
 
 
 def getBarcode(state, city, street, column, level, product):
@@ -35,6 +31,6 @@ def getBarcode(state, city, street, column, level, product):
     column = customeFunctions.addZero_threeDigits(column)
     level = customeFunctions.addZero_twoDigits(level)
     product = customeFunctions.addZero_twoDigits(product)
-    path = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/{}.{}.{}.{}.{}.{}.png".format(state, city, street, column, level, product)
+    path = "C:/personal-git/aresta-barcode/src/app/images/barcode_library/{}.{}.{}.{}.{}.{}.png".format(state, city, street, column, level, product)
     barcode = cv2.imread(path)
     return barcode

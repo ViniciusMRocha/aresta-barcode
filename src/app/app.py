@@ -7,6 +7,9 @@ from PIL import Image
 import barcode
 from barcode.writer import ImageWriter
 
+
+import time
+
 #My Files
 import columnSign
 import columnSticker
@@ -14,6 +17,26 @@ import aptSticker
 import deleteExtras
 
 
+# =========== RUA 5 ==================================================
+state = 1
+city = 1
+street = 5
+column = 80
+level = 8
+product = 1
+
+aptLevelMax = 2
+apt = 3
+columnStart = 9
+columnEnd = 68
+evenOddAll = "all"
+
+columnSign.createAll(state, city, street, column, level, product)
+columnSticker.createAll(state, city, street, column, level, product)
+aptSticker.createAll(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
+deleteExtras.removeColumnSticker(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
+
+'''
 # =========== RUA 1 ==================================================
 state = 1
 city = 1
@@ -222,3 +245,4 @@ columnSticker.merge(printRow, printColumn)
 printRow = 40
 printColumn = 10
 aptSticker.merge(printRow, printColumn)
+'''

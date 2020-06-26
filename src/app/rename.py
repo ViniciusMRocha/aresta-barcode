@@ -1,6 +1,6 @@
 import os
 
-folderPath = "C:/personal-git/aresta-barcode/src/graphics-design/sign/sign-barcode-header/sign-barcode-header/"
+folderPath = "C:/personal-git/aresta-barcode/src/graphics-design/sign/sign_barcode_header/sign_barcode_header/"
 fileNameNoNumer = "Slide"
 newFileNameNoNumer = "label-"
 extension = ".PNG"

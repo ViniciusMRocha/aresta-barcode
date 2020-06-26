@@ -1,17 +1,17 @@
 # All Paths Variables
-# $barcodeLibrary = "C:\personal-git\aresta-barcode\src\app\images\barcode-library"
+# $barcodeLibrary = "C:\personal-git\aresta-barcode\src\app\images\barcode_library"
 
-# $aptStickerDoneSingle = "C:\personal-git\aresta-barcode\src\app\images\apt-sticker-done-single"
-$aptStickerDoneRowMerge = "C:\personal-git\aresta-barcode\src\app\images\apt-sticker-done-row-merge"
-$aptStickerDoneFullPageMerge = "C:\personal-git\aresta-barcode\src\app\images\apt-sticker-done-full-page-merge"
+# $aptStickerDoneSingle = "C:\personal-git\aresta-barcode\src\app\images\apt_sticker_done_single"
+$aptStickerDoneRowMerge = "C:\personal-git\aresta-barcode\src\app\images\apt_sticker_done_row_merge"
+$aptStickerDoneFullPageMerge = "C:\personal-git\aresta-barcode\src\app\images\apt_sticker_done_full_page_merge"
 
-# $columnDoneSingle = "C:\personal-git\aresta-barcode\src\app\images\column-done-single"
-$columnDoneRowMerge = "C:\personal-git\aresta-barcode\src\app\images\column-done-row-merge"
-$columnDoneFullPageMerge = "C:\personal-git\aresta-barcode\src\app\images\column-done-full-page-merge"
+# $columnDoneSingle = "C:\personal-git\aresta-barcode\src\app\images\column_done_single"
+$columnDoneRowMerge = "C:\personal-git\aresta-barcode\src\app\images\column_done_row_merge"
+$columnDoneFullPageMerge = "C:\personal-git\aresta-barcode\src\app\images\column_done_full_page_merge"
 
-# $signDoneSingle = "C:\personal-git\aresta-barcode\src\app\images\sign-done-single"
-$signDoneRowMerge = "C:\personal-git\aresta-barcode\src\app\images\sign-done-row-merge"
-$signDoneFullPageMerge = "C:\personal-git\aresta-barcode\src\app\images\sign-done-full-page-merge"
+# $signDoneSingle = "C:\personal-git\aresta-barcode\src\app\images\sign_done_single"
+$signDoneRowMerge = "C:\personal-git\aresta-barcode\src\app\images\sign_done_row_merge"
+$signDoneFullPageMerge = "C:\personal-git\aresta-barcode\src\app\images\sign_done_full_page_merge"
 
 # Temp Name
 # $new_barcodeLibrary = "C:\personal-git\aresta-barcode\src\app\images\codigos-de-barra-individual"
