@@ -269,6 +269,7 @@ def mergeApt(state, city, street, printRow, printColumn):
 
     allImgFullPath = []
     rowImg = []
+    fullPage = []
     newStartPoint = 0
     for i in range(len(files)):
         if i%printColumn == 0:
@@ -298,57 +299,77 @@ def mergeApt(state, city, street, printRow, printColumn):
 
             print("Generating File: {}".format(fileName))
 
+            rowFile = "{}/{}.PNG".format(saveToPathRow,fileName)
+
             # Save the file to path
-            cv2.imwrite("{}/{}.PNG".format(saveToPathRow,fileName), fullImg)
+            cv2.imwrite(rowFile, fullImg)
+
+            fullPage.append(rowFile)
 
             allImgFullPath.clear()
             rowImg.clear()
+
+    pprint.pprint(fullPage)
+
+    fullPageImages = []
+    sheetCounter = 0
+    if len(fullPage) <= printRow:
+        for i in range(len(files)):
+            # Creates image object
+            toImg = cv2.imread(files[i])
+            # Saves image object to list
+            fullPageImages.append(toImg)
+        sheetCounter = sheetCounter + 1
+        
+    elif len(fullPage) > printRow:
+        print(" !!!!!!!!!!! HEY, ACCOUNT FOR THIS SENARIO !!!!!!!!")
+        sheetCounter = sheetCounter + 1
+
+
+
+    # # TODO: This only creates one single page per street
+    # saveToPathSheet = "{}apt_sticker_done_full_page_merge".format(imagesPath)
+    # path = "{}apt_sticker_done_row_merge".format(imagesPath)
+    # searchFiles = "{}/adesivo_apt_rua{}*".format(path, street)
+    # fileName = 'apartament_rua{}'.format(street)
     
+    # def mergeToSheet(state, city, street, printRow, printColumn):
+    #     city = customeFunctions.addZero_twoDigits(int(city))
+    #     street = customeFunctions.addZero_twoDigits(int(street))
+    #     # saveToPathSheet = "{}apt_sticker_done_full_page_merge".format(imagesPath)
+    #     # path = "{}apt_sticker_done_row_merge".format(imagesPath)
 
-    # TODO: This only creates one single page per street
-    saveToPathSheet = "{}apt_sticker_done_full_page_merge".format(imagesPath)
-    path = "{}apt_sticker_done_row_merge".format(imagesPath)
-    searchFiles = "{}/adesivo_apt_rua{}*".format(path, street)
-    fileName = 'apartament_rua{}'.format(street)
-    
-    def mergeToSheet(state, city, street, printRow, printColumn):
-        city = customeFunctions.addZero_twoDigits(int(city))
-        street = customeFunctions.addZero_twoDigits(int(street))
-        # saveToPathSheet = "{}apt_sticker_done_full_page_merge".format(imagesPath)
-        # path = "{}apt_sticker_done_row_merge".format(imagesPath)
+    #     files = glob.glob(searchFiles)
 
-        files = glob.glob(searchFiles)
+    #     allImgFullPath_array = []
+    #     sheetCounter = 0
 
-        allImgFullPath_array = []
-        sheetCounter = 0
+    #     if len(files) <= printRow:
+    #         for i in range(len(files)):
+    #             # Creates image object
+    #             toImg = cv2.imread(files[i])
 
-        if len(files) <= printRow:
-            for i in range(len(files)):
-                # Creates image object
-                toImg = cv2.imread(files[i])
-
-                # Saves image object to list
-                allImgFullPath.append(toImg)
-                sheetCounter = sheetCounter + 1
-        elif len(files) > printRow:
-            print(" !!!!!!!!!!! HEY, ACCOUNT FOR THIS SENARIO !!!!!!!!")
-            sheetCounter = sheetCounter + 1
+    #             # Saves image object to list
+    #             allImgFullPath.append(toImg)
+    #             sheetCounter = sheetCounter + 1
+    #     elif len(files) > printRow:
+    #         print(" !!!!!!!!!!! HEY, ACCOUNT FOR THIS SENARIO !!!!!!!!")
+    #         sheetCounter = sheetCounter + 1
             
-            
-        # Convers the list to array
-        allImgFullPath_array = np.array(allImgFullPath)
+    #     # Convers the list to array
+    #     allImgFullPath_array = np.array(allImgFullPath)
 
-        # Combines all the individual column images to one image
-        fullImg = cv2.vconcat(allImgFullPath_array)
+    #     # Combines all the individual column images to one image
+    #     fullImg = cv2.vconcat(allImgFullPath_array)
 
-        fileNameLocal = '{}_pagina{}'.format(fileName, sheetCounter)
+    #     fileNameLocal = '{}_pagina{}'.format(fileName, sheetCounter)
 
-        print("Generating File: {}".format(fileName))
+    #     print("Generating File: {}".format(fileName))
 
-        # Save the file to path
-        cv2.imwrite("{}/{}.PNG".format(saveToPathSheet,fileNameLocal), fullImg)
+    #     # Save the file to path
+    #     cv2.imwrite("{}/{}.PNG".format(saveToPathSheet,fileNameLocal), fullImg)
 
-        allImgFullPath.clear()
+    #     allImgFullPath.clear()
     
 
-    mergeToSheet(state, city, street, printRow, printColumn)
+    # mergeToSheet(state, city, street, printRow, printColumn)

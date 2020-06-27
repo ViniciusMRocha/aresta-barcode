@@ -21,7 +21,47 @@ import merge
 # Start function timer
 startTime = time.time()
 
+# https://stackoverflow.com/questions/21879424/do-something-every-n-iterations-without-using-counter-variable/21882128
+
 try:
+    
+    # =========== RUA 4 
+    state = 1
+    city = 1
+    street = 4
+    column = 80
+    level = 8
+    # === Merge Apt Sticker ===============
+    printAptRow = 40
+    printAptColumn = 10
+    merge.mergeApt(state, city, street, printAptRow, printAptColumn)
+    
+    # =========== RUA 5 
+    state = 1
+    city = 1
+    street = 5
+    column = 80
+    level = 8
+    
+    # === Merge Apt Sticker ===============
+    printAptRow = 40
+    printAptColumn = 10
+    merge.mergeApt(state, city, street, printAptRow, printAptColumn)
+
+
+    # =========== RUA 6 
+    state = 1
+    city = 1
+    street = 6
+    column = 96
+    level = 8
+
+    # === Merge Apt Sticker ===============
+    printAptRow = 40
+    printAptColumn = 10
+    merge.mergeApt(state, city, street, printAptRow, printAptColumn)
+    
+
 
     '''
 
