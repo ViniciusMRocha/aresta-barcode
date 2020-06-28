@@ -23,7 +23,6 @@ import resize
 imagesPath = "C:/personal-git/aresta-barcode/src/app/images/"
 
 
-
 # ====== Merge ===============================
 
 def mergeSign(state, city, street, level, printRow, printColumn):
@@ -67,7 +66,6 @@ def mergeSign(state, city, street, level, printRow, printColumn):
     print("Left Over: {}".format(leftOver))
 
 
-
     if leftOver != 0:
         # All blank spaces to end of print sheet
         blankFiles = perSheet-leftOver
@@ -80,9 +78,12 @@ def mergeSign(state, city, street, level, printRow, printColumn):
 
         print("Blank Files: {}".format(blankFiles))
 
+        blankImage = cv2.imread(blankSignPath)
+        
+
+        # TODO: add side line to the blank images
         for i in range(blankFiles):
             files.append(blankSignPath)
-    
     
     # list for all the images full path
     allImgFullPath = []

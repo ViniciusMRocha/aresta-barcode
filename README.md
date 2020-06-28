@@ -13,7 +13,9 @@
 11. (Done) Creted Timer to measure program execution
 12. (Done) Created total image counters
 13. Separate per street when creating print lines
-14. Create documentation
+14. Add lines for sizes 6, 8, 12 (side and top)
+15. Get the merge files leftover working
+16. Create documentation
 
 Barcode Reader
 pctop - LCB2DPR

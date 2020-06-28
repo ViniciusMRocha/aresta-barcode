@@ -43,6 +43,14 @@ def getBlankSignPath(index):
     path = "{}sign_blank_pad/blank-sign{}.PNG".format(imagesPath, index)
     return path
 
+def getLine(option, size):
+    if option == "side":
+        path = "{}lines/signSideLine{}.png".format(imagesPath, size)
+    if option == "top":
+        path = "{}lines/signTop.png".format(imagesPath)
+    line = cv2.imread(path)
+    return line
+
 # Generates the correct arrow given the column number
 def getArrow(column):
     #pattern repeats for every 4 digits.
@@ -129,6 +137,12 @@ def createColumnImage(state, city, street, column, level, allBarcodesPath, check
     # Generate column Image File
     fullImg = cv2.vconcat(labelAndBarcode_array)
     fullImg = cv2.vconcat([createColumnLable(column),fullImg])
+
+    # Add line on the side
+    fullImg = cv2.hconcat([fullImg, getLine("side", level)])
+
+    # Add line on the top
+    fullImg = cv2.vconcat([getLine("top", level), fullImg])
 
     # Save file
     columnThreeDigits = customeFunctions.addZero_threeDigits(column)

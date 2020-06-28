@@ -37,13 +37,11 @@ imagesPath = "C:/personal-git/aresta-barcode/src/app/images/"
 # createAllRange
 def createAll(state, city, street, column, level, product):
     def getArrow():
-        # print("Runnig getArrow")
         path = "{}apt_sticker_arrow_up/apt_sticker_arrow_up_black.PNG".format(imagesPath)
         arrow = cv2.imread(path)
         return arrow
 
     def getHeader(index):
-        # print("Runnig getHeader")
         path = "{}column_header/header-{}.PNG".format(imagesPath, index)
         header = cv2.imread(path)
         return header
