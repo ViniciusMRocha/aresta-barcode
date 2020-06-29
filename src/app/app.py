@@ -8,6 +8,8 @@ import barcode
 from barcode.writer import ImageWriter
 
 import time
+import glob
+import pprint
 
 # My Files
 import columnSign
@@ -24,19 +26,18 @@ startTime = time.time()
 
 
 try:
-    ruaInfo.test()
-    # ruaInfo.rua1()
-    # ruaInfo.rua2()
-    # ruaInfo.rua3()
-    # ruaInfo.rua4()
-    # ruaInfo.rua5()
-    # ruaInfo.rua6()
-    # ruaInfo.rua7()
-    # ruaInfo.rua8()
-    # ruaInfo.rua9()
-    # ruaInfo.rua10()
-    # ruaInfo.rua11()
-    # ruaInfo.allApt()
+    # ruaInfo.test()
+    ruaInfo.rua1()
+    ruaInfo.rua2()
+    ruaInfo.rua3()
+    ruaInfo.rua4()
+    ruaInfo.rua5()
+    ruaInfo.rua6()
+    ruaInfo.rua7()
+    ruaInfo.rua8()
+    ruaInfo.rua9()
+    ruaInfo.rua10()
+    ruaInfo.rua11()
    
 except:
     print("\n!!!!!!! Error Found !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")

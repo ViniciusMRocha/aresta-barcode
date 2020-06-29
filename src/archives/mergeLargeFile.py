@@ -10,21 +10,16 @@ saveToPath = "C:/personal-git/aresta-barcode/src/archives"
 
 allImgFullPath = []
 
-file1 = "{}column_done_single/inv-1.01.01.001.01.01.PNG".format(imagesPath)
-img1 = cv2.imread(file1)
+for i in range(15):
+    file1 = "{}sign_blank_pad/blank-sign8.PNG".format(imagesPath)
+    img1 = cv2.imread(file1)
+    allImgFullPath.append(img1)
 
-file2 = "{}lines/stickerSide.png".format(imagesPath)
-img2 = cv2.imread(file2)
+print(len(allImgFullPath))
 
-file3 = "{}lines/stickerTop.png".format(imagesPath)
-img3 = cv2.imread(file3)
 
-# allImgFullPath.append(img1)
-# allImgFullPath.append(img2)
-# allImgFullPath.append(img3)
-
-fullImg = cv2.hconcat([img1,img2])
-fullImg = cv2.vconcat([img3,fullImg])
+fullImg = cv2.hconcat(allImgFullPath)
+# fullImg = cv2.vconcat([img3,fullImg])
 
 fileName = "testImage"
 

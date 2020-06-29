@@ -26,11 +26,15 @@ def getStreetSeparator():
     img = cv2.imread(path)
     return img
 
+
 def getStickerSeparator():
     path ="{}lines/stickerBreak.png".format(imagesPath)
     img = cv2.imread(path)
     return img
-# ====== Merge ===============================
+
+def getBlankStickerPath():
+    path = "{}column_blank_pad/column-sticker-blank.png".format(imagesPath)
+    return path
 
 def mergeSign(state, city, street, level, printRow, printColumn):
 
@@ -141,21 +145,16 @@ def mergeSign(state, city, street, level, printRow, printColumn):
     lastImage = cv2.vconcat([lastRowImg,getStreetSeparator()])
     # save file
     cv2.imwrite(lastRowPath, lastImage)
-
-       
+     
 
 def mergeColumn(state, city, street, printRow, printColumn):
 
     city = customeFunctions.addZero_twoDigits(city)
     street = customeFunctions.addZero_twoDigits(street)
 
-    def getBlankColumnPath():
-        path = "{}column_blank_pad/column-sticker-blank.png".format(imagesPath)
-        return path
-
     perSheet = printRow*printColumn
 
-    blankSingleColumnPath = getBlankColumnPath()
+    blankSingleColumnPath = getBlankStickerPath()
     
     # Path to where all the individual images are
     path = '{}column_done_single/'.format(imagesPath)
@@ -246,20 +245,12 @@ def mergeColumn(state, city, street, printRow, printColumn):
     # save file
     cv2.imwrite(lastRowPath, lastImage)
 
-
-
 def mergeApt(state, city, street, printRow, printColumn):
 
     city = customeFunctions.addZero_twoDigits(city)
     street = customeFunctions.addZero_twoDigits(street)
 
-    def getBlankColumnPath():
-        path = "{}apt_sticker_blank_pad/apt-sticker-blank.png".format(imagesPath)
-        return path
-
-    perSheet = printRow*printColumn
-
-    blankSingleColumnPath = getBlankColumnPath()
+    blankSingleColumnPath = getBlankStickerPath()
     
     # Path to where all the individual images are
     path = '{}apt_sticker_done_single/'.format(imagesPath)
@@ -270,16 +261,15 @@ def mergeApt(state, city, street, printRow, printColumn):
     # files=glob.glob("{}*".format(path))
     files = glob.glob("{}/{}.{}.{}*".format(path, state, city, street))
 
-
-    print("Per Sheet: {}".format(perSheet))
+    # print("Per Sheet: {}".format(perSheet))
 
     totalFiles = len(files)
     print("Total files: {}".format(totalFiles))
 
-    fullSheets = totalFiles//perSheet
-    print("Full Sheets: {}".format(fullSheets))
+    fullRows = totalFiles//printColumn
+    print("Full Rows: {}".format(fullRows))
 
-    totalFilesInFullSheet = perSheet*fullSheets
+    totalFilesInFullSheet = printColumn*fullRows
     print("Total Files In Full Sheet: {}".format(totalFilesInFullSheet))
 
     leftOver = totalFiles-totalFilesInFullSheet 
@@ -287,7 +277,7 @@ def mergeApt(state, city, street, printRow, printColumn):
 
     if leftOver != 0:
         # All blank spaces to end of print sheet
-        blankFiles = perSheet-leftOver
+        blankFiles = printColumn-leftOver
         # Total of blank rows
         blankRow = blankFiles // printColumn
         # unit count of total blank signs
@@ -303,6 +293,7 @@ def mergeApt(state, city, street, printRow, printColumn):
     allImgFullPath = []
     rowImg = []
     savedFiles = []
+
     newStartPoint = 0
     for i in range(len(files)):
         if i%printColumn == 0:
@@ -318,7 +309,7 @@ def mergeApt(state, city, street, printRow, printColumn):
                 # Saves image object to list
                 allImgFullPath.append(toImg)
 
-            # print(rowImg)
+            pprint.pprint(rowImg)
             newStartPoint = newStartPoint+1
 
             # Convers the list to array
@@ -330,15 +321,13 @@ def mergeApt(state, city, street, printRow, printColumn):
             rowCount = customeFunctions.addZero_twoDigits(int(i/printColumn))
             fileName = 'adesivo_apt_rua{}_linha{}'.format(street, rowCount)
             savedFiles.append(fileName)
-
+            
             print("Generating File: {}".format(fileName))
 
             rowFile = "{}/{}.PNG".format(saveToPathRow,fileName)
 
             # Save the file to path
             cv2.imwrite(rowFile, fullImg)
-
-            # fullPage.append(rowFile)
 
             allImgFullPath.clear()
             rowImg.clear()
@@ -355,3 +344,125 @@ def mergeApt(state, city, street, printRow, printColumn):
     # save file
     cv2.imwrite(lastRowPath, lastImage)
 
+
+def mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn):
+
+    def getBlankRow(levelorColumn):
+        if levelorColumn == 0:
+            path = "{}column_blank_pad/column-sticker-row-blank.png".format(imagesPath)
+            return path
+        elif levelorColumn == 6:
+            path = "{}sign_blank_pad/blank-sign-row6.PNG".format(imagesPath)
+            return path
+        elif levelorColumn == 8:
+            path = "{}sign_blank_pad/blank-sign-row8.PNG".format(imagesPath)
+            return path
+        elif levelorColumn == 12:
+            path = "{}sign_blank_pad/blank-sign-row12.PNG".format(imagesPath)
+            return path
+
+    # Path to save file
+    saveToPath = "{}{}".format(imagesPath,saveToPathRow)
+    # Appends full Path to the parameter folder
+
+    foldeFullPath = "{}{}".format(imagesPath,folderPath)
+
+    if levelorColumn != 0:
+        files = glob.glob("{}/*nivelMax{}*".format(foldeFullPath,levelorColumn))
+    else:
+        # all files in the directory
+        files = glob.glob("{}/*".format(foldeFullPath))
+
+    print("Per Sheet: {}".format(printRow))
+
+    totalFiles = len(files)
+    print("Total files: {}".format(totalFiles))
+
+    fullSheets = totalFiles//printRow
+    print("Full Sheets: {}".format(fullSheets))
+
+    totalFilesInFullSheet = printRow*fullSheets
+    print("Total Files In Full Sheet: {}".format(totalFilesInFullSheet))
+
+    leftOver = totalFiles-totalFilesInFullSheet 
+    print("Left Over: {}".format(leftOver))
+
+    if leftOver != 0:
+        # All blank rows to end of print sheet
+        blankFiles = printRow-leftOver
+        print("Blank Files: {}".format(blankFiles))
+
+        for i in range(blankFiles):
+            files.append(getBlankRow(levelorColumn))
+
+        # pprint.pprint(files)
+
+
+    allImgFullPath = []
+    newStartPoint = 0
+    for i in range(len(files)):
+        if i%printRow == 0:
+            for j in range(printRow):
+                newStartPoint = j+i
+                
+                # Creates image object
+                toImg = cv2.imread(files[newStartPoint])
+
+                # Saves image object to list
+                allImgFullPath.append(toImg)
+
+            newStartPoint = newStartPoint+1
+
+            # Combines all the individual column images to one image
+            fullImg = cv2.vconcat(allImgFullPath)
+
+            pageCount = customeFunctions.addZero_twoDigits(int(i/printRow))
+            fileName = '{}{}'.format(filePrefix,pageCount)
+
+            print("Generating File: {}".format(fileName))
+
+            # Save the file to path
+            cv2.imwrite("{}/{}.PNG".format(saveToPath,fileName), fullImg)
+
+            allImgFullPath.clear()
+
+
+printRow = 40
+printColumn = 10
+levelorColumn = 0 #determines if it is a sign or sticker | 0 = column 6,8,12 level o sign
+folderPath = "apt_sticker_done_row_merge"
+saveToPathRow = "apt_sticker_done_full_page_merge"
+filePrefix = "adesivo_apartamento_pagina"
+
+mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
+
+folderPath = "column_done_row_merge"
+saveToPathRow = "column_done_full_page_merge"
+filePrefix = "adesivo_paletes_pagina"
+
+mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
+
+
+printRow = 5
+printColumn = 5
+levelorColumn = 8
+folderPath = "sign_done_row_merge"
+saveToPathRow = "sign_done_full_page_merge"
+filePrefix = "placa_paletes_nivel{}_pagina".format(levelorColumn)
+mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
+
+printRow = 5
+printColumn = 5
+levelorColumn = 6
+folderPath = "sign_done_row_merge"
+saveToPathRow = "sign_done_full_page_merge"
+filePrefix = "placa_paletes_nivel{}_pagina".format(levelorColumn)
+mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
+
+printRow = 5
+printColumn = 5
+levelorColumn = 12
+folderPath = "sign_done_row_merge"
+saveToPathRow = "sign_done_full_page_merge"
+filePrefix = "placa_paletes_nivel{}_pagina".format(levelorColumn)
+mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
