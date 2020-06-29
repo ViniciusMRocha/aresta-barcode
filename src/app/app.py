@@ -8,7 +8,6 @@ import barcode
 from barcode.writer import ImageWriter
 
 import time
-#https://stackoverflow.com/questions/3620943/measuring-elapsed-time-with-the-time-module/46544199
 
 # My Files
 import columnSign
@@ -22,11 +21,11 @@ import ruaInfo
 # Start function timer
 startTime = time.time()
 
-# https://stackoverflow.com/questions/21879424/do-something-every-n-iterations-without-using-counter-variable/21882128
 
 
 try:
-    ruaInfo.rua1()
+    ruaInfo.test()
+    # ruaInfo.rua1()
     # ruaInfo.rua2()
     # ruaInfo.rua3()
     # ruaInfo.rua4()
@@ -43,7 +42,7 @@ except:
     print("\n!!!!!!! Error Found !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     raise Exception
 
-# =========== COUNT ALL FILES ====================================================================================================
+# =========== COUNT ALL FILES ================================================================
 print("\n======= Total Images Report ==================================")
 countFiles.getTotalImageCount()
 

@@ -6,6 +6,42 @@ import deleteExtras
 import countFiles
 import merge
 
+
+def test():
+    # =========== RUA 5 =====================================================
+    state = 1
+    city = 1
+    street = 5
+    column = 80
+    level = 8
+    product = 1
+    # columnSign.createAll(state, city, street, column, level, product)
+    # columnSticker.createAll(state, city, street, column, level, product)
+
+    aptLevelMax = 2
+    apt = 3
+    columnStart = 9
+    columnEnd = 68
+    evenOddAll = "all"
+    aptSticker.createAll(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
+    deleteExtras.removeColumnSticker(state, city, street, column, aptLevelMax, product, apt, columnStart, columnEnd, evenOddAll)
+
+    # === Merge Signs ===============
+    printRow = 5
+    printColumn = 15 
+    # merge.mergeSign(state, city, street, level, printRow, printColumn)
+
+    # === Merge Column Sticker ===============
+    printRow = 40
+    printColumn = 10
+    # merge.mergeColumn(state, city, street, printRow, printColumn)
+
+    # === Merge Apt Sticker ===============
+    printAptRow = 40
+    printAptColumn = 10
+    merge.mergeApt(state, city, street, printAptRow, printAptColumn)
+
+
 def rua1():
     # =========== RUA 1 =====================================================
     state = 1

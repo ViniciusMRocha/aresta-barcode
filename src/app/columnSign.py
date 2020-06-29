@@ -11,7 +11,6 @@ import barcode
 from barcode.writer import ImageWriter
 
 import glob
-# https://stackoverflow.com/questions/2225564/get-a-filtered-list-of-files-in-a-directory
 
 import pprint
 

@@ -43,6 +43,14 @@ def createAll(state, city, street, column, level, product, apt, columnStart, col
         header = cv2.imread(path)
         return header
 
+    def getLine(option):
+        if option == "side":
+            path = "{}lines/stickerSide.png".format(imagesPath)
+        if option == "top":
+            path = "{}lines/stickerTop.png".format(imagesPath)
+        line = cv2.imread(path)
+        return line
+
     # =================================================
     # Combine Images
     # =================================================
@@ -67,6 +75,10 @@ def createAll(state, city, street, column, level, product, apt, columnStart, col
         img1 = cv2.hconcat([header,firstDigit,secondDigit,pad])
         img2 = cv2.vconcat([img1,barcode])
         img3 = cv2.hconcat([img2,arrow])
+        # Side Line
+        img4 = cv2.hconcat([img3, getLine("side")])
+        # Top Line
+        img5 = cv2.vconcat([getLine("top"),img4])
 
         # Create File Name
         city = customeFunctions.addZero_twoDigits(city)
@@ -77,12 +89,8 @@ def createAll(state, city, street, column, level, product, apt, columnStart, col
         fileName = "{}.{}.{}.{}.{}.{}-apt-{}.png".format(state, city, street, column, level, product, apt)
 
         savePath = "{}apt_sticker_done_single/{}".format(imagesPath, fileName)
-        cv2.imwrite(savePath, img3)
+        cv2.imwrite(savePath, img5)
         print(savePath)
-
-        width = 378
-        height = 189
-        resize.singleFileResize(savePath,width,height)
 
     if evenOddAll == "all":
         print("Doing all")
@@ -92,6 +100,7 @@ def createAll(state, city, street, column, level, product, apt, columnStart, col
                 for a in range(1,apt+1):
                     # print("street-{} column-{} level-{} apt-{}".format(street,c,l,a))
                     createSingle(state, city, street, c, l, product, a)
+                    
     elif evenOddAll == "even":
         print("Doing even")
         for c in range(columnStart,columnEnd+1):

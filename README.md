@@ -22,3 +22,9 @@ pctop - LCB2DPR
 
 generate file
 https://dummyimage.com/
+
+Resources:
+
+- https://stackoverflow.com/questions/21879424/do-something-every-n-iterations-without-using-counter-variable/21882128
+- https://stackoverflow.com/questions/3620943/measuring-elapsed-time-with-the-time-module/46544199
+- https://stackoverflow.com/questions/2225564/get-a-filtered-list-of-files-in-a-directory
