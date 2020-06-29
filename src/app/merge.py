@@ -427,42 +427,42 @@ def mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, print
             allImgFullPath.clear()
 
 
-printRow = 40
-printColumn = 10
-levelorColumn = 0 #determines if it is a sign or sticker | 0 = column 6,8,12 level o sign
-folderPath = "apt_sticker_done_row_merge"
-saveToPathRow = "apt_sticker_done_full_page_merge"
-filePrefix = "adesivo_apartamento_pagina"
+# printRow = 40
+# printColumn = 10
+# levelorColumn = 0 #determines if it is a sign or sticker | 0 = column 6,8,12 level o sign
+# folderPath = "apt_sticker_done_row_merge"
+# saveToPathRow = "apt_sticker_done_full_page_merge"
+# filePrefix = "adesivo_apartamento_pagina"
 
-mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
+# mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
 
-folderPath = "column_done_row_merge"
-saveToPathRow = "column_done_full_page_merge"
-filePrefix = "adesivo_paletes_pagina"
+# folderPath = "column_done_row_merge"
+# saveToPathRow = "column_done_full_page_merge"
+# filePrefix = "adesivo_paletes_pagina"
 
-mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
+# mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
 
 
-printRow = 5
-printColumn = 5
-levelorColumn = 8
-folderPath = "sign_done_row_merge"
-saveToPathRow = "sign_done_full_page_merge"
-filePrefix = "placa_paletes_nivel{}_pagina".format(levelorColumn)
-mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
+# printRow = 5
+# printColumn = 5
+# levelorColumn = 8
+# folderPath = "sign_done_row_merge"
+# saveToPathRow = "sign_done_full_page_merge"
+# filePrefix = "placa_paletes_nivel{}_pagina".format(levelorColumn)
+# mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
 
-printRow = 5
-printColumn = 5
-levelorColumn = 6
-folderPath = "sign_done_row_merge"
-saveToPathRow = "sign_done_full_page_merge"
-filePrefix = "placa_paletes_nivel{}_pagina".format(levelorColumn)
-mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
+# printRow = 5
+# printColumn = 5
+# levelorColumn = 6
+# folderPath = "sign_done_row_merge"
+# saveToPathRow = "sign_done_full_page_merge"
+# filePrefix = "placa_paletes_nivel{}_pagina".format(levelorColumn)
+# mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
 
-printRow = 5
-printColumn = 5
-levelorColumn = 12
-folderPath = "sign_done_row_merge"
-saveToPathRow = "sign_done_full_page_merge"
-filePrefix = "placa_paletes_nivel{}_pagina".format(levelorColumn)
-mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
+# printRow = 5
+# printColumn = 5
+# levelorColumn = 12
+# folderPath = "sign_done_row_merge"
+# saveToPathRow = "sign_done_full_page_merge"
+# filePrefix = "placa_paletes_nivel{}_pagina".format(levelorColumn)
+# mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)

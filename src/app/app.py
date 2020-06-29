@@ -38,6 +38,7 @@ try:
     ruaInfo.rua9()
     ruaInfo.rua10()
     ruaInfo.rua11()
+    ruaInfo.mergeToPrint()
    
 except:
     print("\n!!!!!!! Error Found !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")

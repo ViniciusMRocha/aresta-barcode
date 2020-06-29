@@ -9,36 +9,6 @@ import merge
 
 def test():
     print("=========== TEST =====================================================")
-    # # =========== RUA 4 =====================================================
-    # state = 1
-    # city = 1
-    # street = 4
-    # column = 80
-    # level = 8
-    # product = 1
-
-
-    # aptLevelMax = 2
-    # apt = 3
-    # columnStart = 10
-    # columnEnd = 60
-    # evenOddAll = "even"
-
-    # # === Merge Signs ===============
-    # printRow = 5
-    # printColumn = 15 
-    # # merge.mergeSign(state, city, street, level, printRow, printColumn)
-
-    # # === Merge Column Sticker ===============
-    # printRow = 40
-    # printColumn = 10
-    # # merge.mergeColumn(state, city, street, printRow, printColumn)
-
-    # # === Merge Apt Sticker ===============
-    # printAptRow = 40
-    # printAptColumn = 10
-    # merge.mergeApt(state, city, street, printAptRow, printAptColumn)
-
 
 def rua1():
     # =========== RUA 1 =====================================================
@@ -106,7 +76,6 @@ def rua3():
     merge.mergeColumn(state, city, street, printRow, printColumn)
 
 
-
 def rua4():
     # =========== RUA 4 =====================================================
     state = 1
@@ -141,6 +110,7 @@ def rua4():
     printAptColumn = 10
     merge.mergeApt(state, city, street, printAptRow, printAptColumn)
 
+
 def rua5():
     # =========== RUA 5 =====================================================
     state = 1
@@ -174,7 +144,6 @@ def rua5():
     printAptRow = 40
     printAptColumn = 10
     merge.mergeApt(state, city, street, printAptRow, printAptColumn)
-
 
 
 def rua6():
@@ -215,6 +184,7 @@ def rua6():
     printAptColumn = 10
     merge.mergeApt(state, city, street, printAptRow, printAptColumn)
 
+
 def rua7():
     # =========== RUA 7 =====================================================
     state = 1
@@ -236,6 +206,7 @@ def rua7():
     printColumn = 10
     merge.mergeColumn(state, city, street, printRow, printColumn)
 
+
 def rua8():
     # =========== RUA 8 =====================================================
     state = 1
@@ -256,6 +227,7 @@ def rua8():
     printRow = 40
     printColumn = 10
     merge.mergeColumn(state, city, street, printRow, printColumn)
+
 
 def rua9():
     # =========== RUA 9 =====================================================
@@ -279,7 +251,6 @@ def rua9():
     merge.mergeColumn(state, city, street, printRow, printColumn)
 
 
-
 def rua10():
     # =========== RUA 10 =====================================================
     state = 1
@@ -300,6 +271,7 @@ def rua10():
     printRow = 40
     printColumn = 10
     merge.mergeColumn(state, city, street, printRow, printColumn)
+
 
 def rua11():
     # =========== RUA 11 =====================================================
@@ -338,18 +310,44 @@ def rua11():
     columnSign.createAllRange(state, city, street, startColumn, level, product, endColumn)
     columnSticker.createAllRange(state, city, street, level, product, startColumn, endColumn)
 
-    # === Merge Signs ===============
-    level = 8
-    printRow = 5
-    printColumn = 15 
-    merge.mergeSign(state, city, street, level, printRow, printColumn)
 
-    level = 12
-    printRow = 4
-    printColumn = 15 
-    merge.mergeSign(state, city, street, level, printRow, printColumn)
-
-    # === Merge Column Sticker ===============
+def mergeToPrint():
     printRow = 40
     printColumn = 10
-    merge.mergeColumn(state, city, street, printRow, printColumn)
+    levelorColumn = 0 #determines if it is a sign or sticker | 0 = column 6,8,12 level o sign
+    folderPath = "apt_sticker_done_row_merge"
+    saveToPathRow = "apt_sticker_done_full_page_merge"
+    filePrefix = "adesivo_apartamento_pagina"
+
+    merge.mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
+
+    folderPath = "column_done_row_merge"
+    saveToPathRow = "column_done_full_page_merge"
+    filePrefix = "adesivo_paletes_pagina"
+
+    merge.mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
+
+
+    printRow = 5
+    printColumn = 5
+    levelorColumn = 8
+    folderPath = "sign_done_row_merge"
+    saveToPathRow = "sign_done_full_page_merge"
+    filePrefix = "placa_paletes_nivel{}_pagina".format(levelorColumn)
+    merge.mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
+
+    printRow = 5
+    printColumn = 5
+    levelorColumn = 6
+    folderPath = "sign_done_row_merge"
+    saveToPathRow = "sign_done_full_page_merge"
+    filePrefix = "placa_paletes_nivel{}_pagina".format(levelorColumn)
+    merge.mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)
+
+    printRow = 5
+    printColumn = 5
+    levelorColumn = 12
+    folderPath = "sign_done_row_merge"
+    saveToPathRow = "sign_done_full_page_merge"
+    filePrefix = "placa_paletes_nivel{}_pagina".format(levelorColumn)
+    merge.mergeStickerPrintPage(folderPath, saveToPathRow, filePrefix, printRow, printColumn, levelorColumn)

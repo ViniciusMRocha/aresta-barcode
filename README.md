@@ -12,10 +12,12 @@
 10. (Done) Externalize Root Path
 11. (Done) Creted Timer to measure program execution
 12. (Done) Created total image counters
-13. Separate per street when creating print lines
-14. Add lines for sizes 6, 8, 12 (side and top)
-15. Get the merge files leftover working
-16. Create documentation
+13. (Done) Separate per street when creating print lines
+14. (Done) Add lines for sizes 6, 8, 12 (side and top)
+15. (Done) Get the merge files leftover working
+16. (Done) Add Merge to the app.py file
+17. Remove Numpy arrays
+18. Create documentation
 
 Barcode Reader
 pctop - LCB2DPR
