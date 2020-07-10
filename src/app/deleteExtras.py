@@ -21,8 +21,8 @@ import barcodeGenerator
 import resize
 
 
-#C:/personal-git/aresta-barcode/src/app/images/column-done-single/inv-1.01.04.010.01.01.PNG
-#C:/personal-git/aresta-barcode/src/app/images/column-done-single/inv-1.01.04.010.02.01.PNG
+imagesPath = "C:/personal-git/aresta-barcode/src/app/images/"
+
 
 def removeColumnSticker(state, city, street, column, aptLevelMax, product, apt, startDelete, endDelete, sideRemove):
     print("Remove Column Sticker")
@@ -32,7 +32,7 @@ def removeColumnSticker(state, city, street, column, aptLevelMax, product, apt, 
     productTwoDigits = customeFunctions.addZero_twoDigits(product)
 
     deleteList = []
-    path = "C:/personal-git/aresta-barcode/src/app/images/column-done-single/inv-{}.PNG"
+    path = "C:/personal-git/aresta-barcode/src/app/images/column_done_single/inv-{}.PNG"
 
     if sideRemove == "even":
         for c in range(startDelete,endDelete+1):
@@ -107,7 +107,7 @@ def removeColumn(state, city, street, column, level, product, startDelete, endDe
             if c%2 == 0:
                 print("\n ---------- Deleting column: {}".format(c))
                 columnThreeDigits = customeFunctions.addZero_threeDigits(c)
-                signPath = "C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits)
+                signPath = "C:/personal-git/aresta-barcode/src/app/images/sign_done_single/1.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits)
                 if os.path.exists(signPath):
                     os.remove(signPath)
                     print("Deleted: {}".format(signPath))
@@ -117,7 +117,7 @@ def removeColumn(state, city, street, column, level, product, startDelete, endDe
                 for i in range(1,level+1):
                     levelTwoDigits = customeFunctions.addZero_twoDigits(i)
                     columnThreeDigits = customeFunctions.addZero_threeDigits(c)
-                    barcodePath = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/1.{}.{}.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits,levelTwoDigits,productTwoDigits)
+                    barcodePath = "C:/personal-git/aresta-barcode/src/app/images/barcode_library/1.{}.{}.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits,levelTwoDigits,productTwoDigits)
                     if os.path.exists(barcodePath):
                         os.remove(barcodePath)
                         print("Deleted: {}".format(barcodePath))
@@ -126,7 +126,7 @@ def removeColumn(state, city, street, column, level, product, startDelete, endDe
                 
                 for i in range(1,level+1):
                     levelTwoDigits = customeFunctions.addZero_twoDigits(i)
-                    columnPath = "C:/personal-git/aresta-barcode/src/app/images/column-done-single/inv-1.{}.{}.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits,levelTwoDigits,productTwoDigits)
+                    columnPath = "C:/personal-git/aresta-barcode/src/app/images/column_done_single/inv-1.{}.{}.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits,levelTwoDigits,productTwoDigits)
                     if os.path.exists(columnPath):
                         os.remove(columnPath)
                         print("Deleted: {}".format(columnPath))
@@ -138,7 +138,7 @@ def removeColumn(state, city, street, column, level, product, startDelete, endDe
             if c%2 != 0:
                 print("\n ---------- Deleting column: {}".format(c))
                 columnThreeDigits = customeFunctions.addZero_threeDigits(c)
-                signPath = "C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits)
+                signPath = "C:/personal-git/aresta-barcode/src/app/images/sign_done_single/1.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits)
                 print(signPath)
                 if os.path.exists(signPath):
                     os.remove(signPath)
@@ -149,7 +149,7 @@ def removeColumn(state, city, street, column, level, product, startDelete, endDe
                 for i in range(1,level+1):
                     levelTwoDigits = customeFunctions.addZero_twoDigits(i)
                     columnThreeDigits = customeFunctions.addZero_threeDigits(c)
-                    barcodePath = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/1.{}.{}.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits,levelTwoDigits,productTwoDigits)
+                    barcodePath = "C:/personal-git/aresta-barcode/src/app/images/barcode_library/1.{}.{}.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits,levelTwoDigits,productTwoDigits)
                     print(barcodePath)
                     if os.path.exists(barcodePath):
                         os.remove(barcodePath)
@@ -159,7 +159,7 @@ def removeColumn(state, city, street, column, level, product, startDelete, endDe
                 
                 for i in range(1,level+1):
                     levelTwoDigits = customeFunctions.addZero_twoDigits(i)
-                    columnPath = "C:/personal-git/aresta-barcode/src/app/images/column-done-single/inv-1.{}.{}.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits,levelTwoDigits,productTwoDigits)
+                    columnPath = "C:/personal-git/aresta-barcode/src/app/images/column_done_single/inv-1.{}.{}.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits,levelTwoDigits,productTwoDigits)
                     if os.path.exists(columnPath):
                         os.remove(columnPath)
                         print("Deleted: {}".format(columnPath))
@@ -170,7 +170,7 @@ def removeColumn(state, city, street, column, level, product, startDelete, endDe
         for c in range(startDelete,endDelete+1):
             print("\n ---------- Deleting column: {}".format(c))
             columnThreeDigits = customeFunctions.addZero_threeDigits(c)
-            signPath = "C:/personal-git/aresta-barcode/src/app/images/sign-done-single/1.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits)
+            signPath = "C:/personal-git/aresta-barcode/src/app/images/sign_done_single/1.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits)
             if os.path.exists(signPath):
                 os.remove(signPath)
                 print("Deleted: {}".format(signPath))
@@ -180,7 +180,7 @@ def removeColumn(state, city, street, column, level, product, startDelete, endDe
             for i in range(1,level+1):
                 levelTwoDigits = customeFunctions.addZero_twoDigits(i)
                 columnThreeDigits = customeFunctions.addZero_threeDigits(c)
-                barcodePath = "C:/personal-git/aresta-barcode/src/app/images/barcode-library/1.{}.{}.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits,levelTwoDigits,productTwoDigits)
+                barcodePath = "C:/personal-git/aresta-barcode/src/app/images/barcode_library/1.{}.{}.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits,levelTwoDigits,productTwoDigits)
                 if os.path.exists(barcodePath):
                     os.remove(barcodePath)
                     print("Deleted: {}".format(barcodePath))
@@ -189,7 +189,7 @@ def removeColumn(state, city, street, column, level, product, startDelete, endDe
             
             for i in range(1,level+1):
                 levelTwoDigits = customeFunctions.addZero_twoDigits(i)
-                columnPath = "C:/personal-git/aresta-barcode/src/app/images/column-done-single/inv-1.{}.{}.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits,levelTwoDigits,productTwoDigits)
+                columnPath = "C:/personal-git/aresta-barcode/src/app/images/column_done_single/inv-1.{}.{}.{}.{}.{}.PNG".format(cityTwoDigits,streetTwoDigits,columnThreeDigits,levelTwoDigits,productTwoDigits)
                 if os.path.exists(columnPath):
                     os.remove(columnPath)
                     print("Deleted: {}".format(columnPath))

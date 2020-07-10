@@ -12,76 +12,62 @@ from os.path import isfile, join
 
 import glob
 
-
 #My Files
 import customeFunctions
 import barcodeGenerator
 import resize
 
+imagesPath = "C:/personal-git/aresta-barcode/src/app/images/"
 
-imagePath = "C:/personal-git/aresta-barcode/src/app/images/"
+def getArrow():
+    path = "{}apt_sticker_arrow_up/apt_sticker_arrow_up_black.PNG".format(imagesPath)
+    arrow = cv2.imread(path)
+    return arrow
 
-# Return a blank sticker
-def getBlankColumnPath():
-    path = "{}column-blank-pad/column-sticker-blank.png".format(imagePath)
-    return path
+def getHeader(index):
+    path = "{}column_header/header-{}.PNG".format(imagesPath, index)
+    header = cv2.imread(path)
+    return header
 
-# Return a blank sticker row
-def getBlankColumnRowPath():
-    path = "{}column-blank-pad/column-sticker-row-blank.png".format(imagePath)
-    return path
+def createColumnSticker(state, city, street, column, level, product):
 
-# =================================================
-# Get Images
-# =================================================
+    def getLine(option):
+        if option == "side":
+            path = "{}lines/stickerSide.png".format(imagesPath)
+        if option == "top":
+            path = "{}lines/stickerTop.png".format(imagesPath)
+        line = cv2.imread(path)
+        return line
 
-# create all column sticker
-def createAll(state, city, street, column, level, product):
-    def getArrow():
-        # print("Runnig getArrow")
-        path = "{}apt-sticker-arrow-up/apt-sticker-arrow-up-black.PNG".format(imagePath)
-        arrow = cv2.imread(path)
-        return arrow
+    # Generate sectioin images
+    arrow = getArrow()
+    header = getHeader(level) #420 x 114
+    barcode = barcodeGenerator.getBarcode(state, city, street, column, level, product)
 
-    def getHeader(index):
-        # print("Runnig getHeader")
-        path = "{}column-header/header-{}.PNG".format(imagePath,index)
-        header = cv2.imread(path)
-        return header
-
-    # =================================================
     # Combine Images
-    # =================================================
+    img1 = cv2.vconcat([header,barcode])
+    img2 = cv2.hconcat([img1,arrow])
+    # Side Line
+    img3 = cv2.hconcat([img2, getLine("side")])
+    # Top Line
+    img4 = cv2.vconcat([getLine("top"),img3])
 
-    def createColumnSticker(state, city, street, column, level, product):
+    # Create File Name
+    city = customeFunctions.addZero_twoDigits(city)
+    street = customeFunctions.addZero_twoDigits(street)
+    column = customeFunctions.addZero_threeDigits(column)
+    level = customeFunctions.addZero_twoDigits(level)
+    product = customeFunctions.addZero_twoDigits(product)
 
-        # Generate sectioin images
-        arrow = getArrow()
-        header = getHeader(level) #420 x 114
-        barcode = barcodeGenerator.getBarcode(state, city, street, column, level, product)
+    fileName = "inv-{}.{}.{}.{}.{}.{}.PNG".format(state, city, street, column, level, product)
 
-        # Combine Images
-        img1 = cv2.vconcat([header,barcode])
-        img2 = cv2.hconcat([img1,arrow])
+    savePath = "{}column_done_single/{}".format(imagesPath, fileName)
+    cv2.imwrite(savePath, img4)
+    print(savePath)
 
-        # Create File Name
-        city = customeFunctions.addZero_twoDigits(city)
-        street = customeFunctions.addZero_twoDigits(street)
-        column = customeFunctions.addZero_threeDigits(column)
-        level = customeFunctions.addZero_twoDigits(level)
-        product = customeFunctions.addZero_twoDigits(product)
-
-        fileName = "inv-{}.{}.{}.{}.{}.{}.PNG".format(state, city, street, column, level, product)
-
-        savePath = "{}column-done-single/{}".format(imagePath,fileName)
-        cv2.imwrite(savePath, img2)
-        print(savePath)
-
-        width = 378
-        height = 189
-        resize.singleFileResize(savePath,width,height)
-
-
+# createAllRange
+def createAll(state, city, street, column, level, product):
+    
     print("Creating for street: ",street)
     for c in range(1,column+1):
         for l in range(1,level+1):
@@ -89,53 +75,7 @@ def createAll(state, city, street, column, level, product):
             createColumnSticker(state, city, street, c, l, product)
 
 
-
-# createAllRange
 def createAllRange(state, city, street, level, product, startColumn, endColumn):
-    def getArrow():
-        # print("Runnig getArrow")
-        path = "{}apt-sticker-arrow-up/apt-sticker-arrow-up-black.PNG".format(imagePath)
-        arrow = cv2.imread(path)
-        return arrow
-
-    def getHeader(index):
-        # print("Runnig getHeader")
-        path = "{}column-header/header-{}.PNG".format(imagePath,index)
-        header = cv2.imread(path)
-        return header
-
-    # =================================================
-    # Combine Images
-    # =================================================
-
-    def createColumnSticker(state, city, street, column, level, product):
-
-        # Generate sectioin images
-        arrow = getArrow()
-        header = getHeader(level) #420 x 114
-        barcode = barcodeGenerator.getBarcode(state, city, street, column, level, product)
-
-        # Combine Images
-        img1 = cv2.vconcat([header,barcode])
-        img2 = cv2.hconcat([img1,arrow])
-
-        # Create File Name
-        city = customeFunctions.addZero_twoDigits(city)
-        street = customeFunctions.addZero_twoDigits(street)
-        column = customeFunctions.addZero_threeDigits(column)
-        level = customeFunctions.addZero_twoDigits(level)
-        product = customeFunctions.addZero_twoDigits(product)
-
-        fileName = "inv-{}.{}.{}.{}.{}.{}.PNG".format(state, city, street, column, level, product)
-
-        savePath = "{}column-done-single/{}".format(imagePath,fileName)
-        cv2.imwrite(savePath, img2)
-        print(savePath)
-
-        width = 378
-        height = 189
-        resize.singleFileResize(savePath,width,height)
-
 
     print("Creating for street: ",street)
     for c in range(startColumn,endColumn+1):
@@ -145,140 +85,142 @@ def createAllRange(state, city, street, level, product, startColumn, endColumn):
 
 
 
-def merge(printRow, printColumn):
+# def merge(printRow, printColumn):
     
-    perSheet = printRow*printColumn
+#     perSheet = printRow*printColumn
 
-    blankSingleColumnPath = getBlankColumnPath()
-    blankColumnRowPath = getBlankColumnRowPath()
+#     blankSingleColumnPath = getBlankColumnPath()
+#     blankColumnRowPath = getBlankColumnRowPath()
     
-    print("testing")
-    # Path to where all the individual images are
-    path = "{}column-done-single/".format(imagePath)
+#     print("testing")
+#     # Path to where all the individual images are
+#     path = '{}column_done_single/'.format(imagesPath)
 
-    # Save new file to the path below 
-    saveToPathRow = "{}column-done-row-merge".format(imagePath)
+#     # Save new file to the path below 
+#     saveToPathRow = "{}column_done_row_merge".format(imagesPath)
 
-    files=glob.glob("{}*".format(path))
+#     files=glob.glob("{}*".format(path))
 
-    print("Per Sheet: {}".format(perSheet))
+#     print("Per Sheet: {}".format(perSheet))
 
-    totalFiles = len(files)
-    print("Total files: {}".format(totalFiles))
+#     totalFiles = len(files)
+#     print("Total files: {}".format(totalFiles))
 
-    fullSheets = totalFiles//perSheet
-    print("Full Sheets: {}".format(fullSheets))
+#     fullSheets = totalFiles//perSheet
+#     print("Full Sheets: {}".format(fullSheets))
 
-    totalFilesInFullSheet = perSheet*fullSheets
-    print("Total Files In Full Sheet: {}".format(totalFilesInFullSheet))
+#     totalFilesInFullSheet = perSheet*fullSheets
+#     print("Total Files In Full Sheet: {}".format(totalFilesInFullSheet))
 
-    leftOver = totalFiles-totalFilesInFullSheet 
-    print("Left Over: {}".format(leftOver))
+#     leftOver = totalFiles-totalFilesInFullSheet 
+#     print("Left Over: {}".format(leftOver))
 
-    if leftOver != 0:
-        blankFiles = perSheet-leftOver
-        print("Blank Files: {}".format(blankFiles))
+#     if leftOver != 0:
+#         blankFiles = perSheet-leftOver
+#         print("Blank Files: {}".format(blankFiles))
 
-        for a in range(blankFiles):
-            files.append(blankSingleColumnPath)
+#         for a in range(blankFiles):
+#             files.append(blankSingleColumnPath)
 
-    allImgFullPath = []
-    rowImg = []
-    newStartPoint = 0
-    for i in range(len(files)):
-        if i%printColumn == 0:
-            for j in range(printColumn):
-                newStartPoint = j+i
+#     allImgFullPath = []
+#     rowImg = []
+#     newStartPoint = 0
+#     for i in range(len(files)):
+#         if i%printColumn == 0:
+#             for j in range(printColumn):
+#                 newStartPoint = j+i
 
-                # Append Path
-                rowImg.append(files[newStartPoint])
+#                 # Append Path
+#                 rowImg.append(files[newStartPoint])
 
-                # Creates image object
-                toImg = cv2.imread(files[newStartPoint])
+#                 # Creates image object
+#                 toImg = cv2.imread(files[newStartPoint])
 
-                # Saves image object to list
-                allImgFullPath.append(toImg)
+#                 # Saves image object to list
+#                 allImgFullPath.append(toImg)
 
-            # print(rowImg)
-            newStartPoint = newStartPoint+1
+#             # print(rowImg)
+#             newStartPoint = newStartPoint+1
 
-            # Convers the list to array
-            allImgFullPath_array = np.array(allImgFullPath)
+#             # Convers the list to array
+#             allImgFullPath_array = np.array(allImgFullPath)
 
-            # Combines all the individual column images to one image
-            fullImg = cv2.hconcat(allImgFullPath_array)
+#             # Combines all the individual column images to one image
+#             fullImg = cv2.hconcat(allImgFullPath_array)
 
-            rowCount = customeFunctions.addZero_twoDigits(int(i/printColumn))
-            fileName = 'columSticker-row-{}'.format(rowCount)
+#             rowCount = customeFunctions.addZero_twoDigits(int(i/printColumn))
+#             fileName = 'street-columSticker-row-{}'.format(rowCount)
 
-            print("Generating File: {}".format(fileName))
+#             print("Generating File: {}".format(fileName))
 
-            # Save the file to path
-            cv2.imwrite("{}/{}.PNG".format(saveToPathRow,fileName), fullImg)
+#             # Save the file to path
+#             cv2.imwrite("{}/{}.PNG".format(saveToPathRow,fileName), fullImg)
 
-            allImgFullPath.clear()
-            rowImg.clear()
+#             allImgFullPath.clear()
+#             rowImg.clear()
 
+#     def mergeRow():
+#         # Save new file to the path below 
+#         saveToPathFullPage = "{}column_done_full_page_merge".format(imagesPath)
 
-    # Save new file to the path below 
-    saveToPathFullPage = "C:/personal-git/aresta-barcode/src/app/images/column-done-full-page-merge"
+#         rows=glob.glob("{}/*".format(saveToPathRow))
 
-    rows=glob.glob("{}/*".format(saveToPathRow))
+#         totalRows = len(rows)
+#         print("Total rows: {}".format(totalRows))
 
-    totalRows = len(rows)
-    print("Total rows: {}".format(totalRows))
+#         fullSheets = totalRows//printRow
+#         print("Total Full Sheets: {}".format(fullSheets))
 
-    fullSheets = totalRows//printRow
-    print("Total Full Sheets: {}".format(fullSheets))
+#         totalRowsInFullSheet = printRow*fullSheets
+#         print("Total Rows In Full Sheet: {}".format(totalRowsInFullSheet))
 
-    totalRowsInFullSheet = printRow*fullSheets
-    print("Total Rows In Full Sheet: {}".format(totalRowsInFullSheet))
+#         leftOver = totalRows-totalRowsInFullSheet 
+#         print("Left Over Rows: {}".format(leftOver))
 
-    leftOver = totalRows-totalRowsInFullSheet 
-    print("Left Over Rows: {}".format(leftOver))
+#         if leftOver != 0:
+#             blankRows = printRow-leftOver
+#             print("Blank Rows: {}\n".format(blankRows))
 
-    if leftOver != 0:
-        blankRows = printRow-leftOver
-        print("Blank Rows: {}\n".format(blankRows))
+#             for a in range(blankRows):
+#                 rows.append(blankColumnRowPath)
 
-        for a in range(blankRows):
-            rows.append(blankColumnRowPath)
+#         sheetImg = []
+#         allImgFullPath = []
+#         newStartPoint = 0
 
-    sheetImg = []
-    allImgFullPath = []
-    newStartPoint = 0
+#         print("Total in rows: ",len(rows))
+#         rounds = int(len(rows)/printRow)
+#         for i in range(rounds):
+#             for j in range(printRow):
+                
+#                 individualRow = newStartPoint+j
 
-    print("Total in rows: ",len(rows))
-    rounds = int(len(rows)/printRow)
-    for i in range(rounds):
-        for j in range(printRow):
-            
-            individualRow = newStartPoint+j
+#                 # print(individualRow)
+#                 sheetImg.append(rows[individualRow])
+#                 # sheetImg.append(individualRow)
 
-            # print(individualRow)
-            sheetImg.append(rows[individualRow])
-            # sheetImg.append(individualRow)
+#                 # Creates image object
+#                 toImg = cv2.imread(rows[individualRow])
 
-            # Creates image object
-            toImg = cv2.imread(rows[individualRow])
+#                 # Saves image object to list
+#                 allImgFullPath.append(toImg)
 
-            # Saves image object to list
-            allImgFullPath.append(toImg)
+#             newStartPoint = individualRow+1
 
-        newStartPoint = individualRow+1
+#             # Convers the list to array
+#             allImgFullPath_array = np.array(allImgFullPath)
 
-        # Convers the list to array
-        allImgFullPath_array = np.array(allImgFullPath)
+#             # Combines all the individual column images to one image
+#             fullImg = cv2.vconcat(allImgFullPath_array)
 
-        # Combines all the individual column images to one image
-        fullImg = cv2.vconcat(allImgFullPath_array)
+#             pageCount = customeFunctions.addZero_twoDigits(i)
+#             fileName = 'pallet-pagina-{}'.format(pageCount)
 
-        pageCount = customeFunctions.addZero_twoDigits(i)
-        fileName = 'pallet-pagina-{}'.format(pageCount)
+#             print("Generating File: {}".format(fileName))
+#             # Save the file to path
+#             cv2.imwrite("{}/{}.PNG".format(saveToPathFullPage,fileName), fullImg)        
 
-        print("Generating File: {}".format(fileName))
-        # Save the file to path
-        cv2.imwrite("{}/{}.PNG".format(saveToPathFullPage,fileName), fullImg)        
+#             sheetImg.clear()
+#             allImgFullPath.clear()
 
-        sheetImg.clear()
-        allImgFullPath.clear()
+#     # mergeRow()
