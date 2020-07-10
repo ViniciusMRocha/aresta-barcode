@@ -1,53 +1,40 @@
 import cv2
-import numpy as np
-
-from pathlib import Path
-from PIL import Image
-
-import barcode
-from barcode.writer import ImageWriter
-
-from os import listdir
-from os.path import isfile, join
-
-import glob
 
 import barcodeGenerator
-import resize
 import customeFunctions
 # =================================================
 # Get Images
 # =================================================
 
-imagesPath = "C:/personal-git/aresta-barcode/src/app/images/"
+IMAGES_PATH = "C:/personal-git/aresta-barcode/src/app/images/"
 
 
-def createAll(state, city, street, column, level, product, apt, columnStart, columnEnd, evenOddAll):
-    def getDigit(index):
-        path ="{}apt_sticker_header_digits/resized/apt_sticker_digit_{}.png".format(imagesPath, index)
+def createAll(state, city, street, column, level, product, apt, column_start, column_end, even_odd_all):
+    def get_digit(index):
+        path ="{}apt_sticker_header_digits/resized/apt_sticker_digit_{}.png".format(IMAGES_PATH, index)
         digit = cv2.imread(path)
         return digit
 
-    def getArrow():
-        path = "{}apt_sticker_arrow_up/apt_sticker_arrow_up_black.PNG".format(imagesPath)
+    def get_arrow():
+        path = "{}apt_sticker_arrow_up/apt_sticker_arrow_up_black.PNG".format(IMAGES_PATH)
         arrow = cv2.imread(path)
         return arrow
 
-    def getPad():
-        path = "{}apt_sticker_barcode_header_pad/pad.PNG".format(imagesPath)
+    def get_pad():
+        path = "{}apt_sticker_barcode_header_pad/pad.PNG".format(IMAGES_PATH)
         pad = cv2.imread(path)
         return pad
 
-    def getHeader(index):
-        path ="{}apt_sticker_header/apt_sticker_header_{}.PNG".format(imagesPath, index)
+    def get_header(index):
+        path ="{}apt_sticker_header/apt_sticker_header_{}.PNG".format(IMAGES_PATH, index)
         header = cv2.imread(path)
         return header
 
-    def getLine(option):
+    def get_line(option):
         if option == "side":
-            path = "{}lines/stickerSide.png".format(imagesPath)
+            path = "{}lines/stickerSide.png".format(IMAGES_PATH)
         if option == "top":
-            path = "{}lines/stickerTop.png".format(imagesPath)
+            path = "{}lines/stickerTop.png".format(IMAGES_PATH)
         line = cv2.imread(path)
         return line
 
@@ -55,12 +42,12 @@ def createAll(state, city, street, column, level, product, apt, columnStart, col
     # Combine Images
     # =================================================
 
-    def createSingle(state, city, street, column, level, product, apt):
+    def create_single(state, city, street, column, level, product, apt):
 
         # Generate sectioin images
-        arrow = getArrow()
-        pad = getPad()
-        header = getHeader(level) #420 x 114
+        arrow = get_arrow()
+        pad = get_pad()
+        header = get_header(level) #420 x 114
         # barcode = getBarcode(state, city, street, column, level, product)
         barcode = barcodeGenerator.getBarcode(state, city, street, column, level, product)
 
@@ -68,17 +55,17 @@ def createAll(state, city, street, column, level, product, apt, columnStart, col
         apt = customeFunctions.addZero_twoDigits(apt)
         digit1 = apt[0:1]
         digit2 = apt[1:2]
-        firstDigit = getDigit(digit1) # 82 x 114
-        secondDigit = getDigit(digit2)
+        first_digit = get_digit(digit1) # 82 x 114
+        second_digit = get_digit(digit2)
 
         # Combine Images
-        img1 = cv2.hconcat([header,firstDigit,secondDigit,pad])
-        img2 = cv2.vconcat([img1,barcode])
-        img3 = cv2.hconcat([img2,arrow])
+        img1 = cv2.hconcat([header, first_digit, second_digit, pad])
+        img2 = cv2.vconcat([img1, barcode])
+        img3 = cv2.hconcat([img2, arrow])
         # Side Line
-        img4 = cv2.hconcat([img3, getLine("side")])
+        img4 = cv2.hconcat([img3, get_line("side")])
         # Top Line
-        img5 = cv2.vconcat([getLine("top"),img4])
+        img5 = cv2.vconcat([get_line("top"), img4])
 
         # Create File Name
         city = customeFunctions.addZero_twoDigits(city)
@@ -86,39 +73,36 @@ def createAll(state, city, street, column, level, product, apt, columnStart, col
         column = customeFunctions.addZero_threeDigits(column)
         level = customeFunctions.addZero_twoDigits(level)
         product = customeFunctions.addZero_twoDigits(product)
-        fileName = "{}.{}.{}.{}.{}.{}-apt-{}.png".format(state, city, street, column, level, product, apt)
+        file_name = "{}.{}.{}.{}.{}.{}-apt-{}.png".format(state, city, street, column, level, product, apt)
 
-        savePath = "{}apt_sticker_done_single/{}".format(imagesPath, fileName)
-        cv2.imwrite(savePath, img5)
-        print(savePath)
+        save_path = "{}apt_sticker_done_single/{}".format(IMAGES_PATH, file_name)
+        cv2.imwrite(save_path, img5)
+        print(save_path)
 
-    if evenOddAll == "all":
+    if even_odd_all == "all":
         print("Doing all")
-        for c in range(columnStart,columnEnd+1):
-            print("column: ",c)
-            for l in range(1,level+1):
-                for a in range(1,apt+1):
-                    # print("street-{} column-{} level-{} apt-{}".format(street,c,l,a))
-                    createSingle(state, city, street, c, l, product, a)
+        for each_column in range(column_start, column_end+1):
+            print("column: ", each_column)
+            for each_level in range(1, level+1):
+                for each_apt in range(1, apt+1):
+                    create_single(state, city, street, each_column, each_level, product, each_apt)
                     
-    elif evenOddAll == "even":
+    elif even_odd_all == "even":
         print("Doing even")
-        for c in range(columnStart,columnEnd+1):
-            if c%2 == 0:
-                print("column: ",c)
-                for l in range(1,level+1):
-                    for a in range(1,apt+1):
-                        # print("street-{} column-{} level-{} apt-{}".format(street,c,l,a))
-                        createSingle(state, city, street, c, l, product, a)
+        for each_column in range(column_start, column_end+1):
+            if each_column%2 == 0:
+                print("column: ", each_column)
+                for each_level in range(1, level+1):
+                    for each_apt in range(1, apt+1):
+                        create_single(state, city, street, each_column, each_level, product, each_apt)
 
-    elif evenOddAll == "odd":
+    elif even_odd_all == "odd":
         print("Doing odd")
-        for c in range(columnStart,columnEnd+1):
-            if c%2 != 0:
-                print("column: ",c)
-                for l in range(1,level+1):
-                    for a in range(1,apt+1):
-                        # print("street-{} column-{} level-{} apt-{}".format(street,c,l,a))
-                        createSingle(state, city, street, c, l, product, a)
+        for each_column in range(column_start, column_end+1):
+            if each_column%2 != 0:
+                print("column: ", each_column)
+                for each_level in range(1, level+1):
+                    for each_apt in range(1, apt+1):
+                        create_single(state, city, street, each_column, each_level, product, each_apt)
 
 
